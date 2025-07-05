@@ -14,7 +14,7 @@ function Navbar() {
               <Link to="/lost">Lost</Link>
             </li>
             <li>
-              <Link to="/found">found</Link>
+              <Link to="/found">Found</Link>
             </li>
           </ul>
         </nav>
