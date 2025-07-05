@@ -107,6 +107,7 @@ main {
   display: -webkit-box;
   text-overflow: ellipsis;
   -webkit-line-clamp: 6;
+  line-clamp: 6;
   -webkit-box-orient: vertical;
 }
 
