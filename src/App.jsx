@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import ArchivePage from './pages/ArchivePage';
+import LostPage from './pages/LostPage';
 import NotFound from './components/NotFound';
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/archives" element={<ArchivePage />} />
+          <Route path="/lost" element={<LostPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
