@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function LostPage() {
   const dummyItem = [
     {
@@ -34,7 +36,9 @@ function LostPage() {
             <p>{item.id}</p>
             <p>{item.title}</p>
             <p>{item.short_desc}</p>
-            <button className="font-bold">LIHAT DETAIL</button>
+            <button className="font-bold">
+              <Link to={`/detail/lost/${item.id}`}>LIHAT DETAIL LOST</Link>
+            </button>
           </div>
         ))}
       </div>

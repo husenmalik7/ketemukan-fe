@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function FoundPage() {
   const dummyItem = [
     {
@@ -23,6 +25,7 @@ function FoundPage() {
       userId: 'id-user-satu',
     },
   ];
+
   return (
     <section>
       <p>FoundPage page</p>
@@ -33,7 +36,9 @@ function FoundPage() {
             <p>{item.id}</p>
             <p>{item.title}</p>
             <p>{item.short_desc}</p>
-            <button className="font-bold">LIHAT DETAIL</button>
+            <button className="font-bold">
+              <Link to={`/detail/found/${item.id}`}>LIHAT DETAIL FOUND</Link>
+            </button>
           </div>
         ))}
       </div>

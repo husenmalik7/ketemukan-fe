@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import LostPage from './pages/LostPage';
+import ItemDetailPage from './pages/ItemDetailPage';
 import FoundPage from './pages/FoundPage';
 import NotFound from './components/NotFound';
 import Navbar from './components/Navbar';
@@ -19,6 +20,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/lost" element={<LostPage />} />
           <Route path="/found" element={<FoundPage />} />
+          <Route path="/detail/:type/:id" element={<ItemDetailPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
