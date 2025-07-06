@@ -7,6 +7,7 @@ import NotFound from './components/NotFound';
 import Navbar from './components/Navbar';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
+import FoundPage from './pages/FoundPage';
 
 function App() {
   return (
