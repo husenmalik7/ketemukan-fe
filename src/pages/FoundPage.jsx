@@ -33,6 +33,7 @@ function FoundPage() {
             <p>{item.id}</p>
             <p>{item.title}</p>
             <p>{item.short_desc}</p>
+            <button className="font-bold">LIHAT DETAIL</button>
           </div>
         ))}
       </div>
