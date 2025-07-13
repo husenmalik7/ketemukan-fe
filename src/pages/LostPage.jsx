@@ -8,11 +8,7 @@ function LostPage() {
   useEffect(() => {
     async function fetchLostItems() {
       const { error, data } = await getLostItems();
-
-      if (error) {
-        return alert('Terjadi kesalahan pada server');
-      }
-
+      if (error) return alert('Terjadi kesalahan pada server');
       setLosts(data);
     }
 

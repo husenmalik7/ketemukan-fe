@@ -8,11 +8,7 @@ function FoundPage() {
   useEffect(() => {
     async function fetchFoundItems() {
       const { error, data } = await getFoundItems();
-
-      if (error) {
-        return alert('Terjadi kesalahan pada server');
-      }
-
+      if (error) return alert('Terjadi kesalahan pada server');
       setFounds(data);
     }
 

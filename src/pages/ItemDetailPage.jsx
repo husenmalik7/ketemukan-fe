@@ -6,17 +6,16 @@ import { getFoundItemDetail } from '../utils/api/found';
 function ItemDetailPage() {
   const navigate = useNavigate();
   const { type, id } = useParams();
-  const [item, setItem] = useState([]);
+  const [item, setItem] = useState({});
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     async function fetchItemDetail() {
       const { error, data } =
         type === 'lost' ? await getLostItemDetail(id) : await getFoundItemDetail(id);
-      if (error) {
-        return alert('Terjadi kesalahan pada server');
-      }
-
+      if (error) return alert('Terjadi kesalahan pada server');
       setItem(data);
+      setComments(data.comments);
     }
 
     if (type !== 'lost' && type !== 'found') {
@@ -38,6 +37,16 @@ function ItemDetailPage() {
       <p>{item.short_desc}</p>
       <p>{item.description}</p>
       <p>{type === 'lost' ? item.lost_date : item.found_date}</p>
+
+      <br />
+
+      {comments.map((item, index) => (
+        <div key={index}>
+          <p>
+            {item.comment} -- {item.fullname}
+          </p>
+        </div>
+      ))}
     </section>
   );
 }
