@@ -24,7 +24,9 @@ function Navbar({ username, logout }) {
         <ul className="flex gap-2">
           {username ? (
             <>
-              <li>{username}</li>
+              <li className="cursor-pointer">
+                <Link to="/profile">{username}</Link>
+              </li>
               <li onClick={logout} className="cursor-pointer">
                 logout
               </li>

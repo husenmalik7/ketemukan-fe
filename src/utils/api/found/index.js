@@ -41,4 +41,22 @@ async function addFoundComment({ id, comment }) {
   return { error: false, data: responseJson.data };
 }
 
-export { getFoundItems, getFoundItemDetail, addFoundComment };
+async function addFoundItem(title, shortDesc, description, foundDate) {
+  const response = await fetchWithToken(`${BASE_URL}/founds`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ title, shortDesc, description, foundDate }),
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, data: null };
+  }
+
+  return { error: false, data: responseJson.data };
+}
+
+export { getFoundItems, getFoundItemDetail, addFoundComment, addFoundItem };

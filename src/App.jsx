@@ -8,6 +8,7 @@ import NotFound from './components/NotFound';
 import Navbar from './components/Navbar';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
+import ProfilePage from './pages/ProfilePage';
 import { putAccessToken, getUserLogged } from './utils/api/auth';
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<LoginPage loginSuccess={onLoginSuccess} />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/profile" element={<Navigate to="/" />} />
             {commonRoutes}
           </Routes>
         </main>
@@ -74,6 +76,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Navigate to="/" />} />
           <Route path="/register" element={<Navigate to="/" />} />
+          <Route path="/profile" element={<ProfilePage />} />
           {commonRoutes}
         </Routes>
       </main>
