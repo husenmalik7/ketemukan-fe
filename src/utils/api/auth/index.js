@@ -38,4 +38,33 @@ async function login({ username, password }) {
   return { error: false, data: responseJson.data };
 }
 
-export { register, login };
+function putAccessToken(accessToken) {
+  return localStorage.setItem('accessToken', accessToken);
+}
+
+function getAccessToken() {
+  return localStorage.getItem('accessToken');
+}
+
+async function fetchWithToken(url, options = {}) {
+  return fetch(url, {
+    ...options,
+    headers: {
+      ...options.headers,
+      Authorization: `Bearer ${getAccessToken()}`,
+    },
+  });
+}
+
+async function getUserLogged() {
+  const response = await fetchWithToken(`${BASE_URL}/users`);
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, data: null };
+  }
+
+  return { error: false, data: responseJson.data.userDetail };
+}
+
+export { register, login, putAccessToken, getUserLogged };

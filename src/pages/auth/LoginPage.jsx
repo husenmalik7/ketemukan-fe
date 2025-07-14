@@ -1,7 +1,7 @@
 import useInput from '../../hooks/useInput';
 import { login } from '../../utils/api/auth';
 
-function LoginPage() {
+function LoginPage({ loginSuccess }) {
   const [username, onUsernameChange] = useInput('');
   const [password, onPasswordChange] = useInput('');
 
@@ -12,8 +12,7 @@ function LoginPage() {
     try {
       const { error, data } = await login({ username, password });
       if (!error) {
-        console.log(data);
-        // loginSuccess(data);
+        loginSuccess(data);
       }
     } catch (error) {
       console.log(error);
