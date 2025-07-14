@@ -27,7 +27,13 @@ function App() {
   async function onLoginSuccess({ accessToken }) {
     putAccessToken(accessToken);
     const { data } = await getUserLogged();
+    console.log(data);
     setAuthedUser(data);
+  }
+
+  function onLogout() {
+    setAuthedUser(null);
+    putAccessToken('');
   }
 
   const commonRoutes = (
@@ -61,7 +67,7 @@ function App() {
 
   return (
     <div>
-      <Navbar />
+      <Navbar username={authedUser?.username} logout={onLogout} />
       <main>
         <Routes>
           <Route path="/login" element={<Navigate to="/" />} />

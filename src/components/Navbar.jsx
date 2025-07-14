@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-function Navbar() {
+function Navbar({ username, logout }) {
   return (
     <header className="flex justify-between items-center px-4 bg-red-100 h-12">
       <div className="flex gap-4">
@@ -21,8 +21,17 @@ function Navbar() {
       </div>
 
       <nav>
-        <ul>
-          <li>profile</li>
+        <ul className="flex gap-2">
+          {username ? (
+            <>
+              <li>{username}</li>
+              <li onClick={logout} className="cursor-pointer">
+                logout
+              </li>
+            </>
+          ) : (
+            <></>
+          )}
         </ul>
       </nav>
     </header>
