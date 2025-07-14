@@ -1,4 +1,5 @@
 import BASE_URL from '../../config';
+import { fetchWithToken } from '../index';
 
 async function getLostItems() {
   const response = await fetch(`${BASE_URL}/losts`);
@@ -22,4 +23,22 @@ async function getLostItemDetail(lostId) {
   return { error: false, data: responseJson.data.lostDetail };
 }
 
-export { getLostItems, getLostItemDetail };
+async function addLostComment({ id, comment }) {
+  const response = await fetchWithToken(`${BASE_URL}/losts/${id}/comments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ comment }),
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, data: null };
+  }
+
+  return { error: false, data: responseJson.data };
+}
+
+export { getLostItems, getLostItemDetail, addLostComment };

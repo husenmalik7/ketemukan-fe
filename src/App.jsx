@@ -27,7 +27,6 @@ function App() {
   async function onLoginSuccess({ accessToken }) {
     putAccessToken(accessToken);
     const { data } = await getUserLogged();
-    console.log(data);
     setAuthedUser(data);
   }
 
@@ -41,7 +40,10 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/lost" element={<LostPage />} />
       <Route path="/found" element={<FoundPage />} />
-      <Route path="/detail/:type/:id" element={<ItemDetailPage />} />
+      <Route
+        path="/detail/:type/:id"
+        element={<ItemDetailPage username={authedUser?.username} />}
+      />
       <Route path="*" element={<NotFound />} />
     </>
   );
