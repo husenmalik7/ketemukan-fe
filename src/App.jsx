@@ -5,11 +5,11 @@ import LostPage from './pages/LostPage';
 import ItemDetailPage from './pages/ItemDetailPage';
 import FoundPage from './pages/FoundPage';
 import NotFound from './components/NotFound';
-import Navbar from './components/Navbar';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import { putAccessToken, getUserLogged } from './utils/api/auth';
+import Navbar from './components/NavBar/Navbar';
 
 function App() {
   const [authedUser, setAuthedUser] = useState(null);
@@ -71,7 +71,7 @@ function App() {
 
   return (
     <div>
-      <Navbar username={authedUser?.username} logout={onLogout} />
+      <Navbar username={authedUser?.username} fullname={authedUser?.fullname} logout={onLogout} />
       <main>
         <Routes>
           <Route path="/login" element={<Navigate to="/" />} />
