@@ -29,7 +29,7 @@ function Navbar({ username, fullname, logout }) {
       ref={navbarRef}
       className="fixed start-0 top-0 z-20 w-full border-b border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-900"
     >
-      <div className="mx-auto flex max-w-screen-xl flex-wrap items-center p-2">
+      <div className="mx-auto flex max-w-screen-xl flex-wrap items-center p-2 px-8">
         {/* Logo */}
         <NavLink to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="/images/ketemukan2.png" className="h-12 pr-8" alt="Logo Ketemukan" />
