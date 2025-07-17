@@ -57,7 +57,7 @@ function App() {
     return (
       <div>
         <Navbar />
-        <main>
+        <main className="mt-24">
           <Routes>
             <Route path="/login" element={<LoginPage loginSuccess={onLoginSuccess} />} />
             <Route path="/register" element={<RegisterPage />} />
@@ -72,7 +72,7 @@ function App() {
   return (
     <div>
       <Navbar username={authedUser?.username} fullname={authedUser?.fullname} logout={onLogout} />
-      <main>
+      <main className="mt-24">
         <Routes>
           <Route path="/login" element={<Navigate to="/" />} />
           <Route path="/register" element={<Navigate to="/" />} />
