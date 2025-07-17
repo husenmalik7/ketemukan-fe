@@ -55,9 +55,9 @@ function App() {
 
   if (authedUser === null) {
     return (
-      <div>
+      <div className="bg-[#FBFBFB]">
         <Navbar />
-        <main className="mt-16">
+        <main className="pt-16">
           <Routes>
             <Route path="/login" element={<LoginPage loginSuccess={onLoginSuccess} />} />
             <Route path="/register" element={<RegisterPage />} />
@@ -70,9 +70,9 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="bg-[#FBFBFB]">
       <Navbar username={authedUser?.username} fullname={authedUser?.fullname} logout={onLogout} />
-      <main className="mt-16">
+      <main className="pt-16">
         <Routes>
           <Route path="/login" element={<Navigate to="/" />} />
           <Route path="/register" element={<Navigate to="/" />} />
