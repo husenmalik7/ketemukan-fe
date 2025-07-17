@@ -1,10 +1,25 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function NotFound() {
   return (
-    <section>
-      <h2>404</h2>
-      <p>Page not found</p>
+    <section className="flex h-screen">
+      <div className="m-auto">
+        <img src="/images/notfound.png" className="h-54" alt="Not Found" />
+        <div className="pt-4 pb-20 text-center">
+          <p className="text-3xl">Oops!</p>
+          <p className="text-l pb-4">Halaman yang kamu cari ga ada nih</p>
+
+          <Link to="/">
+            <button
+              type="button"
+              class="me-2 mb-2 cursor-pointer rounded-full bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-1.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-red-300 focus:outline-none dark:focus:ring-red-800"
+            >
+              Kembali ke Halaman Utama
+            </button>
+          </Link>
+        </div>
+      </div>
     </section>
   );
 }
