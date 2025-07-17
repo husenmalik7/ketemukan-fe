@@ -7,8 +7,8 @@ function NotFound() {
       <div className="m-auto">
         <img src="/images/notfound.png" className="h-54" alt="Not Found" />
         <div className="pt-4 pb-20 text-center">
-          <p className="text-3xl">Oops!</p>
-          <p className="text-l pb-4">Halaman yang kamu cari ga ada nih</p>
+          <p className="text-3xl font-medium text-[#444450]">Oops!</p>
+          <p className="text-l pb-4 text-[#444444]">Halaman yang kamu cari ga ada nih</p>
 
           <Link to="/">
             <button
