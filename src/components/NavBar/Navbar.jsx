@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import NavLogin from './NavLogin';
 import NavAvatar from './NavAvatar';
@@ -26,20 +27,13 @@ function Navbar({ username, fullname, logout }) {
   return (
     <nav
       ref={navbarRef}
-      className="fixed start-0 top-0 z-20 w-full border-b border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-900"
+      className="fixed start-0 top-0 z-20 w-full border-b border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-900"
     >
-      <div className="mx-auto flex max-w-screen-xl flex-wrap items-center gap-12 p-4">
+      <div className="mx-auto flex max-w-screen-xl flex-wrap items-center">
         {/* Logo */}
-        <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            className="h-8"
-            alt="Flowbite Logo"
-          />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Flowbite
-          </span>
-        </a>
+        <NavLink to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <img src="/images/ketemukan2.png" className="h-12 pr-8" alt="Logo Ketemukan" />
+        </NavLink>
 
         {/* Avatar Container or Login */}
         <div className="relative ml-auto flex items-center space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">

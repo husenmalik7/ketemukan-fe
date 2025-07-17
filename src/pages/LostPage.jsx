@@ -19,7 +19,7 @@ function LostPage() {
     <section>
       <p>LostPage page</p>
 
-      <div className="bg-orange-300 h-120">
+      <div className="h-120 bg-orange-300">
         {losts.map((item, index) => (
           <div key={index} className="item bg-orange-100 pb-12">
             <p>{item.id}</p>
