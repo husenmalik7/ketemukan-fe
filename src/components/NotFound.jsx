@@ -13,7 +13,7 @@ function NotFound() {
           <Link to="/">
             <button
               type="button"
-              class="me-2 mb-2 cursor-pointer rounded-full bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-1.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-red-300 focus:outline-none dark:focus:ring-red-800"
+              className="me-2 mb-2 cursor-pointer rounded-full bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-1.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-red-300 focus:outline-none dark:focus:ring-red-800"
             >
               Kembali ke Halaman Utama
             </button>
