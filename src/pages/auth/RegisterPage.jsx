@@ -1,16 +1,36 @@
 import useInput from '../../hooks/useInput';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../../utils/api/auth';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import FormSubmitButton from '../../components/Form/FormSubmitButton';
+import FormAuthInput from '../../components/Form/FormAuthInput';
 
 function RegisterPage() {
-  const [name, onNameChange] = useInput('');
+  const [fullname, onFullnameChange] = useInput('');
   const [username, onUsernameChange] = useInput('');
   const [password, onPasswordChange] = useInput('');
   const [confirmPassword, onConfirmPasswordChange] = useInput('');
+
+  const [isFullnameFilled, setIsFullnameFilled] = useState(true);
+  const [isUsernameFilled, setIsUsernameFilled] = useState(true);
+  const [isPasswordFilled, setIsPasswordFilled] = useState(true);
+  const [isConfirmPasswordFilled, setIsConfirmPasswordFilled] = useState(true);
+
   const navigate = useNavigate();
+
+  function validateForm() {
+    setIsFullnameFilled(!!fullname);
+    setIsUsernameFilled(!!username);
+    setIsPasswordFilled(!!password);
+    setIsConfirmPasswordFilled(!!confirmPassword);
+
+    return fullname && username && password && confirmPassword;
+  }
 
   async function onRegisterHandler(event) {
     event.preventDefault();
+    if (!validateForm()) return;
 
     if (password !== confirmPassword) {
       return alert('password and confirm password must same');
@@ -18,7 +38,7 @@ function RegisterPage() {
 
     // setIsLoading(true);
     try {
-      const { error } = await register({ username, password, fullname: name });
+      const { error } = await register({ username, password, fullname });
       if (!error) {
         navigate('/');
       }
@@ -31,29 +51,61 @@ function RegisterPage() {
   }
 
   return (
-    <section>
-      <p>RegisterPage page</p>
+    <section className="flex h-screen">
+      <div className="m-auto mt-20 w-full max-w-md">
+        <form onSubmit={onRegisterHandler} className="mb-4 px-8 pt-6 pb-8">
+          <p className="mb-6 text-center text-2xl font-medium text-[#444444]">Daftar</p>
 
-      <form onSubmit={onRegisterHandler} className="bg-orange-400 flex flex-col p-5">
-        <label htmlFor="name">Name</label>
-        <input type="text" id="name" value={name} onChange={onNameChange} />
+          <FormAuthInput
+            id="fullname"
+            type="text"
+            value={fullname}
+            onChange={onFullnameChange}
+            placeholder="Nama Lengkap"
+            isFilled={isFullnameFilled}
+            warnMessage="Silakan pilih nama lengkap"
+          />
 
-        <label htmlFor="username">Username</label>
-        <input type="text" id="username" value={username} onChange={onUsernameChange} />
+          <FormAuthInput
+            id="username"
+            type="text"
+            value={username}
+            onChange={onUsernameChange}
+            placeholder="Username"
+            isFilled={isUsernameFilled}
+            warnMessage="Silakan pilih username"
+          />
 
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" value={password} onChange={onPasswordChange} />
+          <FormAuthInput
+            id="password"
+            type="password"
+            value={password}
+            onChange={onPasswordChange}
+            placeholder="Password"
+            isFilled={isPasswordFilled}
+            warnMessage="Silakan pilih password"
+          />
 
-        <label htmlFor="confirmPassword">Confirm Password</label>
-        <input
-          type="password"
-          id="confirmPassword"
-          value={confirmPassword}
-          onChange={onConfirmPasswordChange}
-        />
+          <FormAuthInput
+            id="confirmPassword"
+            type="password"
+            value={confirmPassword}
+            onChange={onConfirmPasswordChange}
+            placeholder="Ketik ulang password"
+            isFilled={isConfirmPasswordFilled}
+            warnMessage="Silakan ketik ulang password"
+          />
 
-        <button type="submit">Register</button>
-      </form>
+          <FormSubmitButton label="Daftar" />
+        </form>
+
+        <p className="text-center text-[#444444]">
+          Sudah punya akun?{' '}
+          <Link to="/login" className="cursor-pointer font-medium text-red-800">
+            Login, yuk!
+          </Link>
+        </p>
+      </div>
     </section>
   );
 }
