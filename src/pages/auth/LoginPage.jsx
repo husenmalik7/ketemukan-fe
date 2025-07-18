@@ -2,6 +2,8 @@ import { useState } from 'react';
 import useInput from '../../hooks/useInput';
 import { login } from '../../utils/api/auth';
 import { Link } from 'react-router-dom';
+import FormAuthInput from '../../components/Form/FormAuthInput';
+import FormSubmitButton from '../../components/Form/FormSubmitButton';
 
 function LoginPage({ loginSuccess }) {
   const [username, onUsernameChange] = useInput('');
@@ -40,44 +42,27 @@ function LoginPage({ loginSuccess }) {
         <form onSubmit={onLoginHandler} className="mb-4 px-8 pt-6 pb-8">
           <p className="mb-6 text-center text-2xl font-medium text-[#444444]">Login</p>
 
-          <div className="mb-4">
-            <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={onUsernameChange}
-              className="block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-gray-900 focus:outline-gray-300"
-              placeholder="Username"
-            />
-            {isUsernameFilled ? (
-              <div className="mb-8" />
-            ) : (
-              <p className="text-xs text-red-500 italic">Please choose a username</p>
-            )}
-          </div>
+          <FormAuthInput
+            id="username"
+            type="text"
+            value={username}
+            onChange={onUsernameChange}
+            placeholder="Username"
+            isFilled={isUsernameFilled}
+            warnMessage="Silakan pilih username"
+          />
 
-          <div className="mb-4">
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={onPasswordChange}
-              className="block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-gray-900 focus:outline-gray-300"
-              placeholder="Password"
-            />
-            {isPasswordFilled ? (
-              <div className="mb-8" />
-            ) : (
-              <p className="text-xs text-red-500 italic">Please choose a password</p>
-            )}
-          </div>
+          <FormAuthInput
+            id="password"
+            type="password"
+            value={password}
+            onChange={onPasswordChange}
+            placeholder="Password"
+            isFilled={isPasswordFilled}
+            warnMessage="Silakan pilih password"
+          />
 
-          <button
-            type="submit"
-            className="me-2 mt-6 mb-2 w-full cursor-pointer rounded-full bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-2 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-red-300 focus:outline-none"
-          >
-            Login
-          </button>
+          <FormSubmitButton label="Login" />
         </form>
 
         <p className="text-center text-[#444444]">
