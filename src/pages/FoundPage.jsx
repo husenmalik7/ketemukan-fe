@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getFoundItems } from '../utils/api/found';
+import Card from '../components/Card';
 
 function FoundPage() {
   const [founds, setFounds] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchFoundItems() {
@@ -15,22 +17,17 @@ function FoundPage() {
     fetchFoundItems();
   }, []);
 
-  return (
-    <section>
-      <p>FoundPage page</p>
+  function handleClick(id) {
+    navigate(`/detail/found/${id}`);
+  }
 
-      <div className="bg-orange-300 h-120">
-        {founds.map((item, index) => (
-          <div key={index} className="item bg-orange-100 pb-12">
-            <p>{item.id}</p>
-            <p>{item.title}</p>
-            <p>{item.short_desc}</p>
-            <button className="font-bold">
-              <Link to={`/detail/found/${item.id}`}>LIHAT DETAIL FOUND</Link>
-            </button>
-          </div>
-        ))}
-      </div>
+  return (
+    <section className="mx-auto my-12 grid max-w-fit grid-cols-1 gap-y-4 sm:grid-cols-2 md:grid-cols-3">
+      {founds.map((item, index) => (
+        <div key={index} onClick={() => handleClick(item.id)}>
+          <Card title={item.title} shortDesc={item.short_desc} />
+        </div>
+      ))}
     </section>
   );
 }
