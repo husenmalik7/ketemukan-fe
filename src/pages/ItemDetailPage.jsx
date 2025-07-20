@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useInput from '../hooks/useInput';
 import Separator from '../components/Separator';
-import Cat from '../assets/cat';
+import Cat from '../assets/Cat';
 
 import { addLostComment } from '../utils/api/lost';
 import { addFoundComment } from '../utils/api/found';
