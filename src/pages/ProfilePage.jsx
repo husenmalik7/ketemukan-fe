@@ -4,37 +4,33 @@ import { addLostItem } from '../utils/api/lost';
 
 import ProfileCard from '../components/Profile/ProfileCard';
 import MyItem from '../components/Profile/MyItem';
+import AddItemModal from '../components/Profile/AddItemModal';
+import { useState } from 'react';
 
 function ProfilePage() {
-  const [lostTitle, onLostTitleChange] = useInput('');
-  const [lostShortDesc, onLostShortDescChange] = useInput('');
-  const [lostDescription, onLostDescriptionChange] = useInput('');
-  const [lostDate, onLostDateChange] = useInput('');
+  const [title, onTitleChange] = useInput('');
+  const [shortDesc, onShortDescChange] = useInput('');
+  const [description, onDescriptionChange] = useInput('');
+  const [date, onDateChange] = useInput('');
 
-  const [foundTitle, onFoundTitleChange] = useInput('');
-  const [foundShortDesc, onFoundShortDescChange] = useInput('');
-  const [foundDescription, onFoundDescriptionChange] = useInput('');
-  const [foundDate, onFoundDateChange] = useInput('');
+  const [type, setType] = useState('lost');
+  const [openModal, setOpenModal] = useState(false);
 
-  async function onPostLostItem(event) {
+  async function onPostItem(event) {
     event.preventDefault();
     try {
-      await addLostItem(lostTitle, lostShortDesc, lostDescription, lostDate);
+      if (type === 'lost') {
+        await addLostItem(title, shortDesc, description, date);
+      } else {
+        await addFoundItem(title, shortDesc, description, date);
+      }
+
       // alert('anda telah menambahkan lost item');
     } catch (error) {
       console.log(error);
       alert('Terjadi kesalahan pada server');
-    }
-  }
-
-  async function onPostFoundItem(event) {
-    event.preventDefault();
-    try {
-      await addFoundItem(foundTitle, foundShortDesc, foundDescription, foundDate);
-      // alert('anda telah menambahkan found item');
-    } catch (error) {
-      console.log(error);
-      alert('Terjadi kesalahan pada server');
+    } finally {
+      setOpenModal(false);
     }
   }
 
@@ -46,8 +42,24 @@ function ProfilePage() {
       </div>
 
       <div className="bg-orange-500 px-4">
-        <MyItem />
+        <MyItem setOpenModal={setOpenModal} />
       </div>
+
+      <AddItemModal
+        title={title}
+        onTitleChange={onTitleChange}
+        shortDesc={shortDesc}
+        onShortDescChange={onShortDescChange}
+        description={description}
+        onDescriptionChange={onDescriptionChange}
+        date={date}
+        onDateChange={onDateChange}
+        type={type}
+        setType={setType}
+        onPostItem={onPostItem}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      />
     </section>
   );
 }
