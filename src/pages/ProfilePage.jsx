@@ -2,6 +2,9 @@ import useInput from '../hooks/useInput';
 import { addFoundItem } from '../utils/api/found';
 import { addLostItem } from '../utils/api/lost';
 
+import ProfileCard from '../components/Profile/ProfileCard';
+import MyItem from '../components/Profile/MyItem';
+
 function ProfilePage() {
   const [lostTitle, onLostTitleChange] = useInput('');
   const [lostShortDesc, onLostShortDescChange] = useInput('');
@@ -36,99 +39,15 @@ function ProfilePage() {
   }
 
   return (
-    <section>
-      <p>profile page</p>
+    // TODO h-screennya hapus sama bg
+    <section className="h-screen bg-orange-200">
+      <div className="bg-orange-900 p-4 py-6">
+        <ProfileCard />
+      </div>
 
-      <form onSubmit={onPostLostItem} className="flex flex-col bg-green-200 p-5">
-        <p>input barang hilang</p>
-
-        <label htmlFor="lostTitle">judul barang hilang</label>
-        <input
-          className="bg-orange-200"
-          type="text"
-          id="lostTitle"
-          value={lostTitle}
-          onChange={onLostTitleChange}
-        />
-
-        <label htmlFor="lostShortDesc">deskripsi singkat barang hilang</label>
-        <input
-          className="bg-orange-200"
-          type="text"
-          id="lostShortDesc"
-          value={lostShortDesc}
-          onChange={onLostShortDescChange}
-        />
-
-        <label htmlFor="lostDescription">deskripsi barang hilang</label>
-        <input
-          className="bg-orange-200"
-          type="text"
-          id="lostDescription"
-          value={lostDescription}
-          onChange={onLostDescriptionChange}
-        />
-
-        <label htmlFor="lostDate">tanggal kehilangan</label>
-        <input
-          className="bg-orange-200"
-          type="text"
-          id="lostDate"
-          value={lostDate}
-          onChange={onLostDateChange}
-        />
-
-        <button className="mt-2 cursor-pointer bg-purple-200" type="submit">
-          submit
-        </button>
-      </form>
-
-      <br />
-      <br />
-
-      <form onSubmit={onPostFoundItem} className="flex flex-col bg-green-200 p-5">
-        <p>input barang ketemu</p>
-
-        <label htmlFor="foundTitle">judul barang ketemu</label>
-        <input
-          className="bg-orange-200"
-          type="text"
-          id="foundTitle"
-          value={foundTitle}
-          onChange={onFoundTitleChange}
-        />
-
-        <label htmlFor="foundShortDesc">deskripsi singkat barang ketemu</label>
-        <input
-          className="bg-orange-200"
-          type="text"
-          id="foundShortDesc"
-          value={foundShortDesc}
-          onChange={onFoundShortDescChange}
-        />
-
-        <label htmlFor="foundDescription">deskripsi barang ketemu</label>
-        <input
-          className="bg-orange-200"
-          type="text"
-          id="foundDescription"
-          value={foundDescription}
-          onChange={onFoundDescriptionChange}
-        />
-
-        <label htmlFor="foundDate">tanggal penemuan</label>
-        <input
-          className="bg-orange-200"
-          type="text"
-          id="foundDate"
-          value={foundDate}
-          onChange={onFoundDateChange}
-        />
-
-        <button className="mt-2 cursor-pointer bg-purple-200" type="submit">
-          submit
-        </button>
-      </form>
+      <div className="bg-orange-500 px-4">
+        <MyItem />
+      </div>
     </section>
   );
 }
