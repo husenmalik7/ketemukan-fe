@@ -39,7 +39,7 @@ function ProfilePage() {
     <section>
       <p>profile page</p>
 
-      <form onSubmit={onPostLostItem} className="bg-green-200 flex flex-col p-5">
+      <form onSubmit={onPostLostItem} className="flex flex-col bg-green-200 p-5">
         <p>input barang hilang</p>
 
         <label htmlFor="lostTitle">judul barang hilang</label>
@@ -78,7 +78,7 @@ function ProfilePage() {
           onChange={onLostDateChange}
         />
 
-        <button className="bg-purple-200 mt-2 cursor-pointer" type="submit">
+        <button className="mt-2 cursor-pointer bg-purple-200" type="submit">
           submit
         </button>
       </form>
@@ -86,7 +86,7 @@ function ProfilePage() {
       <br />
       <br />
 
-      <form onSubmit={onPostFoundItem} className="bg-green-200 flex flex-col p-5">
+      <form onSubmit={onPostFoundItem} className="flex flex-col bg-green-200 p-5">
         <p>input barang ketemu</p>
 
         <label htmlFor="foundTitle">judul barang ketemu</label>
@@ -125,7 +125,7 @@ function ProfilePage() {
           onChange={onFoundDateChange}
         />
 
-        <button className="bg-purple-200 mt-2 cursor-pointer" type="submit">
+        <button className="mt-2 cursor-pointer bg-purple-200" type="submit">
           submit
         </button>
       </form>
