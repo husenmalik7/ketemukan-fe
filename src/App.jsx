@@ -14,12 +14,20 @@ import Navbar from './components/NavBar/Navbar';
 function App() {
   const [authedUser, setAuthedUser] = useState(null);
   const [initializing, setInitializing] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     async function fetchUserLogged() {
-      const { data } = await getUserLogged();
-      setAuthedUser(data);
-      setInitializing(false);
+      try {
+        const { data } = await getUserLogged();
+        setAuthedUser(data);
+      } catch (error) {
+        console.error(error);
+        setHasError(true);
+        setAuthedUser(null);
+      } finally {
+        setInitializing(false);
+      }
     }
 
     fetchUserLogged();
@@ -51,6 +59,14 @@ function App() {
 
   if (initializing) {
     return null;
+  }
+
+  if (hasError) {
+    return (
+      <div className="pt-16 text-center text-red-500">
+        Server is dead, please contact 911, or try again later
+      </div>
+    );
   }
 
   if (authedUser === null) {
