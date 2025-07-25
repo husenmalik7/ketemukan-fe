@@ -2,6 +2,7 @@ import useInput from '../hooks/useInput';
 import { addFoundItem } from '../utils/api/found';
 import { addLostItem } from '../utils/api/lost';
 import { getUserLogged } from '../utils/api/auth';
+import { getMyItems } from '../utils/api/user';
 
 import ProfileCard from '../components/Profile/ProfileCard';
 import MyItem from '../components/Profile/MyItem';
@@ -20,18 +21,21 @@ function ProfilePage() {
   const [openModal, setOpenModal] = useState(false);
 
   const [profile, setProfile] = useState({});
+  const [myItems, setMyItems] = useState([]);
 
   useEffect(() => {
-    async function fetchProfile() {
+    async function fetchData() {
       try {
-        const { data } = await getUserLogged();
-        setProfile(data);
+        const [userResponse, myItemResponse] = await Promise.all([getUserLogged(), getMyItems()]);
+
+        setProfile(userResponse.data);
+        setMyItems(myItemResponse.data);
       } catch (error) {
         console.error(error);
       }
     }
 
-    fetchProfile();
+    fetchData();
   }, []);
 
   async function onPostItem(event) {
@@ -53,10 +57,8 @@ function ProfilePage() {
   }
 
   return (
-    // TODO h-screennya hapus sama bg
-    // <section className="h-screen bg-orange-200">
-    <section className="flex min-h-screen flex-col justify-between bg-orange-200 pb-20">
-      <div className="bg-orange-900 p-4 py-6">
+    <section className="flex min-h-screen flex-col justify-between pb-20">
+      <div className="p-4 py-6">
         <ProfileCard
           username={profile?.username}
           fullname={profile?.fullname}
@@ -67,15 +69,28 @@ function ProfilePage() {
         />
       </div>
 
-      <div className="bg-orange-500 px-4">
+      <div className="px-4">
         <MyItem setOpenModal={setOpenModal} />
         <SearchMyItem />
       </div>
 
-      <div className="m-4 grid grid-cols-1 gap-4 bg-lime-200 md:grid-cols-2 lg:grid-cols-3">
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
+      <div className="m-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {myItems.map((item, index) => (
+          <div key={index}>
+            <ItemCard
+              id={item?.id}
+              title={item?.title}
+              short_desc={item?.short_desc}
+              picture_url={item?.picture_url}
+              lost_date={item.lost_date}
+              found_date={item.found_date}
+              status={item.status}
+              created_at={item.created_at}
+              category_name={item.category_name}
+              location_name={item.location_name}
+            />
+          </div>
+        ))}
       </div>
 
       <AddItemModal
