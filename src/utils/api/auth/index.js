@@ -1,4 +1,5 @@
 import BASE_URL from '../../config';
+import { fetchWithToken } from '../index';
 
 async function register({ username, password, fullname }) {
   const response = await fetch(`${BASE_URL}/users`, {
@@ -40,20 +41,6 @@ async function login({ username, password }) {
 
 function putAccessToken(accessToken) {
   return localStorage.setItem('accessToken', accessToken);
-}
-
-function getAccessToken() {
-  return localStorage.getItem('accessToken');
-}
-
-async function fetchWithToken(url, options = {}) {
-  return fetch(url, {
-    ...options,
-    headers: {
-      ...options.headers,
-      Authorization: `Bearer ${getAccessToken()}`,
-    },
-  });
 }
 
 async function getUserLogged() {
