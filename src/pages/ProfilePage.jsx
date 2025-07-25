@@ -57,7 +57,7 @@ function ProfilePage() {
   }
 
   return (
-    <section className="flex min-h-screen flex-col justify-between pb-20">
+    <section className="flex min-h-screen flex-col pb-20">
       <div className="p-4 py-6">
         <ProfileCard
           username={profile?.username}
