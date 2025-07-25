@@ -7,6 +7,7 @@ import FormSubmitButton from '../../components/Form/FormSubmitButton';
 import FormAuthInput from '../../components/Form/FormAuthInput';
 import FormAuthLocationDropdown from '../../components/Form/FormAuthLocationDropdown';
 import { getAllLocations } from '../../utils/api';
+import { ToastContainer, toast } from 'react-toastify';
 
 function RegisterPage() {
   const [fullname, onFullnameChange] = useInput('');
@@ -57,7 +58,7 @@ function RegisterPage() {
     if (!validateForm()) return;
 
     if (password !== confirmPassword) {
-      return alert('password and confirm password must same');
+      return toast.error('password and confirm password must same');
     }
 
     // setIsLoading(true);
@@ -69,7 +70,7 @@ function RegisterPage() {
       }
     } catch (error) {
       console.log(error);
-      alert('Terjadi kesalahan pada server');
+      return toast.error('Terjadi kesalahan pada server');
     } finally {
       // setIsLoading(false);
     }
@@ -77,6 +78,7 @@ function RegisterPage() {
 
   return (
     <section className="flex min-h-screen flex-col justify-between pb-20">
+      <ToastContainer position="bottom-right" />
       <div className="m-auto mt-20 w-full max-w-md">
         <form onSubmit={onRegisterHandler} className="mb-4 px-8 pt-6 pb-8">
           <p className="mb-6 text-center text-2xl font-medium text-[#444444]">Daftar</p>

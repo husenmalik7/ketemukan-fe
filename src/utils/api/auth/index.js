@@ -1,5 +1,6 @@
 import BASE_URL from '../../config';
 import { fetchWithToken } from '../index';
+import { toast } from 'react-toastify';
 
 async function register({ username, password, fullname, locationId }) {
   const response = await fetch(`${BASE_URL}/users`, {
@@ -13,7 +14,7 @@ async function register({ username, password, fullname, locationId }) {
   const responseJson = await response.json();
 
   if (responseJson.status !== 'success') {
-    alert(responseJson.message);
+    toast.error(responseJson.message);
     return { error: true };
   }
 
@@ -32,7 +33,7 @@ async function login({ username, password }) {
   const responseJson = await response.json();
 
   if (responseJson.status !== 'success') {
-    alert(responseJson.message);
+    toast.error(responseJson.message);
     return { error: true, data: null };
   }
 
