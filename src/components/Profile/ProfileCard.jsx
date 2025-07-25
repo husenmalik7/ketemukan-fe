@@ -27,7 +27,7 @@ function ProfileCard({
   lostCount,
 }) {
   return (
-    <div className="flex rounded-lg p-4 shadow-md hover:shadow-[0_6px_12px_rgba(0,0,0,0.15),0_-6px_12px_rgba(0,0,0,0.15)] hover:transition-shadow hover:duration-300">
+    <div className="flex rounded-lg p-4 shadow-[0_4px_8px_rgba(0,0,0,0.1),0_-4px_8px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_12px_rgba(0,0,0,0.15),0_-6px_12px_rgba(0,0,0,0.15)] hover:transition-shadow hover:duration-300">
       <RenderProfilePicture img={picture_url} />
 
       <div>
