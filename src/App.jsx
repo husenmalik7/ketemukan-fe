@@ -10,6 +10,7 @@ import RegisterPage from './pages/auth/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import { putAccessToken, getUserLogged } from './utils/api/auth';
 import Navbar from './components/NavBar/Navbar';
+import Footer from './components/Footer';
 
 function App() {
   const [authedUser, setAuthedUser] = useState(null);
@@ -81,6 +82,7 @@ function App() {
             {commonRoutes}
           </Routes>
         </main>
+        <Footer />
       </div>
     );
   }
@@ -96,6 +98,7 @@ function App() {
           {commonRoutes}
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 }
