@@ -1,5 +1,4 @@
 import useInput from '../../hooks/useInput';
-import { useNavigate } from 'react-router-dom';
 import { register } from '../../utils/api/auth';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -8,6 +7,7 @@ import FormAuthInput from '../../components/Form/FormAuthInput';
 import FormAuthLocationDropdown from '../../components/Form/FormAuthLocationDropdown';
 import { getAllLocations } from '../../utils/api';
 import { ToastContainer, toast } from 'react-toastify';
+import RegisterContinueModal from '../../components/Form/RegisterContinueModal';
 
 function RegisterPage() {
   const [fullname, onFullnameChange] = useInput('');
@@ -22,8 +22,7 @@ function RegisterPage() {
 
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
-
-  const navigate = useNavigate();
+  const [isContinueModalOpen, setIsContinueModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchLocation() {
@@ -66,7 +65,7 @@ function RegisterPage() {
       const locationId = selectedLocation.id;
       const { error } = await register({ username, password, fullname, locationId });
       if (!error) {
-        navigate('/login');
+        setIsContinueModalOpen(true);
       }
     } catch (error) {
       console.log(error);
@@ -79,6 +78,11 @@ function RegisterPage() {
   return (
     <section className="flex min-h-screen flex-col justify-between pb-20">
       <ToastContainer position="bottom-right" />
+      <RegisterContinueModal
+        isContinueModalOpen={isContinueModalOpen}
+        setIsContinueModalOpen={setIsContinueModalOpen}
+      />
+
       <div className="m-auto mt-20 w-full max-w-md">
         <form onSubmit={onRegisterHandler} className="mb-4 px-8 pt-6 pb-8">
           <p className="mb-6 text-center text-2xl font-medium text-[#444444]">Daftar</p>
