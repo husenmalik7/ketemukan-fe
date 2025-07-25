@@ -1,13 +1,13 @@
 import BASE_URL from '../../config';
 import { fetchWithToken } from '../index';
 
-async function register({ username, password, fullname }) {
+async function register({ username, password, fullname, locationId }) {
   const response = await fetch(`${BASE_URL}/users`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ username, password, fullname }),
+    body: JSON.stringify({ username, password, fullname, locationId }),
   });
 
   const responseJson = await response.json();

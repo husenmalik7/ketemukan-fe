@@ -2,9 +2,11 @@ import useInput from '../../hooks/useInput';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../../utils/api/auth';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FormSubmitButton from '../../components/Form/FormSubmitButton';
 import FormAuthInput from '../../components/Form/FormAuthInput';
+import FormAuthLocationDropdown from '../../components/Form/FormAuthLocationDropdown';
+import { getAllLocations } from '../../utils/api';
 
 function RegisterPage() {
   const [fullname, onFullnameChange] = useInput('');
@@ -17,7 +19,29 @@ function RegisterPage() {
   const [isPasswordFilled, setIsPasswordFilled] = useState(true);
   const [isConfirmPasswordFilled, setIsConfirmPasswordFilled] = useState(true);
 
+  const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchLocation() {
+      try {
+        const { data } = await getAllLocations();
+        setLocations(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchLocation();
+  }, []);
+
+  useEffect(() => {
+    if (locations.length > 0 && !selectedLocation) {
+      setSelectedLocation(locations[0]);
+    }
+  }, [locations, selectedLocation]);
 
   function validateForm() {
     setIsFullnameFilled(!!fullname);
@@ -38,9 +62,10 @@ function RegisterPage() {
 
     // setIsLoading(true);
     try {
-      const { error } = await register({ username, password, fullname });
+      const locationId = selectedLocation.id;
+      const { error } = await register({ username, password, fullname, locationId });
       if (!error) {
-        navigate('/');
+        navigate('/login');
       }
     } catch (error) {
       console.log(error);
@@ -51,7 +76,7 @@ function RegisterPage() {
   }
 
   return (
-    <section className="flex h-screen">
+    <section className="flex min-h-screen flex-col justify-between pb-20">
       <div className="m-auto mt-20 w-full max-w-md">
         <form onSubmit={onRegisterHandler} className="mb-4 px-8 pt-6 pb-8">
           <p className="mb-6 text-center text-2xl font-medium text-[#444444]">Daftar</p>
@@ -94,6 +119,12 @@ function RegisterPage() {
             placeholder="Ketik ulang password"
             isFilled={isConfirmPasswordFilled}
             warnMessage="Silakan ketik ulang password"
+          />
+
+          <FormAuthLocationDropdown
+            selectedLocation={selectedLocation}
+            setSelectedLocation={setSelectedLocation}
+            locations={locations}
           />
 
           <FormSubmitButton label="Daftar" />
