@@ -6,7 +6,9 @@ import { getUserLogged } from '../utils/api/auth';
 import ProfileCard from '../components/Profile/ProfileCard';
 import MyItem from '../components/Profile/MyItem';
 import AddItemModal from '../components/Profile/AddItemModal';
+import SearchMyItem from '../components/Profile/SearchMyItem';
 import { useEffect, useState } from 'react';
+import ItemCard from '../components/ItemCard';
 
 function ProfilePage() {
   const [title, onTitleChange] = useInput('');
@@ -52,7 +54,8 @@ function ProfilePage() {
 
   return (
     // TODO h-screennya hapus sama bg
-    <section className="h-screen bg-orange-200">
+    // <section className="h-screen bg-orange-200">
+    <section className="flex min-h-screen flex-col justify-between bg-orange-200 pb-20">
       <div className="bg-orange-900 p-4 py-6">
         <ProfileCard
           username={profile?.username}
@@ -66,6 +69,13 @@ function ProfilePage() {
 
       <div className="bg-orange-500 px-4">
         <MyItem setOpenModal={setOpenModal} />
+        <SearchMyItem />
+      </div>
+
+      <div className="m-4 grid grid-cols-1 gap-4 bg-lime-200 md:grid-cols-2 lg:grid-cols-3">
+        <ItemCard />
+        <ItemCard />
+        <ItemCard />
       </div>
 
       <AddItemModal
