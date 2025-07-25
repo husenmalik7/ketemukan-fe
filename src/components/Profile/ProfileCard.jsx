@@ -16,7 +16,16 @@ const RenderProfilePicture = ({ img }) => {
   );
 };
 
-function ProfileCard({ username, fullname, picture_url, points, created_at, location_name }) {
+function ProfileCard({
+  username,
+  fullname,
+  picture_url,
+  points,
+  created_at,
+  location_name,
+  foundCount,
+  lostCount,
+}) {
   return (
     <div className="flex rounded-lg p-4 shadow-md hover:shadow-[0_6px_12px_rgba(0,0,0,0.15),0_-6px_12px_rgba(0,0,0,0.15)] hover:transition-shadow hover:duration-300">
       <RenderProfilePicture img={picture_url} />
@@ -39,11 +48,11 @@ function ProfileCard({ username, fullname, picture_url, points, created_at, loca
 
         <div className="flex">
           <div className="mr-4 flex flex-col items-center justify-center">
-            <p className="text-2xl font-bold text-blue-500">12</p>
+            <p className="text-2xl font-bold text-blue-500">{lostCount}</p>
             <p className="text-gray-500">Lost Items</p>
           </div>
           <div className="mr-4 flex flex-col items-center justify-center">
-            <p className="text-2xl font-bold text-green-500">31</p>
+            <p className="text-2xl font-bold text-green-500">{foundCount}</p>
             <p className="text-gray-500">Found Items</p>
           </div>
           <div className="ml-4 flex flex-col items-center justify-center">

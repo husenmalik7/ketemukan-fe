@@ -66,6 +66,8 @@ function ProfilePage() {
           points={profile?.points}
           created_at={profile?.created_at}
           location_name={profile?.location_name}
+          foundCount={profile?.foundCount}
+          lostCount={profile?.lostCount}
         />
       </div>
 
