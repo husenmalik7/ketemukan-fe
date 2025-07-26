@@ -2,7 +2,7 @@ import useInput from '../hooks/useInput';
 import { addFoundItem } from '../utils/api/found';
 import { addLostItem } from '../utils/api/lost';
 import { getUserLogged } from '../utils/api/auth';
-import { getMyItems } from '../utils/api/user';
+import { getMyItems, getMyAchievements } from '../utils/api/user';
 
 import ProfileCard from '../components/Profile/ProfileCard';
 import MyItem from '../components/Profile/MyItem';
@@ -10,6 +10,7 @@ import AddItemModal from '../components/Profile/AddItemModal';
 import SearchMyItem from '../components/Profile/SearchMyItem';
 import { useEffect, useState } from 'react';
 import ItemCard from '../components/ItemCard';
+import AchievementModal from '../components/Profile/AchievementModal';
 
 function ProfilePage() {
   const [title, onTitleChange] = useInput('');
@@ -19,17 +20,24 @@ function ProfilePage() {
 
   const [type, setType] = useState('lost');
   const [openModal, setOpenModal] = useState(false);
+  const [openModalAchievement, setOpenModalAchievement] = useState(false);
 
   const [profile, setProfile] = useState({});
   const [myItems, setMyItems] = useState([]);
+  const [myAchievements, setMyAchievements] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [userResponse, myItemResponse] = await Promise.all([getUserLogged(), getMyItems()]);
+        const [userResponse, myItemResponse, myAchievementResponse] = await Promise.all([
+          getUserLogged(),
+          getMyItems(),
+          getMyAchievements(),
+        ]);
 
         setProfile(userResponse.data);
         setMyItems(myItemResponse.data);
+        setMyAchievements(myAchievementResponse.data);
       } catch (error) {
         console.error(error);
       }
@@ -68,6 +76,8 @@ function ProfilePage() {
           location_name={profile?.location_name}
           foundCount={profile?.foundCount}
           lostCount={profile?.lostCount}
+          myAchievementsCount={myAchievements.length}
+          setOpenModalAchievement={setOpenModalAchievement}
         />
       </div>
 
@@ -109,6 +119,12 @@ function ProfilePage() {
         onPostItem={onPostItem}
         openModal={openModal}
         setOpenModal={setOpenModal}
+      />
+
+      <AchievementModal
+        myAchievements={myAchievements}
+        openModalAchievement={openModalAchievement}
+        setOpenModalAchievement={setOpenModalAchievement}
       />
     </section>
   );

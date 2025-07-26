@@ -12,4 +12,15 @@ async function getMyItems() {
   return { error: false, data: responseJson.data.myItems };
 }
 
-export { getMyItems };
+async function getMyAchievements() {
+  const response = await fetchWithToken(`${BASE_URL}/my/achievements`);
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, data: null };
+  }
+
+  return { error: false, data: responseJson.data.myAchievements };
+}
+
+export { getMyItems, getMyAchievements };

@@ -25,6 +25,8 @@ function ProfileCard({
   location_name,
   foundCount,
   lostCount,
+  myAchievementsCount,
+  setOpenModalAchievement,
 }) {
   return (
     <div className="flex rounded-lg p-4 shadow-[0_4px_8px_rgba(0,0,0,0.1),0_-4px_8px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_12px_rgba(0,0,0,0.15),0_-6px_12px_rgba(0,0,0,0.15)] hover:transition-shadow hover:duration-300">
@@ -55,9 +57,18 @@ function ProfileCard({
             <p className="text-2xl font-bold text-green-500">{foundCount}</p>
             <p className="text-gray-500">Found Items</p>
           </div>
-          <div className="ml-4 flex flex-col items-center justify-center">
+          <div className="ml-6 flex flex-col items-center justify-center">
             <p className="text-2xl font-bold text-orange-500">{points}</p>
             <p className="text-gray-500">Points</p>
+          </div>
+          <div
+            onClick={() => setOpenModalAchievement(true)}
+            className="ml-6 flex cursor-pointer flex-col items-center justify-center"
+          >
+            <p className="animate-colorChange bg-gradient-to-r from-pink-500 via-yellow-500 to-purple-500 bg-clip-text text-2xl font-bold text-transparent">
+              {myAchievementsCount}
+            </p>
+            <p className="text-gray-500">Achievements</p>
           </div>
         </div>
       </div>
