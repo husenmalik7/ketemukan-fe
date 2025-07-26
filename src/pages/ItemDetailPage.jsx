@@ -73,7 +73,7 @@ function ItemDetailPage({ username }) {
 
   const RenderProfilePicture = ({ img }) => {
     return img ? (
-      <img src="https://picsum.photos/200" className="m-0.5 h-10 rounded-full" alt="avatar" />
+      <img src={img} className="m-0.5 h-10 w-10 rounded-full object-cover" alt="avatar" />
     ) : (
       <div className="m-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-200 outline-1 outline-red-900">
         <Cat />
@@ -175,7 +175,7 @@ function ItemDetailPage({ username }) {
             {comments.map((item, index) => (
               <div key={index}>
                 <div className="flex">
-                  <RenderProfilePicture img={item.profile_picture} />
+                  <RenderProfilePicture img={item.picture_url} />
 
                   <div className="w-full pr-2 pl-2">
                     <div className="flex items-center">
