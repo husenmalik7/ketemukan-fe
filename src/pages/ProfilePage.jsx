@@ -1,16 +1,22 @@
+import { useEffect, useState } from 'react';
 import useInput from '../hooks/useInput';
+
+import { ToastContainer, toast } from 'react-toastify';
+
 import { addFoundItem } from '../utils/api/found';
 import { addLostItem } from '../utils/api/lost';
 import { getUserLogged } from '../utils/api/auth';
-import { getMyItems, getMyAchievements } from '../utils/api/user';
+import { getMyItems, getMyAchievements, editProfile } from '../utils/api/user';
+import { getAllLocations } from '../utils/api';
 
 import ProfileCard from '../components/Profile/ProfileCard';
 import MyItem from '../components/Profile/MyItem';
-import AddItemModal from '../components/Profile/AddItemModal';
 import SearchMyItem from '../components/Profile/SearchMyItem';
-import { useEffect, useState } from 'react';
 import ItemCard from '../components/ItemCard';
+
+import AddItemModal from '../components/Profile/AddItemModal';
 import AchievementModal from '../components/Profile/AchievementModal';
+import EditProfileModal from '../components/Profile/EditProfileModal';
 
 function ProfilePage() {
   const [title, onTitleChange] = useInput('');
@@ -18,26 +24,40 @@ function ProfilePage() {
   const [description, onDescriptionChange] = useInput('');
   const [date, onDateChange] = useInput('');
 
+  const [fullname, setFullname] = useState('');
+  const [username, setUsername] = useState('');
+
   const [type, setType] = useState('lost');
-  const [openModal, setOpenModal] = useState(false);
+
+  const [openModalAddItem, setOpenModalAddItem] = useState(false);
   const [openModalAchievement, setOpenModalAchievement] = useState(false);
+  const [openModalEditProfile, setOpenModalEditProfile] = useState(false);
 
   const [profile, setProfile] = useState({});
   const [myItems, setMyItems] = useState([]);
   const [myAchievements, setMyAchievements] = useState([]);
 
+  const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
   useEffect(() => {
     async function fetchData() {
       try {
-        const [userResponse, myItemResponse, myAchievementResponse] = await Promise.all([
-          getUserLogged(),
-          getMyItems(),
-          getMyAchievements(),
-        ]);
+        const [userResponse, myItemResponse, myAchievementResponse, locationResponse] =
+          await Promise.all([
+            getUserLogged(),
+            getMyItems(),
+            getMyAchievements(),
+            getAllLocations(),
+          ]);
 
         setProfile(userResponse.data);
         setMyItems(myItemResponse.data);
         setMyAchievements(myAchievementResponse.data);
+        setLocations(locationResponse.data);
+
+        setFullname(userResponse.data.fullname);
+        setUsername(userResponse.data.username);
       } catch (error) {
         console.error(error);
       }
@@ -45,6 +65,13 @@ function ProfilePage() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (locations.length > 0 && !selectedLocation) {
+      const index = locations.findIndex((loc) => loc.id === profile.location_id);
+      setSelectedLocation(locations[index]);
+    }
+  }, [locations, selectedLocation, profile.location_id]);
 
   async function onPostItem(event) {
     event.preventDefault();
@@ -60,12 +87,30 @@ function ProfilePage() {
       console.log(error);
       alert('Terjadi kesalahan pada server');
     } finally {
-      setOpenModal(false);
+      setOpenModalAddItem(false);
+    }
+  }
+
+  async function onEditProfile(event) {
+    event.preventDefault();
+
+    try {
+      await editProfile(fullname, selectedLocation.id);
+
+      toast.success('Edit Profile berhasil');
+      setOpenModalEditProfile(false);
+    } catch (error) {
+      console.log(error);
+      toast.error('Terjadi kesalahan pada server');
+    } finally {
+      const { data } = await getUserLogged();
+      setProfile(data);
     }
   }
 
   return (
     <section className="flex min-h-screen flex-col pb-20">
+      <ToastContainer position="bottom-right" />
       <div className="p-4 py-6">
         <ProfileCard
           username={profile?.username}
@@ -78,11 +123,12 @@ function ProfilePage() {
           lostCount={profile?.lostCount}
           myAchievementsCount={myAchievements.length}
           setOpenModalAchievement={setOpenModalAchievement}
+          setOpenModalEditProfile={setOpenModalEditProfile}
         />
       </div>
 
       <div className="px-4">
-        <MyItem setOpenModal={setOpenModal} />
+        <MyItem setOpenModal={setOpenModalAddItem} />
         <SearchMyItem />
       </div>
 
@@ -117,14 +163,27 @@ function ProfilePage() {
         type={type}
         setType={setType}
         onPostItem={onPostItem}
-        openModal={openModal}
-        setOpenModal={setOpenModal}
+        openModal={openModalAddItem}
+        setOpenModal={setOpenModalAddItem}
       />
 
       <AchievementModal
         myAchievements={myAchievements}
         openModalAchievement={openModalAchievement}
         setOpenModalAchievement={setOpenModalAchievement}
+      />
+
+      <EditProfileModal
+        username={username}
+        fullname={fullname}
+        location_id={profile?.location_id}
+        setFullname={setFullname}
+        selectedLocation={selectedLocation}
+        setSelectedLocation={setSelectedLocation}
+        locations={locations}
+        openModalEditProfile={openModalEditProfile}
+        setOpenModalEditProfile={setOpenModalEditProfile}
+        onEditProfile={onEditProfile}
       />
     </section>
   );

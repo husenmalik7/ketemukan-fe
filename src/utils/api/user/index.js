@@ -23,4 +23,22 @@ async function getMyAchievements() {
   return { error: false, data: responseJson.data.myAchievements };
 }
 
-export { getMyItems, getMyAchievements };
+async function editProfile(fullname, locationId) {
+  const response = await fetchWithToken(`${BASE_URL}/users`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ fullname, locationId }),
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, data: null };
+  }
+
+  return { error: false, data: responseJson.data };
+}
+
+export { getMyItems, getMyAchievements, editProfile };

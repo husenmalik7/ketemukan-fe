@@ -27,10 +27,15 @@ function ProfileCard({
   lostCount,
   myAchievementsCount,
   setOpenModalAchievement,
+  setOpenModalEditProfile,
 }) {
   return (
     <div className="flex rounded-lg p-4 shadow-[0_4px_8px_rgba(0,0,0,0.1),0_-4px_8px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_12px_rgba(0,0,0,0.15),0_-6px_12px_rgba(0,0,0,0.15)] hover:transition-shadow hover:duration-300">
-      <RenderProfilePicture img={picture_url} />
+      <div className="bg-orange-200">
+        <RenderProfilePicture img={picture_url} />
+        {/* // TODO logo edit profile picture */}
+        <p className="">asdasd</p>
+      </div>
 
       <div>
         <p className="text-3xl font-bold">{fullname}</p>
@@ -74,6 +79,7 @@ function ProfileCard({
       </div>
       <div className="ml-auto">
         <button
+          onClick={() => setOpenModalEditProfile(true)}
           type="button"
           className="w-full cursor-pointer rounded-md bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 px-5 py-2 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-orange-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
         >
