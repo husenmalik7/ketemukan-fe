@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getLostItems } from '../utils/api/lost';
-import Card from '../components/Card';
+import ItemCard from '../components/ItemCard';
 
 function LostPage() {
   const [losts, setLosts] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchLostItems() {
@@ -17,17 +15,26 @@ function LostPage() {
     fetchLostItems();
   }, []);
 
-  function handleClick(id) {
-    navigate(`/detail/lost/${id}`);
-  }
-
   return (
-    <section className="mx-auto my-12 grid max-w-fit grid-cols-1 gap-y-4 sm:grid-cols-2 md:grid-cols-3">
-      {losts.map((item, index) => (
-        <div key={index} onClick={() => handleClick(item.id)}>
-          <Card title={item.title} shortDesc={item.short_desc} />
-        </div>
-      ))}
+    <section className="flex min-h-screen flex-col pb-20">
+      <div className="m-4 mt-24 grid grid-cols-1 gap-4 md:mt-12 md:grid-cols-2 lg:grid-cols-3">
+        {losts.map((item, index) => (
+          <div key={index}>
+            <ItemCard
+              id={item?.id}
+              title={item?.title}
+              short_desc={item?.short_desc}
+              picture_url={item?.picture_url}
+              lost_date={item?.lost_date}
+              found_date={item?.found_date}
+              status={item?.status}
+              created_at={item?.created_at}
+              category_name={item?.category_name}
+              location_name={item?.location_name}
+            />
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
