@@ -55,7 +55,7 @@ function ItemCard({
     <div className="rounded-lg shadow-md transition-transform duration-200 hover:-translate-y-1">
       <div className="aspect-video overflow-hidden rounded-t-lg">
         <NavLink
-          to={`${status === 'lost' ? `/detail/lost/${id}` : `/detail/found/${id}`}`}
+          to={`${id.includes('lost') ? `/detail/lost/${id}` : `/detail/found/${id}`}`}
           className="flex h-full w-full items-center justify-center bg-gray-400 object-cover transition-transform duration-500 hover:scale-105"
         >
           <RenderMyItemPicture img={picture_url} />
