@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { addFoundItem } from '../utils/api/found';
 import { addLostItem } from '../utils/api/lost';
 import { getUserLogged } from '../utils/api/auth';
-import { getMyItems, getMyAchievements, editProfile } from '../utils/api/user';
+import { getMyItems, getMyAchievements, editProfile, editProfilePicture } from '../utils/api/user';
 import { getAllLocations } from '../utils/api';
 
 import ProfileCard from '../components/Profile/ProfileCard';
@@ -108,6 +108,19 @@ function ProfilePage() {
     }
   }
 
+  async function onEditProfileImage(event) {
+    try {
+      await editProfilePicture(event.target.files[0]);
+      toast.success('Unggah gambar berhasil');
+    } catch (error) {
+      console.log(error);
+      toast.error('Terjadi kesalahan saat mengunggah gambar');
+    } finally {
+      const { data } = await getUserLogged();
+      setProfile(data);
+    }
+  }
+
   return (
     <section className="flex min-h-screen flex-col pb-20">
       <ToastContainer position="bottom-right" />
@@ -124,6 +137,7 @@ function ProfilePage() {
           myAchievementsCount={myAchievements.length}
           setOpenModalAchievement={setOpenModalAchievement}
           setOpenModalEditProfile={setOpenModalEditProfile}
+          onEditProfileImage={onEditProfileImage}
         />
       </div>
 

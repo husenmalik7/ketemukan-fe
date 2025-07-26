@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { IoLocationOutline } from 'react-icons/io5';
 import { MdOutlineDateRange } from 'react-icons/md';
 import { formatJoinedDate } from '../../utils';
 
 import Cat from '../../assets/Cat';
+import { GrUploadOption } from 'react-icons/gr';
 
 const RenderProfilePicture = ({ img }) => {
   return img ? (
@@ -28,13 +29,31 @@ function ProfileCard({
   myAchievementsCount,
   setOpenModalAchievement,
   setOpenModalEditProfile,
+  onEditProfileImage,
 }) {
+  const fileInputRef = useRef(null);
+
+  function handleClickInputFile() {
+    fileInputRef.current.click();
+  }
+
   return (
     <div className="flex rounded-lg p-4 shadow-[0_4px_8px_rgba(0,0,0,0.1),0_-4px_8px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_12px_rgba(0,0,0,0.15),0_-6px_12px_rgba(0,0,0,0.15)] hover:transition-shadow hover:duration-300">
-      <div className="bg-orange-200">
+      <div>
         <RenderProfilePicture img={picture_url} />
-        {/* // TODO logo edit profile picture */}
-        <p className="">asdasd</p>
+        <div>
+          <GrUploadOption
+            onClick={handleClickInputFile}
+            className="cursor-pointer text-2xl text-orange-400"
+          />
+          <input
+            onChange={onEditProfileImage}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            ref={fileInputRef}
+          />
+        </div>
       </div>
 
       <div>
