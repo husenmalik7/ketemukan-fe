@@ -82,9 +82,9 @@ function ItemDetailPage({ username }) {
   };
 
   return (
-    <section className="flex h-screen">
+    <section className="flex min-h-screen pb-20">
       <div className="w-1/2 p-4">
-        <div className="rounded-lg">
+        <div className="rounded-lg shadow-lg">
           <div className="relative aspect-video overflow-hidden rounded-t-lg">
             <img
               src="https://picsum.photos/600"
@@ -135,7 +135,7 @@ function ItemDetailPage({ username }) {
       </div>
 
       <div className="w-1/2 p-4">
-        <div className="p-4">
+        <div className="rounded-lg p-4 shadow-lg">
           <div className="relative">
             <div className="flex items-center">
               <BiComment className="mr-2 text-red-500" />
