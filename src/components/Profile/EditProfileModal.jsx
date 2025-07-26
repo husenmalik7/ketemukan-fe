@@ -52,11 +52,8 @@ function EditProfileModal({
           </div>
 
           {/* Modal body */}
-          <form
-            onSubmit={onEditProfile}
-            className="max-h-100 overflow-y-auto bg-orange-200 p-4 md:p-5"
-          >
-            <div className="mb-4 grid grid-cols-2 gap-4 bg-lime-200">
+          <form onSubmit={onEditProfile} className="max-h-100 overflow-y-auto p-4 md:p-5">
+            <div className="mb-4 grid grid-cols-2 gap-4">
               <div className="col-span-2">
                 <label htmlFor="category" className="mb-2 block text-sm font-medium text-gray-900">
                   Location
@@ -68,7 +65,7 @@ function EditProfileModal({
                 />
               </div>
 
-              <div className="col-span-2 bg-lime-300">
+              <div className="col-span-2">
                 <label htmlFor="username" className="mb-2 block text-sm font-medium text-gray-900">
                   Username
                 </label>
@@ -84,7 +81,7 @@ function EditProfileModal({
                 />
               </div>
 
-              <div className="col-span-2 bg-lime-300">
+              <div className="col-span-2">
                 <label htmlFor="fullname" className="mb-2 block text-sm font-medium text-gray-900">
                   Fullname
                 </label>
