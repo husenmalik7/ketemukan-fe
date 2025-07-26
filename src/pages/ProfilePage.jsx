@@ -154,12 +154,12 @@ function ProfilePage() {
               title={item?.title}
               short_desc={item?.short_desc}
               picture_url={item?.picture_url}
-              lost_date={item.lost_date}
-              found_date={item.found_date}
-              status={item.status}
-              created_at={item.created_at}
-              category_name={item.category_name}
-              location_name={item.location_name}
+              lost_date={item?.lost_date}
+              found_date={item?.found_date}
+              status={item?.status}
+              created_at={item?.created_at}
+              category_name={item?.category_name}
+              location_name={item?.location_name}
             />
           </div>
         ))}
