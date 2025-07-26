@@ -11,6 +11,7 @@ import ProfilePage from './pages/ProfilePage';
 import { putAccessToken, getUserLogged } from './utils/api/auth';
 import Navbar from './components/NavBar/Navbar';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const [authedUser, setAuthedUser] = useState(null);
@@ -75,6 +76,7 @@ function App() {
       <div className="bg-[#FBFBFB]">
         <Navbar />
         <main className="pt-16">
+          <ScrollToTop />
           <Routes>
             <Route path="/login" element={<LoginPage loginSuccess={onLoginSuccess} />} />
             <Route path="/register" element={<RegisterPage />} />
@@ -91,6 +93,7 @@ function App() {
     <div className="bg-[#FBFBFB]">
       <Navbar username={authedUser?.username} fullname={authedUser?.fullname} logout={onLogout} />
       <main className="pt-16">
+        <ScrollToTop />
         <Routes>
           <Route path="/login" element={<Navigate to="/" />} />
           <Route path="/register" element={<Navigate to="/" />} />
