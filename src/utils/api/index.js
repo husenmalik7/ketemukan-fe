@@ -25,4 +25,15 @@ async function getAllLocations() {
   return { error: false, data: responseJson.data.locations };
 }
 
-export { fetchWithToken, getAllLocations };
+async function getAllCategories() {
+  const response = await fetch(`${BASE_URL}/categories`);
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, data: null };
+  }
+
+  return { error: false, data: responseJson.data.categories };
+}
+
+export { fetchWithToken, getAllLocations, getAllCategories };
