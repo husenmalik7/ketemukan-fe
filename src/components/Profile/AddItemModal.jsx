@@ -104,7 +104,7 @@ function AddItemModal({
                 <button
                   type="button"
                   onClick={() => setType('lost')}
-                  className={`${type === 'lost' ? 'bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 text-white' : 'bg-gray-100'} w-full cursor-pointer rounded-md px-5 py-2 text-center text-sm font-medium hover:bg-gradient-to-br focus:ring-4 focus:ring-orange-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50`}
+                  className={`${type === 'lost' ? 'bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 text-white' : 'bg-gray-100'} w-full cursor-pointer rounded-lg px-5 py-2 text-center text-sm font-medium hover:bg-gradient-to-br focus:ring-4 focus:ring-orange-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50`}
                 >
                   Lost Item
                 </button>
@@ -114,7 +114,7 @@ function AddItemModal({
                 <button
                   type="button"
                   onClick={() => setType('found')}
-                  className={`${type === 'found' ? 'bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 text-white' : 'bg-gray-100'} w-full cursor-pointer rounded-md px-5 py-2 text-center text-sm font-medium hover:bg-gradient-to-br focus:ring-4 focus:ring-orange-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50`}
+                  className={`${type === 'found' ? 'bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 text-white' : 'bg-gray-100'} w-full cursor-pointer rounded-lg px-5 py-2 text-center text-sm font-medium hover:bg-gradient-to-br focus:ring-4 focus:ring-orange-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50`}
                 >
                   Found Item
                 </button>
@@ -128,7 +128,7 @@ function AddItemModal({
                   type="text"
                   name="name"
                   id="name"
-                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
+                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
                   placeholder="Title"
                   value={title}
                   onChange={onTitleChange}
@@ -167,7 +167,7 @@ function AddItemModal({
                 </label>
 
                 <DatePicker
-                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
+                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                 />
@@ -181,7 +181,7 @@ function AddItemModal({
                   type="text"
                   name="name"
                   id="name"
-                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
+                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
                   placeholder="Short Description"
                   value={shortDesc}
                   onChange={onShortDescChange}
@@ -199,7 +199,7 @@ function AddItemModal({
                 <textarea
                   id="description"
                   rows="4"
-                  className="block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="Write description here"
                   value={description}
                   onChange={onDescriptionChange}
