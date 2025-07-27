@@ -121,6 +121,10 @@ function ProfilePage() {
     }
   }
 
+  async function handleDeleteItem(id) {
+    console.log(id);
+  }
+
   return (
     <section className="flex min-h-screen flex-col pb-20">
       <ToastContainer position="bottom-right" />
@@ -160,6 +164,7 @@ function ProfilePage() {
               created_at={item?.created_at}
               category_name={item?.category_name}
               location_name={item?.location_name}
+              handleDeleteItem={handleDeleteItem}
             />
           </div>
         ))}
