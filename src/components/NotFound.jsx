@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function NotFound() {
   return (
-    <section className="flex h-screen">
+    <section className="flex min-h-screen flex-col">
       <div className="m-auto">
         <img src="/images/notfound.png" className="h-54" alt="Not Found" />
         <div className="pt-4 pb-20 text-center">
