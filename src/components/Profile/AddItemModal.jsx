@@ -3,6 +3,8 @@ import Button from '../Button';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { getAllLocations, getAllCategories } from '../../utils/api';
+import FormAuthLocationDropdown from '../Form/FormAuthLocationDropdown';
+import FormCategoryDropdown from '../Form/FormCategoryDropdown';
 
 // {
 //     "title": "hilang dompet yuura",
@@ -126,7 +128,7 @@ function AddItemModal({
                   type="text"
                   name="name"
                   id="name"
-                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
+                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
                   placeholder="Title"
                   value={title}
                   onChange={onTitleChange}
@@ -139,34 +141,24 @@ function AddItemModal({
                 <label htmlFor="category" className="mb-2 block text-sm font-medium text-gray-900">
                   Category
                 </label>
-                <select
-                  id="category"
-                  value=""
-                  className="focus:ring-primary-500 focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
-                >
-                  <option value="">Select category</option>
-                  {categories?.map((item, index) => (
-                    <option key={index} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
+
+                <FormCategoryDropdown
+                  selectedCategory={selectedCategory}
+                  setSelectedCategory={setSelectedCategory}
+                  categories={categories}
+                />
               </div>
 
               <div className="col-span-1">
                 <label htmlFor="category" className="mb-2 block text-sm font-medium text-gray-900">
                   Lokasi
                 </label>
-                <select
-                  id="category"
-                  value=""
-                  className="focus:ring-primary-500 focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
-                >
-                  <option value="">Select category</option>
-                  <option value="TV">TV/Monitors</option>
-                  <option value="PC">PC</option>
-                  <option value="GA">Gaming/Console</option>
-                </select>
+
+                <FormAuthLocationDropdown
+                  selectedLocation={selectedLocation}
+                  setSelectedLocation={setSelectedLocation}
+                  locations={locations}
+                />
               </div>
 
               <div className="col-span-1 bg-lime-400">
@@ -175,21 +167,10 @@ function AddItemModal({
                 </label>
 
                 <DatePicker
-                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
+                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                 />
-
-                {/* <input
-                  type="text"
-                  name="price"
-                  id="price"
-                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
-                  placeholder="12-12-2012"
-                  value={date}
-                  onChange={onDateChange}
-                  required={true}
-                /> */}
               </div>
 
               <div className="col-span-2 bg-lime-300">
@@ -200,7 +181,7 @@ function AddItemModal({
                   type="text"
                   name="name"
                   id="name"
-                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
+                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
                   placeholder="Short Description"
                   value={shortDesc}
                   onChange={onShortDescChange}
@@ -218,7 +199,7 @@ function AddItemModal({
                 <textarea
                   id="description"
                   rows="4"
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="Write description here"
                   value={description}
                   onChange={onDescriptionChange}
