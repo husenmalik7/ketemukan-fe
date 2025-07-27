@@ -73,7 +73,7 @@ function EditProfileModal({
                   type="text"
                   name="username"
                   id="username"
-                  className="focus:ring-primary-600 focus:border-primary-600 block w-full cursor-not-allowed rounded-lg border border-gray-300 bg-gray-200 p-2.5 text-sm text-gray-900"
+                  className="focus:ring-primary-600 focus:border-primary-600 block w-full cursor-not-allowed rounded-sm border border-gray-300 bg-gray-200 p-2.5 text-sm text-gray-900"
                   placeholder="Username"
                   value={username}
                   required={true}
@@ -89,7 +89,7 @@ function EditProfileModal({
                   type="text"
                   name="fullname"
                   id="fullname"
-                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
+                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
                   placeholder="Fullname"
                   value={fullname}
                   onChange={(event) => setFullname(event.target.value)}
