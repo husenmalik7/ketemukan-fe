@@ -12,6 +12,7 @@ import { putAccessToken, getUserLogged } from './utils/api/auth';
 import Navbar from './components/NavBar/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
   const [authedUser, setAuthedUser] = useState(null);
@@ -39,11 +40,13 @@ function App() {
     putAccessToken(accessToken);
     const { data } = await getUserLogged();
     setAuthedUser(data);
+    toast.success('Berhasil login');
   }
 
   function onLogout() {
     setAuthedUser(null);
     putAccessToken('');
+    toast.success('Berhasil logout');
   }
 
   const commonRoutes = (
@@ -74,6 +77,7 @@ function App() {
   if (authedUser === null) {
     return (
       <div className="bg-[#FBFBFB]">
+        <ToastContainer position="bottom-right" />
         <Navbar />
         <main className="pt-16">
           <ScrollToTop />
@@ -91,6 +95,7 @@ function App() {
 
   return (
     <div className="bg-[#FBFBFB]">
+      <ToastContainer position="bottom-right" />
       <Navbar
         username={authedUser?.username}
         fullname={authedUser?.fullname}
