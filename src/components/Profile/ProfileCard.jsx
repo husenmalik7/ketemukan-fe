@@ -88,7 +88,7 @@ function ProfileCard({
           </div>
           <div
             onClick={() => setOpenModalAchievement(true)}
-            className="ml-6 flex cursor-pointer flex-col items-center justify-center"
+            className="ml-6 flex cursor-pointer flex-col items-center justify-center duration-500 hover:scale-105"
             title="Lihat achievement saya"
           >
             <p className="animate-colorChange bg-gradient-to-r from-pink-500 via-yellow-500 to-purple-500 bg-clip-text text-2xl font-bold text-transparent">
