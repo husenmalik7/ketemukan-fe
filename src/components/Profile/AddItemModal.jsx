@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../Button';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 // {
 //     "title": "hilang dompet yuura",
@@ -25,6 +27,8 @@ function AddItemModal({
   openModal,
   setOpenModal,
 }) {
+  const [startDate, setStartDate] = useState(new Date());
+
   return (
     // {/* Main modal */}
     <div
@@ -145,7 +149,13 @@ function AddItemModal({
                   Tanggal Kehilangan
                 </label>
 
-                <input
+                <DatePicker
+                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                />
+
+                {/* <input
                   type="text"
                   name="price"
                   id="price"
@@ -154,7 +164,7 @@ function AddItemModal({
                   value={date}
                   onChange={onDateChange}
                   required={true}
-                />
+                /> */}
               </div>
 
               <div className="col-span-2 bg-lime-300">
