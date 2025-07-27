@@ -37,7 +37,7 @@ function LoginPage({ loginSuccess }) {
   }
 
   return (
-    <section className="flex h-screen">
+    <section className="flex min-h-screen flex-col pb-20">
       <div className="m-auto mt-20 w-full max-w-md">
         <form onSubmit={onLoginHandler} className="mb-4 px-8 pt-6 pb-8">
           <p className="mb-6 text-center text-2xl font-medium text-[#444444]">Login</p>

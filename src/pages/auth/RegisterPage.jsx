@@ -76,7 +76,7 @@ function RegisterPage() {
   }
 
   return (
-    <section className="flex min-h-screen flex-col justify-between pb-20">
+    <section className="flex min-h-screen flex-col pb-20">
       <ToastContainer position="bottom-right" />
       <RegisterContinueModal
         isContinueModalOpen={isContinueModalOpen}
