@@ -164,6 +164,41 @@ function ProfilePage() {
     setIsDeleteModalOpen(true);
   }
 
+  async function handleOpenEditItemModal(id) {
+    console.log(id);
+
+    const item = myItems.find((item) => item.id === id);
+    console.log(item);
+
+    //     {
+    //     "title": "lsot titititle",
+    //     "short_desc": "sdsdsdds",
+    //     "description": "dededes",
+    //     "lost_date": "2025-07-03T13:00:51.000Z",
+    //     "status": "lost",
+    //     "longitude": null,
+    //     "latitude": null,
+    //     "created_at": "2025-07-27T13:01:17.422Z",
+    //     "category_name": "Hewan Peliharaan",
+    //     "location_name": "Kepulauan Riau"
+
+    //     "id": "lost-yVozPg2D3x3q1kcM",
+    //     "picture_url": null,
+    // }
+
+    //     {
+    //     "title": "hilang dompet yuura edited",
+    //     "shortDesc": "edited saya kehilangan dompet di jalan A",
+    //     "description": "edited saya kehilangan dompet di jalan A. Detail dompet berwarna hitam, bagi yang menemukan silahkan hubungi saya",
+    //     "lostDate": "11-11-1111",
+    //     "status": "resolved",
+    //     "longitude": null,
+    //     "latitude": null,
+    //     "categoryId": "category-zFuKOfT6aU28LuNj",
+    //     "locationId": "location-ZvxkDuCOLrE86Zn1"
+    // }
+  }
+
   async function handleDeleteItem(id) {
     try {
       if (id.includes('lost')) {
@@ -223,6 +258,7 @@ function ProfilePage() {
               category_name={item?.category_name}
               location_name={item?.location_name}
               handleOpenDeleteItemModal={handleOpenDeleteItemModal}
+              handleOpenEditItemModal={handleOpenEditItemModal}
             />
           </div>
         ))}

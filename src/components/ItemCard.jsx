@@ -22,6 +22,7 @@ function ItemCard({
   category_name,
   location_name,
   handleOpenDeleteItemModal,
+  handleOpenEditItemModal,
 }) {
   const location = useLocation();
   const statusColorMap = {
@@ -78,7 +79,10 @@ function ItemCard({
 
         {location.pathname === '/profile' ? (
           <div className="ml-auto flex gap-2">
-            <FaRegEdit className="cursor-pointer text-lg" />
+            <FaRegEdit
+              onClick={() => handleOpenEditItemModal(id)}
+              className="cursor-pointer text-lg"
+            />
             <MdOutlineDeleteOutline
               onClick={() => handleOpenDeleteItemModal(id, title)}
               className="cursor-pointer text-xl text-red-500"
