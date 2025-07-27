@@ -88,6 +88,10 @@ function ProfilePage() {
       toast.error('Terjadi kesalahan pada server');
     } finally {
       setOpenModalAddItem(false);
+
+      const [userResponse, myItemResponse] = await Promise.all([getUserLogged(), getMyItems()]);
+      setProfile(userResponse.data);
+      setMyItems(myItemResponse.data);
     }
   }
 
