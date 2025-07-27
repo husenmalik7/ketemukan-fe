@@ -91,9 +91,15 @@ function ItemDetailPage({ username }) {
               className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
               alt="avatar"
             />
-            <div className="absolute top-2 right-2 flex items-center justify-center rounded-xl bg-orange-600 px-3 py-0.5">
-              <LuClock6 className="mr-1 text-white" />
-              <p className="text-sm font-medium text-white">Hilang</p>
+            <div className="absolute top-2 right-2 flex gap-2">
+              <div className="flex items-center justify-center rounded-xl bg-orange-600 px-3 py-0.5">
+                <LuClock6 className="mr-1 text-white" />
+                <p className="text-sm font-medium text-white capitalize">{item.category_name}</p>
+              </div>
+              <div className="flex items-center justify-center rounded-xl bg-orange-600 px-3 py-0.5">
+                <LuClock6 className="mr-1 text-white" />
+                <p className="text-sm font-medium text-white capitalize">{item.status}</p>
+              </div>
             </div>
           </div>
 
@@ -122,7 +128,7 @@ function ItemDetailPage({ username }) {
                 </div>
                 <div className="ml-2 flex flex-col justify-center">
                   <p className="font-medium">Lokasi terakhir</p>
-                  <p className="text-gray-600">Kampus UI 999a</p>
+                  <p className="text-gray-600">{item.location_name}</p>
                 </div>
               </div>
             </div>
