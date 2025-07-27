@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import useInput from '../hooks/useInput';
 
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -20,17 +19,10 @@ import EditProfileModal from '../components/Profile/EditProfileModal';
 import DeleteItemModal from '../components/Profile/DeleteItemModal';
 
 function ProfilePage() {
-  const [title, onTitleChange] = useInput('');
-  const [shortDesc, onShortDescChange] = useInput('');
-  const [description, onDescriptionChange] = useInput('');
-  const [date, onDateChange] = useInput('');
-
   const [fullname, setFullname] = useState('');
   const [username, setUsername] = useState('');
   const [deleteItemTitle, setDeleteItemTitle] = useState('');
   const [deleteItemId, setDeleteItemId] = useState('');
-
-  const [type, setType] = useState('lost');
 
   const [openModalAddItem, setOpenModalAddItem] = useState(false);
   const [openModalAchievement, setOpenModalAchievement] = useState(false);
@@ -77,19 +69,23 @@ function ProfilePage() {
     }
   }, [locations, selectedLocation, profile.location_id]);
 
-  async function onPostItem(event) {
-    event.preventDefault();
+  async function onPostItem(body) {
+    const { title, shortDesc, description, type, date, categoryId, locationId } = body;
+    let result;
+
     try {
       if (type === 'lost') {
-        await addLostItem(title, shortDesc, description, date);
+        result = await addLostItem(title, shortDesc, description, date, categoryId, locationId);
       } else {
-        await addFoundItem(title, shortDesc, description, date);
+        result = await addFoundItem(title, shortDesc, description, date, categoryId, locationId);
       }
 
-      // alert('anda telah menambahkan lost item');
+      if (result?.error) throw new Error('Gagal menambahkan item');
+
+      toast.success('Berhasil menambahkan item');
     } catch (error) {
       console.log(error);
-      alert('Terjadi kesalahan pada server');
+      toast.error('Terjadi kesalahan pada server');
     } finally {
       setOpenModalAddItem(false);
     }
@@ -197,19 +193,9 @@ function ProfilePage() {
       </div>
 
       <AddItemModal
-        title={title}
-        onTitleChange={onTitleChange}
-        shortDesc={shortDesc}
-        onShortDescChange={onShortDescChange}
-        description={description}
-        onDescriptionChange={onDescriptionChange}
-        date={date}
-        onDateChange={onDateChange}
-        type={type}
-        setType={setType}
         onPostItem={onPostItem}
-        openModal={openModalAddItem}
-        setOpenModal={setOpenModalAddItem}
+        openModalAddItem={openModalAddItem}
+        setOpenModalAddItem={setOpenModalAddItem}
       />
 
       <AchievementModal

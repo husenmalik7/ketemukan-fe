@@ -6,31 +6,16 @@ import { getAllLocations, getAllCategories } from '../../utils/api';
 import FormAuthLocationDropdown from '../Form/FormAuthLocationDropdown';
 import FormCategoryDropdown from '../Form/FormCategoryDropdown';
 
-// {
-//     "title": "hilang dompet yuura",
-//     "shortDesc": "saya kehilangan dompet di jalan A",
-//     "description": "saya kehilangan dompet di jalan A. Detail dompet berwarna hitam, bagi yang menemukan silahkan hubungi saya",
-//     "lostDate": "12-12-1212",
-//     "categoryId": "category-orZUwJ9BPHB2lZVa",
-//     "locationId": "location-otGRaNN1n5mWQIZH"
-// }
+import useInput from '../../hooks/useInput';
 
-function AddItemModal({
-  title,
-  onTitleChange,
-  shortDesc,
-  onShortDescChange,
-  description,
-  onDescriptionChange,
-  date,
-  onDateChange,
-  type,
-  setType,
-  onPostItem,
-  openModal,
-  setOpenModal,
-}) {
-  const [startDate, setStartDate] = useState(new Date());
+function AddItemModal({ onPostItem, openModalAddItem, setOpenModalAddItem }) {
+  const [title, onTitleChange] = useInput('');
+  const [shortDesc, onShortDescChange] = useInput('');
+  const [description, onDescriptionChange] = useInput('');
+
+  const [type, setType] = useState('lost');
+
+  const [date, setDate] = useState(new Date());
 
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -56,12 +41,38 @@ function AddItemModal({
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (locations.length > 0 && !selectedLocation) {
+      setSelectedLocation(locations[0]);
+    }
+
+    if (categories.length > 0 && !selectedCategory) {
+      setSelectedCategory(categories[0]);
+    }
+  }, [locations, selectedLocation, categories, selectedCategory]);
+
+  function handlePostItem(event) {
+    event.preventDefault();
+
+    const body = {
+      title,
+      shortDesc,
+      description,
+      type,
+      date,
+      categoryId: selectedCategory.id,
+      locationId: selectedLocation.id,
+    };
+
+    onPostItem(body);
+  }
+
   return (
     // {/* Main modal */}
     <div
       id="crud-modal"
       tabIndex="-1"
-      className={`${openModal ? '' : 'hidden'} fixed top-0 right-0 left-0 z-50 flex h-screen max-h-full w-full items-center justify-center bg-gray-100/70 md:inset-0`}
+      className={`${openModalAddItem ? '' : 'hidden'} fixed top-0 right-0 left-0 z-50 flex h-screen max-h-full w-full items-center justify-center bg-gray-100/70 md:inset-0`}
     >
       <div className="relative max-h-full w-full max-w-md p-4">
         {/* Modal content */}
@@ -71,7 +82,7 @@ function AddItemModal({
             <h3 className="text-lg font-semibold text-gray-900">Add New Item</h3>
             <button
               type="button"
-              onClick={() => setOpenModal(false)}
+              onClick={() => setOpenModalAddItem(false)}
               className="ms-auto inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
               data-modal-toggle="crud-modal"
             >
@@ -96,7 +107,7 @@ function AddItemModal({
 
           {/* Modal body */}
           <form
-            onSubmit={onPostItem}
+            onSubmit={handlePostItem}
             className="max-h-100 overflow-y-auto bg-orange-200 p-4 md:p-5"
           >
             <div className="mb-4 grid grid-cols-2 gap-4 bg-lime-200">
@@ -121,13 +132,13 @@ function AddItemModal({
               </div>
 
               <div className="col-span-2 bg-lime-300">
-                <label htmlFor="name" className="mb-2 block text-sm font-medium text-gray-900">
+                <label htmlFor="title" className="mb-2 block text-sm font-medium text-gray-900">
                   Title
                 </label>
                 <input
                   type="text"
-                  name="name"
-                  id="name"
+                  name="title"
+                  id="title"
                   className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
                   placeholder="Title"
                   value={title}
@@ -136,10 +147,9 @@ function AddItemModal({
                 />
               </div>
 
-              {/* // TODO onChange error */}
-              <div className="col-span-1">
+              <div className="col-span-2">
                 <label htmlFor="category" className="mb-2 block text-sm font-medium text-gray-900">
-                  Category
+                  Kategori
                 </label>
 
                 <FormCategoryDropdown
@@ -149,8 +159,8 @@ function AddItemModal({
                 />
               </div>
 
-              <div className="col-span-1">
-                <label htmlFor="category" className="mb-2 block text-sm font-medium text-gray-900">
+              <div className="col-span-2">
+                <label htmlFor="location" className="mb-2 block text-sm font-medium text-gray-900">
                   Lokasi
                 </label>
 
@@ -162,26 +172,26 @@ function AddItemModal({
               </div>
 
               <div className="col-span-1 bg-lime-400">
-                <label htmlFor="price" className="mb-2 block text-sm font-medium text-gray-900">
+                <label htmlFor="date" className="mb-2 block text-sm font-medium text-gray-900">
                   Tanggal Kehilangan
                 </label>
 
                 <DatePicker
                   className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
+                  selected={date}
+                  onChange={(date) => setDate(date)}
                   dateFormat="dd/MM/yyyy"
                 />
               </div>
 
               <div className="col-span-2 bg-lime-300">
-                <label htmlFor="name" className="mb-2 block text-sm font-medium text-gray-900">
+                <label htmlFor="shortDesc" className="mb-2 block text-sm font-medium text-gray-900">
                   Short Description
                 </label>
                 <input
                   type="text"
-                  name="name"
-                  id="name"
+                  name="shortDesc"
+                  id="shortDesc"
                   className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
                   placeholder="Short Description"
                   value={shortDesc}
@@ -205,7 +215,7 @@ function AddItemModal({
                   value={description}
                   onChange={onDescriptionChange}
                   required={true}
-                ></textarea>
+                />
               </div>
             </div>
 

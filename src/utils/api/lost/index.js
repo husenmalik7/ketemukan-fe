@@ -41,13 +41,13 @@ async function addLostComment({ id, comment }) {
   return { error: false, data: responseJson.data };
 }
 
-async function addLostItem(title, shortDesc, description, lostDate) {
+async function addLostItem(title, shortDesc, description, lostDate, categoryId, locationId) {
   const response = await fetchWithToken(`${BASE_URL}/losts`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title, shortDesc, description, lostDate }),
+    body: JSON.stringify({ title, shortDesc, description, lostDate, categoryId, locationId }),
   });
 
   const responseJson = await response.json();
