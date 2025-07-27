@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Button from '../Button';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { getAllLocations, getAllCategories } from '../../utils/api';
-import FormAuthLocationDropdown from '../Form/FormAuthLocationDropdown';
-import FormCategoryDropdown from '../Form/FormCategoryDropdown';
 
 import useInput from '../../hooks/useInput';
+
+import FormAuthLocationDropdown from '../Form/FormAuthLocationDropdown';
+import FormCategoryDropdown from '../Form/FormCategoryDropdown';
+import Button from '../Button';
+
+import { getAllLocations, getAllCategories } from '../../utils/api';
 
 function AddItemModal({ onPostItem, openModalAddItem, setOpenModalAddItem }) {
   const [title, onTitleChange] = useInput('');
