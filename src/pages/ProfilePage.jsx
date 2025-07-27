@@ -3,8 +3,8 @@ import useInput from '../hooks/useInput';
 
 import { ToastContainer, toast } from 'react-toastify';
 
-import { addFoundItem } from '../utils/api/found';
-import { addLostItem } from '../utils/api/lost';
+import { addFoundItem, deleteFoundItem } from '../utils/api/found';
+import { addLostItem, deleteLostItem } from '../utils/api/lost';
 import { getUserLogged } from '../utils/api/auth';
 import { getMyItems, getMyAchievements, editProfile, editProfilePicture } from '../utils/api/user';
 import { getAllLocations } from '../utils/api';
@@ -126,8 +126,6 @@ function ProfilePage() {
   }
 
   async function handleOpenDeleteItemModal(id, title) {
-    console.log(id, title);
-
     setDeleteItemTitle(title);
     setDeleteItemId(id);
 
@@ -135,7 +133,22 @@ function ProfilePage() {
   }
 
   async function handleDeleteItem(id) {
-    console.log('ini buat delete', id);
+    try {
+      if (id.includes('lost')) {
+        await deleteLostItem(id);
+      } else {
+        await deleteFoundItem(id);
+      }
+
+      toast.success('Delete item berhasil');
+      setIsDeleteModalOpen(false);
+    } catch (error) {
+      console.log(error);
+      toast.error('Terjadi kesalahan saat mendelete item');
+    } finally {
+      const { data } = await getMyItems();
+      setMyItems(data);
+    }
   }
 
   return (

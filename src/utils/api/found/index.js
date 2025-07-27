@@ -59,4 +59,18 @@ async function addFoundItem(title, shortDesc, description, foundDate) {
   return { error: false, data: responseJson.data };
 }
 
-export { getFoundItems, getFoundItemDetail, addFoundComment, addFoundItem };
+async function deleteFoundItem(foundId) {
+  const response = await fetchWithToken(`${BASE_URL}/founds/${foundId}`, {
+    method: 'DELETE',
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, data: null };
+  }
+
+  return { error: false, data: responseJson.data };
+}
+
+export { getFoundItems, getFoundItemDetail, addFoundComment, addFoundItem, deleteFoundItem };

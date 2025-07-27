@@ -59,4 +59,18 @@ async function addLostItem(title, shortDesc, description, lostDate) {
   return { error: false, data: responseJson.data };
 }
 
-export { getLostItems, getLostItemDetail, addLostComment, addLostItem };
+async function deleteLostItem(lostId) {
+  const response = await fetchWithToken(`${BASE_URL}/losts/${lostId}`, {
+    method: 'DELETE',
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, data: null };
+  }
+
+  return { error: false, data: responseJson.data };
+}
+
+export { getLostItems, getLostItemDetail, addLostComment, addLostItem, deleteLostItem };
