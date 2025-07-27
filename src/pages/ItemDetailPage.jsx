@@ -14,6 +14,7 @@ import { BiComment } from 'react-icons/bi';
 import { IoLocationOutline } from 'react-icons/io5';
 import { MdOutlineDateRange } from 'react-icons/md';
 import { LuClock6 } from 'react-icons/lu';
+import { BiSolidCategory } from 'react-icons/bi';
 
 function ItemDetailPage({ username }) {
   const navigate = useNavigate();
@@ -21,6 +22,12 @@ function ItemDetailPage({ username }) {
   const [item, setItem] = useState({});
   const [comments, setComments] = useState([]);
   const [comment, onCommentChange, setComment] = useInput('');
+
+  const statusColorMap = {
+    lost: 'bg-orange-500',
+    found: 'bg-green-500',
+    resolved: 'bg-gray-500',
+  };
 
   useEffect(() => {
     async function fetchItemDetail() {
@@ -116,11 +123,14 @@ function ItemDetailPage({ username }) {
             </div>
 
             <div className="absolute top-2 right-2 flex gap-2">
-              <div className="flex items-center justify-center rounded-xl bg-orange-600 px-3 py-0.5">
-                <LuClock6 className="mr-1 text-white" />
+              <div className="flex items-center justify-center rounded-xl bg-purple-600 px-3 py-0.5">
+                <BiSolidCategory className="mr-1 text-white" />
                 <p className="text-sm font-medium text-white capitalize">{item.category_name}</p>
               </div>
-              <div className="flex items-center justify-center rounded-xl bg-orange-600 px-3 py-0.5">
+
+              <div
+                className={`${statusColorMap[item.status]} flex items-center justify-center rounded-xl px-3 py-0.5`}
+              >
                 <LuClock6 className="mr-1 text-white" />
                 <p className="text-sm font-medium text-white capitalize">{item.status}</p>
               </div>
