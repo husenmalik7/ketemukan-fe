@@ -1,12 +1,14 @@
 import React from 'react';
 
+import { showFormattedDate } from '../utils';
+
 import { IoLocationOutline } from 'react-icons/io5';
 import { MdOutlineDateRange } from 'react-icons/md';
 import { CiCalendarDate } from 'react-icons/ci';
 import { FaRegEdit } from 'react-icons/fa';
 import { MdOutlineDeleteOutline } from 'react-icons/md';
-import { showFormattedDate } from '../utils';
-import { NavLink } from 'react-router-dom';
+
+import { NavLink, useLocation } from 'react-router-dom';
 
 function ItemCard({
   id,
@@ -20,6 +22,7 @@ function ItemCard({
   category_name,
   location_name,
 }) {
+  const location = useLocation();
   const statusColorMap = {
     lost: 'bg-orange-500',
     found: 'bg-green-500',
@@ -72,10 +75,14 @@ function ItemCard({
           {category_name}
         </p>
 
-        <div className="ml-auto flex gap-2">
-          <FaRegEdit className="cursor-pointer text-lg" />
-          <MdOutlineDeleteOutline className="cursor-pointer text-xl text-red-500" />
-        </div>
+        {location.pathname === '/profile' ? (
+          <div className="ml-auto flex gap-2">
+            <FaRegEdit className="cursor-pointer text-lg" />
+            <MdOutlineDeleteOutline className="cursor-pointer text-xl text-red-500" />
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
 
       <div className="px-4">
