@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import LostPage from './pages/LostPage';
-import ItemDetailPage from './pages/ItemDetailPage';
-import FoundPage from './pages/FoundPage';
-import NotFound from './components/NotFound';
+import { ToastContainer, toast } from 'react-toastify';
+
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
+
+import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
-import { putAccessToken, getUserLogged } from './utils/api/auth';
+
+import FoundPage from './pages/FoundPage';
+import LostPage from './pages/LostPage';
+import ItemDetailPage from './pages/ItemDetailPage';
+
+import NotFound from './components/NotFound';
 import Navbar from './components/NavBar/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
-import { ToastContainer, toast } from 'react-toastify';
+
+import { putAccessToken, getUserLogged } from './utils/api/auth';
 
 function App() {
   const [authedUser, setAuthedUser] = useState(null);
