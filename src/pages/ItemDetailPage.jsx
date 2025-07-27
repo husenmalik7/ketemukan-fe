@@ -81,16 +81,40 @@ function ItemDetailPage({ username }) {
     );
   };
 
+  const RenderItemImage = ({ img }) => {
+    return img ? (
+      <img
+        src={img}
+        className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+        alt="avatar"
+      />
+    ) : (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="size-24 text-red-300"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+        />
+      </svg>
+    );
+  };
+
   return (
     <section className="flex min-h-screen pb-20">
       <div className="w-1/2 p-4">
         <div className="rounded-lg shadow-lg">
           <div className="relative aspect-video overflow-hidden rounded-t-lg">
-            <img
-              src="https://picsum.photos/600"
-              className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-              alt="avatar"
-            />
+            <div className="flex h-full w-full items-center justify-center bg-gray-400 object-cover transition-transform duration-500 hover:scale-105">
+              <RenderItemImage img={item.picture_url} />
+            </div>
+
             <div className="absolute top-2 right-2 flex gap-2">
               <div className="flex items-center justify-center rounded-xl bg-orange-600 px-3 py-0.5">
                 <LuClock6 className="mr-1 text-white" />
