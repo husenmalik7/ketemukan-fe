@@ -170,6 +170,7 @@ function AddItemModal({
                   className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
+                  dateFormat="dd/MM/yyyy"
                 />
               </div>
 
