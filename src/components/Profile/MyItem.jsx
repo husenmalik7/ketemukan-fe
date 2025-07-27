@@ -8,7 +8,7 @@ function MyItem({ setOpenModal }) {
         <p className="text-gray-500">Manage your lost and found items</p>
       </div>
 
-      <div className="ml-auto flex items-center">
+      <div className="ml-4 flex items-center">
         <button
           onClick={() => setOpenModal(true)}
           type="button"
