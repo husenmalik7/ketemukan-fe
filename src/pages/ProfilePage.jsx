@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 
 import { ToastContainer, toast } from 'react-toastify';
 
-import { addFoundItem, deleteFoundItem } from '../utils/api/found';
-import { addLostItem, deleteLostItem } from '../utils/api/lost';
+import { addFoundItem, deleteFoundItem, editFoundPicture } from '../utils/api/found';
+import { addLostItem, deleteLostItem, editLostPicture } from '../utils/api/lost';
 import { getUserLogged } from '../utils/api/auth';
 import { getMyItems, getMyAchievements, editProfile, editProfilePicture } from '../utils/api/user';
 import { getAllLocations } from '../utils/api';
+import {} from '../utils/api/lost';
 
 import ProfileCard from '../components/Profile/ProfileCard';
 import MyItem from '../components/Profile/MyItem';
@@ -17,6 +18,7 @@ import AddItemModal from '../components/Profile/AddItemModal';
 import AchievementModal from '../components/Profile/AchievementModal';
 import EditProfileModal from '../components/Profile/EditProfileModal';
 import DeleteItemModal from '../components/Profile/DeleteItemModal';
+import AddItemImageModal from '../components/Profile/AddItemImageModal';
 
 function ProfilePage() {
   const [fullname, setFullname] = useState('');
@@ -28,6 +30,7 @@ function ProfilePage() {
   const [openModalAchievement, setOpenModalAchievement] = useState(false);
   const [openModalEditProfile, setOpenModalEditProfile] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isAddItemImageModalOpen, setIsAddItemImageModalOpen] = useState(false);
 
   const [profile, setProfile] = useState({});
   const [myItems, setMyItems] = useState([]);
@@ -35,6 +38,8 @@ function ProfilePage() {
 
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const [addedItemId, setAddedItemId] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -82,12 +87,14 @@ function ProfilePage() {
 
       if (result?.error) throw new Error('Gagal menambahkan item');
 
+      setAddedItemId(result.data.lostId ? result.data.lostId : result.data.foundId);
       toast.success('Berhasil menambahkan item');
     } catch (error) {
       console.log(error);
       toast.error('Terjadi kesalahan pada server');
     } finally {
       setOpenModalAddItem(false);
+      setIsAddItemImageModalOpen(true);
 
       const [userResponse, myItemResponse] = await Promise.all([getUserLogged(), getMyItems()]);
       setProfile(userResponse.data);
@@ -122,6 +129,31 @@ function ProfilePage() {
     } finally {
       const { data } = await getUserLogged();
       setProfile(data);
+    }
+  }
+
+  async function handleUploadItemImage(id, event) {
+    let result;
+
+    try {
+      if (id.includes('lost')) {
+        result = await editLostPicture(id, event.target.files[0]);
+      } else {
+        result = await editFoundPicture(id, event.target.files[0]);
+      }
+
+      if (result?.error) throw new Error('Gagal mengupload gambar');
+
+      toast.success('Unggah gambar berhasil');
+    } catch (error) {
+      console.log(error);
+      toast.error('Terjadi kesalahan saat mengunggah gambar');
+    } finally {
+      setIsAddItemImageModalOpen(false);
+
+      const [userResponse, myItemResponse] = await Promise.all([getUserLogged(), getMyItems()]);
+      setProfile(userResponse.data);
+      setMyItems(myItemResponse.data);
     }
   }
 
@@ -200,6 +232,13 @@ function ProfilePage() {
         onPostItem={onPostItem}
         openModalAddItem={openModalAddItem}
         setOpenModalAddItem={setOpenModalAddItem}
+      />
+
+      <AddItemImageModal
+        isAddItemImageModalOpen={isAddItemImageModalOpen}
+        setIsAddItemImageModalOpen={setIsAddItemImageModalOpen}
+        addedItemId={addedItemId}
+        handleUploadItemImage={handleUploadItemImage}
       />
 
       <AchievementModal

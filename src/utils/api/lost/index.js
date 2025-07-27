@@ -1,5 +1,6 @@
 import BASE_URL from '../../config';
 import { fetchWithToken } from '../index';
+import { toast } from 'react-toastify';
 
 async function getLostItems() {
   const response = await fetch(`${BASE_URL}/losts`);
@@ -73,4 +74,30 @@ async function deleteLostItem(lostId) {
   return { error: false, data: responseJson.data };
 }
 
-export { getLostItems, getLostItemDetail, addLostComment, addLostItem, deleteLostItem };
+async function editLostPicture(lostId, picture) {
+  const formData = new FormData();
+  formData.append('picture', picture);
+
+  const response = await fetchWithToken(`${BASE_URL}/losts/${lostId}/picture`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    toast.error(responseJson.message);
+    return { error: true, data: null };
+  }
+
+  return { error: false, data: responseJson.data };
+}
+
+export {
+  getLostItems,
+  getLostItemDetail,
+  addLostComment,
+  addLostItem,
+  deleteLostItem,
+  editLostPicture,
+};
