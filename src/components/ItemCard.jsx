@@ -21,7 +21,7 @@ function ItemCard({
   created_at,
   category_name,
   location_name,
-  handleDeleteItem,
+  handleOpenDeleteItemModal,
 }) {
   const location = useLocation();
   const statusColorMap = {
@@ -80,7 +80,7 @@ function ItemCard({
           <div className="ml-auto flex gap-2">
             <FaRegEdit className="cursor-pointer text-lg" />
             <MdOutlineDeleteOutline
-              onClick={() => handleDeleteItem(id)}
+              onClick={() => handleOpenDeleteItemModal(id, title)}
               className="cursor-pointer text-xl text-red-500"
             />
           </div>

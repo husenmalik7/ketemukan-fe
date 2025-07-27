@@ -17,6 +17,7 @@ import ItemCard from '../components/ItemCard';
 import AddItemModal from '../components/Profile/AddItemModal';
 import AchievementModal from '../components/Profile/AchievementModal';
 import EditProfileModal from '../components/Profile/EditProfileModal';
+import DeleteItemModal from '../components/Profile/DeleteItemModal';
 
 function ProfilePage() {
   const [title, onTitleChange] = useInput('');
@@ -26,12 +27,15 @@ function ProfilePage() {
 
   const [fullname, setFullname] = useState('');
   const [username, setUsername] = useState('');
+  const [deleteItemTitle, setDeleteItemTitle] = useState('');
+  const [deleteItemId, setDeleteItemId] = useState('');
 
   const [type, setType] = useState('lost');
 
   const [openModalAddItem, setOpenModalAddItem] = useState(false);
   const [openModalAchievement, setOpenModalAchievement] = useState(false);
   const [openModalEditProfile, setOpenModalEditProfile] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const [profile, setProfile] = useState({});
   const [myItems, setMyItems] = useState([]);
@@ -121,8 +125,17 @@ function ProfilePage() {
     }
   }
 
+  async function handleOpenDeleteItemModal(id, title) {
+    console.log(id, title);
+
+    setDeleteItemTitle(title);
+    setDeleteItemId(id);
+
+    setIsDeleteModalOpen(true);
+  }
+
   async function handleDeleteItem(id) {
-    console.log(id);
+    console.log('ini buat delete', id);
   }
 
   return (
@@ -164,7 +177,7 @@ function ProfilePage() {
               created_at={item?.created_at}
               category_name={item?.category_name}
               location_name={item?.location_name}
-              handleDeleteItem={handleDeleteItem}
+              handleOpenDeleteItemModal={handleOpenDeleteItemModal}
             />
           </div>
         ))}
@@ -203,6 +216,14 @@ function ProfilePage() {
         openModalEditProfile={openModalEditProfile}
         setOpenModalEditProfile={setOpenModalEditProfile}
         onEditProfile={onEditProfile}
+      />
+
+      <DeleteItemModal
+        isDeleteModalOpen={isDeleteModalOpen}
+        setIsDeleteModalOpen={setIsDeleteModalOpen}
+        deleteItemId={deleteItemId}
+        deleteItemTitle={deleteItemTitle}
+        handleDeleteItem={handleDeleteItem}
       />
     </section>
   );
