@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../Button';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { getAllLocations, getAllCategories } from '../../utils/api';
 
 // {
 //     "title": "hilang dompet yuura",
@@ -28,6 +29,30 @@ function AddItemModal({
   setOpenModal,
 }) {
   const [startDate, setStartDate] = useState(new Date());
+
+  const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [locationResponse, categoryResponse] = await Promise.all([
+          getAllLocations(),
+          getAllCategories(),
+        ]);
+
+        setLocations(locationResponse.data);
+        setCategories(categoryResponse.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return (
     // {/* Main modal */}
@@ -120,10 +145,11 @@ function AddItemModal({
                   className="focus:ring-primary-500 focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
                 >
                   <option value="">Select category</option>
-                  <option value="TV">TV/Monitors</option>
-                  <option value="PC">PC</option>
-                  <option value="GA">Gaming/Console</option>
-                  <option value="PH">Phones</option>
+                  {categories?.map((item, index) => (
+                    <option key={index} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -140,7 +166,6 @@ function AddItemModal({
                   <option value="TV">TV/Monitors</option>
                   <option value="PC">PC</option>
                   <option value="GA">Gaming/Console</option>
-                  <option value="PH">Phones</option>
                 </select>
               </div>
 
