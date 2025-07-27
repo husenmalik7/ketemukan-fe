@@ -6,7 +6,7 @@ import NavAvatar from './NavAvatar';
 import NavLinkItem from './NavLinkItem';
 import NavHamburger from './NavHamburger';
 
-function Navbar({ username, fullname, logout }) {
+function Navbar({ username, fullname, picture_url, logout }) {
   const [dropdownAvatarOpen, setDropdownAvatarOpen] = useState(false);
   const [dropdownLinkOpen, setDropdownLinkOpen] = useState(false);
 
@@ -43,6 +43,7 @@ function Navbar({ username, fullname, logout }) {
               setDropdownAvatarOpen={setDropdownAvatarOpen}
               fullname={fullname}
               username={username}
+              picture_url={picture_url}
               logout={logout}
             />
           ) : (

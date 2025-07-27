@@ -91,7 +91,12 @@ function App() {
 
   return (
     <div className="bg-[#FBFBFB]">
-      <Navbar username={authedUser?.username} fullname={authedUser?.fullname} logout={onLogout} />
+      <Navbar
+        username={authedUser?.username}
+        fullname={authedUser?.fullname}
+        picture_url={authedUser?.picture_url}
+        logout={onLogout}
+      />
       <main className="pt-16">
         <ScrollToTop />
         <Routes>

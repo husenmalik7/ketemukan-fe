@@ -1,7 +1,29 @@
 import React from 'react';
 import NavAvatarItem from './NavAvatarItem';
+import Cat from '../../assets/Cat';
 
-function NavAvatar({ dropdownAvatarOpen, setDropdownAvatarOpen, fullname, username, logout }) {
+function NavAvatar({
+  dropdownAvatarOpen,
+  setDropdownAvatarOpen,
+  fullname,
+  username,
+  picture_url,
+  logout,
+}) {
+  const RenderAvatar = ({ img }) => {
+    return img ? (
+      <>
+        <img className="h-8 w-8 rounded-full object-cover" src={img} alt="user photo" />
+      </>
+    ) : (
+      <>
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-200 outline-1 outline-red-900">
+          <Cat />
+        </div>
+      </>
+    );
+  };
+
   return (
     <div>
       {/* Avatar */}
@@ -15,7 +37,7 @@ function NavAvatar({ dropdownAvatarOpen, setDropdownAvatarOpen, fullname, userna
         onClick={() => setDropdownAvatarOpen(!dropdownAvatarOpen)}
       >
         <span className="sr-only">Open user menu</span>
-        <img className="h-8 w-8 rounded-full" src="https://picsum.photos/200" alt="user photo" />
+        <RenderAvatar img={picture_url} />
       </button>
 
       {/* Dropdown Avatar */}
