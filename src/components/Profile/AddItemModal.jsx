@@ -1,5 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../Button';
+
+// {
+//     "title": "hilang dompet yuura",
+//     "shortDesc": "saya kehilangan dompet di jalan A",
+//     "description": "saya kehilangan dompet di jalan A. Detail dompet berwarna hitam, bagi yang menemukan silahkan hubungi saya",
+//     "lostDate": "12-12-1212",
+//     "categoryId": "category-orZUwJ9BPHB2lZVa",
+//     "locationId": "location-otGRaNN1n5mWQIZH"
+// }
 
 function AddItemModal({
   title,
@@ -96,22 +105,6 @@ function AddItemModal({
                 />
               </div>
 
-              <div className="col-span-1 bg-lime-400">
-                <label htmlFor="price" className="mb-2 block text-sm font-medium text-gray-900">
-                  Tanggal Kehilangan
-                </label>
-                <input
-                  type="text"
-                  name="price"
-                  id="price"
-                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
-                  placeholder="12-12-2012"
-                  value={date}
-                  onChange={onDateChange}
-                  required={true}
-                />
-              </div>
-
               {/* // TODO onChange error */}
               <div className="col-span-1">
                 <label htmlFor="category" className="mb-2 block text-sm font-medium text-gray-900">
@@ -128,6 +121,40 @@ function AddItemModal({
                   <option value="GA">Gaming/Console</option>
                   <option value="PH">Phones</option>
                 </select>
+              </div>
+
+              <div className="col-span-1">
+                <label htmlFor="category" className="mb-2 block text-sm font-medium text-gray-900">
+                  Lokasi
+                </label>
+                <select
+                  id="category"
+                  value=""
+                  className="focus:ring-primary-500 focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
+                >
+                  <option value="">Select category</option>
+                  <option value="TV">TV/Monitors</option>
+                  <option value="PC">PC</option>
+                  <option value="GA">Gaming/Console</option>
+                  <option value="PH">Phones</option>
+                </select>
+              </div>
+
+              <div className="col-span-1 bg-lime-400">
+                <label htmlFor="price" className="mb-2 block text-sm font-medium text-gray-900">
+                  Tanggal Kehilangan
+                </label>
+
+                <input
+                  type="text"
+                  name="price"
+                  id="price"
+                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
+                  placeholder="12-12-2012"
+                  value={date}
+                  onChange={onDateChange}
+                  required={true}
+                />
               </div>
 
               <div className="col-span-2 bg-lime-300">
