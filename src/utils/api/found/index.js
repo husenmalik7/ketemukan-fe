@@ -2,8 +2,10 @@ import BASE_URL from '../../config';
 import { fetchWithToken } from '../index';
 import { toast } from 'react-toastify';
 
-async function getFoundItems() {
-  const response = await fetch(`${BASE_URL}/founds`);
+async function getFoundItems(title) {
+  const condition = title ? `?title=${encodeURIComponent(title)}` : '';
+
+  const response = await fetch(`${BASE_URL}/founds${condition}`);
   const responseJson = await response.json();
 
   if (responseJson.status !== 'success') {

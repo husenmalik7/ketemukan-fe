@@ -1,22 +1,57 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
 import { getFoundItems } from '../utils/api/found';
 import ItemCard from '../components/ItemCard';
 
 function FoundPage() {
   const [founds, setFounds] = useState([]);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchValue, setSearchValue] = useState(searchParams.get('title') || '');
+
   useEffect(() => {
-    async function fetchFoundItems() {
-      const { error, data } = await getFoundItems();
-      if (error) return alert('Terjadi kesalahan pada server');
+    async function fetchSearchedMyItem(queryParams) {
+      const { data } = await getFoundItems(queryParams);
       setFounds(data);
     }
 
-    fetchFoundItems();
-  }, []);
+    const queryParams = searchParams.get('title');
+    fetchSearchedMyItem(queryParams);
+  }, [searchParams]);
+
+  function handleSearch(event) {
+    event.preventDefault();
+    setSearchParams({ title: searchValue });
+  }
 
   return (
     <section className="flex min-h-screen flex-col pb-20">
+      <form
+        onSubmit={handleSearch}
+        className="m-4 mt-24 grid grid-cols-1 gap-4 md:mt-12 md:grid-cols-6"
+      >
+        <div className="col-span-1 md:col-span-2">
+          <input
+            id="id"
+            type="text"
+            value={searchValue}
+            onChange={(event) => setSearchValue(event.target.value)}
+            className="block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-gray-900 focus:outline-gray-300"
+            placeholder="Judul Item"
+          />
+        </div>
+
+        <div className="col-span-1">
+          <button
+            type="submit"
+            className="w-full cursor-pointer rounded-lg bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-red-300 focus:outline-none"
+          >
+            Cari Item
+          </button>
+        </div>
+      </form>
+
       <div className="m-4 mt-24 grid grid-cols-1 gap-4 md:mt-12 md:grid-cols-2 lg:grid-cols-3">
         {founds.map((item, index) => (
           <div key={index}>
