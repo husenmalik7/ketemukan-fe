@@ -46,20 +46,15 @@ function HomePage() {
             </p>
           </div>
 
-          <div className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6">
-            <p className="text-3xl font-bold text-pink-400">9</p>
-            <p className="text-xl font-medium text-gray-500">Aceh</p>
-          </div>
-
-          <div className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6">
-            <p className="text-3xl font-bold text-pink-400">9</p>
-            <p className="text-xl font-medium text-gray-500">Aceh</p>
-          </div>
-
-          <div className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6">
-            <p className="text-3xl font-bold text-pink-400">9</p>
-            <p className="text-xl font-medium text-gray-500">Aceh</p>
-          </div>
+          {mostLostedLocations.map((item, index) => (
+            <div
+              key={index}
+              className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6"
+            >
+              <p className="text-3xl font-bold text-pink-400">{item.total}</p>
+              <p className="text-xl font-medium text-gray-500">{item.location_name}</p>
+            </div>
+          ))}
         </div>
 
         <div className="my-4 grid grid-cols-1 gap-4 bg-lime-300 md:my-12 md:grid-cols-3">
@@ -90,20 +85,20 @@ function HomePage() {
             <p className="my-2 text-center text-2xl font-bold text-gray-500">Top Contributor</p>
           </div>
 
-          <div className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6">
-            <img src="/images/ketemukan.png" className="w-12" alt="Logo Ketemukan" />
-            <p className="text-xl font-medium text-gray-500">Eletronik</p>
-          </div>
-
-          <div className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6">
-            <img src="/images/ketemukan.png" className="w-12" alt="Logo Ketemukan" />
-            <p className="text-xl font-medium text-gray-500">Eletronik</p>
-          </div>
-
-          <div className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6">
-            <img src="/images/ketemukan.png" className="w-12" alt="Logo Ketemukan" />
-            <p className="text-xl font-medium text-gray-500">Eletronik</p>
-          </div>
+          {/* // TODO conditional if no image */}
+          {topContributor.map((item, index) => (
+            <div
+              key={index}
+              className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6"
+            >
+              <img
+                src={item.picture_url}
+                className="h-12 w-12 rounded-full object-cover"
+                alt="Logo Ketemukan"
+              />
+              <p className="text-xl font-medium text-gray-500">{item.username}</p>
+            </div>
+          ))}
         </div>
       </div>
 
