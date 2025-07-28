@@ -20,7 +20,7 @@ import DeleteItemModal from '../components/Profile/DeleteItemModal';
 import AddItemImageModal from '../components/Profile/AddItemImageModal';
 import EditItemModal from '../components/Profile/EditItemModal';
 
-function ProfilePage() {
+function ProfilePage({ onChangeProfile }) {
   const [fullname, setFullname] = useState('');
   const [username, setUsername] = useState('');
   const [deleteItemTitle, setDeleteItemTitle] = useState('');
@@ -122,6 +122,7 @@ function ProfilePage() {
     } finally {
       const { data } = await getUserLogged();
       setProfile(data);
+      onChangeProfile(data);
     }
   }
 
@@ -135,6 +136,7 @@ function ProfilePage() {
     } finally {
       const { data } = await getUserLogged();
       setProfile(data);
+      onChangeProfile(data);
     }
   }
 

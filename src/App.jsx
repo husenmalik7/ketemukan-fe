@@ -48,6 +48,10 @@ function App() {
     toast.success('Berhasil login');
   }
 
+  async function onChangeProfile(data) {
+    setAuthedUser(data);
+  }
+
   function onLogout() {
     setAuthedUser(null);
     putAccessToken('');
@@ -112,7 +116,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Navigate to="/" />} />
           <Route path="/register" element={<Navigate to="/" />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile" element={<ProfilePage onChangeProfile={onChangeProfile} />} />
           {commonRoutes}
         </Routes>
       </main>
