@@ -99,55 +99,21 @@ function HomePage() {
       <div>
         <p className="text-center text-2xl font-bold text-gray-500">Recent Item</p>
         <div className="mx-2 grid grid-cols-1 gap-4 bg-lime-300 md:grid-cols-4">
-          <ItemCard
-            id={'item?.id'}
-            title={'item?.title'}
-            short_desc={'item?.short_desc'}
-            picture_url={'item?.picture_url'}
-            lost_date={'item?.lost_date'}
-            found_date={'item?.found_date'}
-            status={'item?.status'}
-            created_at={'item?.created_at'}
-            category_name={'item?.category_name'}
-            location_name={'item?.location_name'}
-          />
-
-          <ItemCard
-            id={'item?.id'}
-            title={'item?.title'}
-            short_desc={'item?.short_desc'}
-            picture_url={'item?.picture_url'}
-            lost_date={'item?.lost_date'}
-            found_date={'item?.found_date'}
-            status={'item?.status'}
-            created_at={'item?.created_at'}
-            category_name={'item?.category_name'}
-            location_name={'item?.location_name'}
-          />
-          <ItemCard
-            id={'item?.id'}
-            title={'item?.title'}
-            short_desc={'item?.short_desc'}
-            picture_url={'item?.picture_url'}
-            lost_date={'item?.lost_date'}
-            found_date={'item?.found_date'}
-            status={'item?.status'}
-            created_at={'item?.created_at'}
-            category_name={'item?.category_name'}
-            location_name={'item?.location_name'}
-          />
-          <ItemCard
-            id={'item?.id'}
-            title={'item?.title'}
-            short_desc={'item?.short_desc'}
-            picture_url={'item?.picture_url'}
-            lost_date={'item?.lost_date'}
-            found_date={'item?.found_date'}
-            status={'item?.status'}
-            created_at={'item?.created_at'}
-            category_name={'item?.category_name'}
-            location_name={'item?.location_name'}
-          />
+          {recentItems.map((item, index) => (
+            <ItemCard
+              key={index}
+              id={item?.id}
+              title={item?.title}
+              short_desc={item?.short_desc}
+              picture_url={item?.picture_url}
+              lost_date={item?.lost_date}
+              found_date={item?.found_date}
+              status={item?.status}
+              created_at={item?.created_at}
+              category_name={item?.category_name}
+              location_name={item?.location_name}
+            />
+          ))}
         </div>
       </div>
     </section>
