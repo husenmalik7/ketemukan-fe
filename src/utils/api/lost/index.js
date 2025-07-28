@@ -60,6 +60,45 @@ async function addLostItem(title, shortDesc, description, lostDate, categoryId, 
   return { error: false, data: responseJson.data };
 }
 
+async function editLostItem(
+  lostId,
+  title,
+  shortDesc,
+  description,
+  lostDate,
+  status,
+  longitude,
+  latitude,
+  categoryId,
+  locationId
+) {
+  const response = await fetchWithToken(`${BASE_URL}/losts/${lostId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      title,
+      shortDesc,
+      description,
+      lostDate,
+      status,
+      longitude,
+      latitude,
+      categoryId,
+      locationId,
+    }),
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, data: null };
+  }
+
+  return { error: false, data: responseJson.data };
+}
+
 async function deleteLostItem(lostId) {
   const response = await fetchWithToken(`${BASE_URL}/losts/${lostId}`, {
     method: 'DELETE',
@@ -100,4 +139,5 @@ export {
   addLostItem,
   deleteLostItem,
   editLostPicture,
+  editLostItem,
 };

@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { FaCheck } from 'react-icons/fa';
 
 function AddItemImageModal({
+  isEdited,
   isAddItemImageModalOpen,
   setIsAddItemImageModalOpen,
   addedItemId,
@@ -47,7 +48,8 @@ function AddItemImageModal({
           <div className="p-4 text-center md:p-5">
             <FaCheck className="mx-auto mb-4 h-12 w-12 text-gray-400" />
             <h3 className="mb-5 text-lg font-normal text-gray-500">
-              Post Item berhasil, apakah Anda ingin menambahkan gambar untuk item ini?
+              {isEdited ? 'Edit ' : 'Post '}
+              Item berhasil, apakah Anda ingin menambahkan gambar untuk item ini?
             </h3>
 
             <button

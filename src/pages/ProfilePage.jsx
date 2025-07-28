@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react';
 
 import { ToastContainer, toast } from 'react-toastify';
 
-import { addFoundItem, deleteFoundItem, editFoundPicture } from '../utils/api/found';
-import { addLostItem, deleteLostItem, editLostPicture } from '../utils/api/lost';
+import { addFoundItem, deleteFoundItem, editFoundPicture, editFoundItem } from '../utils/api/found';
+import { addLostItem, deleteLostItem, editLostPicture, editLostItem } from '../utils/api/lost';
 import { getUserLogged } from '../utils/api/auth';
 import { getMyItems, getMyAchievements, editProfile, editProfilePicture } from '../utils/api/user';
 import { getAllLocations } from '../utils/api';
-import {} from '../utils/api/lost';
 
 import ProfileCard from '../components/Profile/ProfileCard';
 import MyItem from '../components/Profile/MyItem';
@@ -19,6 +18,7 @@ import AchievementModal from '../components/Profile/AchievementModal';
 import EditProfileModal from '../components/Profile/EditProfileModal';
 import DeleteItemModal from '../components/Profile/DeleteItemModal';
 import AddItemImageModal from '../components/Profile/AddItemImageModal';
+import EditItemModal from '../components/Profile/EditItemModal';
 
 function ProfilePage() {
   const [fullname, setFullname] = useState('');
@@ -31,6 +31,7 @@ function ProfilePage() {
   const [openModalEditProfile, setOpenModalEditProfile] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isAddItemImageModalOpen, setIsAddItemImageModalOpen] = useState(false);
+  const [isEditItemModalOpen, setIsEditItemModalOpen] = useState(false);
 
   const [profile, setProfile] = useState({});
   const [myItems, setMyItems] = useState([]);
@@ -40,6 +41,10 @@ function ProfilePage() {
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   const [addedItemId, setAddedItemId] = useState('');
+
+  const [selectedItem, setSelectedItem] = useState({});
+
+  const [isEdited, setIsEdited] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -93,6 +98,7 @@ function ProfilePage() {
       console.log(error);
       toast.error('Terjadi kesalahan pada server');
     } finally {
+      setIsEdited(false);
       setOpenModalAddItem(false);
       setIsAddItemImageModalOpen(true);
 
@@ -165,38 +171,64 @@ function ProfilePage() {
   }
 
   async function handleOpenEditItemModal(id) {
-    console.log(id);
-
     const item = myItems.find((item) => item.id === id);
-    console.log(item);
 
-    //     {
-    //     "title": "lsot titititle",
-    //     "short_desc": "sdsdsdds",
-    //     "description": "dededes",
-    //     "lost_date": "2025-07-03T13:00:51.000Z",
-    //     "status": "lost",
-    //     "longitude": null,
-    //     "latitude": null,
-    //     "created_at": "2025-07-27T13:01:17.422Z",
-    //     "category_name": "Hewan Peliharaan",
-    //     "location_name": "Kepulauan Riau"
+    setSelectedItem(item);
+    setIsEditItemModalOpen(true);
+  }
 
-    //     "id": "lost-yVozPg2D3x3q1kcM",
-    //     "picture_url": null,
-    // }
+  async function onEditItem(body) {
+    const { id, title, shortDesc, description, type, date, status, categoryId, locationId } = body;
+    let result;
 
-    //     {
-    //     "title": "hilang dompet yuura edited",
-    //     "shortDesc": "edited saya kehilangan dompet di jalan A",
-    //     "description": "edited saya kehilangan dompet di jalan A. Detail dompet berwarna hitam, bagi yang menemukan silahkan hubungi saya",
-    //     "lostDate": "11-11-1111",
-    //     "status": "resolved",
-    //     "longitude": null,
-    //     "latitude": null,
-    //     "categoryId": "category-zFuKOfT6aU28LuNj",
-    //     "locationId": "location-ZvxkDuCOLrE86Zn1"
-    // }
+    const longitude = null;
+    const latitude = null;
+
+    try {
+      if (type === 'lost') {
+        result = await editLostItem(
+          id,
+          title,
+          shortDesc,
+          description,
+          date,
+          status,
+          longitude,
+          latitude,
+          categoryId,
+          locationId
+        );
+      } else {
+        result = await editFoundItem(
+          id,
+          title,
+          shortDesc,
+          description,
+          date,
+          status,
+          longitude,
+          latitude,
+          categoryId,
+          locationId
+        );
+      }
+
+      if (result?.error) throw new Error('Gagal mengedit item');
+
+      setAddedItemId(id);
+      toast.success('Berhasil mengedit item');
+    } catch (error) {
+      console.log(error);
+      toast.error('Terjadi kesalahan pada server');
+    } finally {
+      setIsEdited(true);
+      setIsEditItemModalOpen(false);
+      setIsAddItemImageModalOpen(true);
+
+      const [userResponse, myItemResponse] = await Promise.all([getUserLogged(), getMyItems()]);
+      setProfile(userResponse.data);
+      setMyItems(myItemResponse.data);
+    }
   }
 
   async function handleDeleteItem(id) {
@@ -270,7 +302,15 @@ function ProfilePage() {
         setOpenModalAddItem={setOpenModalAddItem}
       />
 
+      <EditItemModal
+        onEditItem={onEditItem}
+        selectedItem={selectedItem}
+        isEditItemModalOpen={isEditItemModalOpen}
+        setIsEditItemModalOpen={setIsEditItemModalOpen}
+      />
+
       <AddItemImageModal
+        isEdited={isEdited}
         isAddItemImageModalOpen={isAddItemImageModalOpen}
         setIsAddItemImageModalOpen={setIsAddItemImageModalOpen}
         addedItemId={addedItemId}

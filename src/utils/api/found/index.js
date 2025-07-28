@@ -60,6 +60,45 @@ async function addFoundItem(title, shortDesc, description, foundDate, categoryId
   return { error: false, data: responseJson.data };
 }
 
+async function editFoundItem(
+  foundId,
+  title,
+  shortDesc,
+  description,
+  foundDate,
+  status,
+  longitude,
+  latitude,
+  categoryId,
+  locationId
+) {
+  const response = await fetchWithToken(`${BASE_URL}/founds/${foundId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      title,
+      shortDesc,
+      description,
+      foundDate,
+      status,
+      longitude,
+      latitude,
+      categoryId,
+      locationId,
+    }),
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, data: null };
+  }
+
+  return { error: false, data: responseJson.data };
+}
+
 async function deleteFoundItem(foundId) {
   const response = await fetchWithToken(`${BASE_URL}/founds/${foundId}`, {
     method: 'DELETE',
@@ -100,4 +139,5 @@ export {
   addFoundItem,
   deleteFoundItem,
   editFoundPicture,
+  editFoundItem,
 };
