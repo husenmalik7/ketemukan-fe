@@ -20,7 +20,11 @@ import DeleteItemModal from '../components/Profile/DeleteItemModal';
 import AddItemImageModal from '../components/Profile/AddItemImageModal';
 import EditItemModal from '../components/Profile/EditItemModal';
 
+import { useSearchParams } from 'react-router-dom';
+
 function ProfilePage({ onChangeProfile }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [fullname, setFullname] = useState('');
   const [username, setUsername] = useState('');
   const [deleteItemTitle, setDeleteItemTitle] = useState('');
@@ -47,18 +51,32 @@ function ProfilePage({ onChangeProfile }) {
   const [isEdited, setIsEdited] = useState(false);
 
   useEffect(() => {
+    async function fetchSearchedMyItem(queryParams) {
+      const { data } = await getMyItems(queryParams);
+      setMyItems(data);
+    }
+
+    const queryParams = searchParams.get('title');
+    fetchSearchedMyItem(queryParams);
+  }, [searchParams]);
+
+  useEffect(() => {
     async function fetchData() {
       try {
-        const [userResponse, myItemResponse, myAchievementResponse, locationResponse] =
-          await Promise.all([
-            getUserLogged(),
-            getMyItems(),
-            getMyAchievements(),
-            getAllLocations(),
-          ]);
+        const [
+          userResponse,
+          //  myItemResponse,
+          myAchievementResponse,
+          locationResponse,
+        ] = await Promise.all([
+          getUserLogged(),
+          // getMyItems(),
+          getMyAchievements(),
+          getAllLocations(),
+        ]);
 
         setProfile(userResponse.data);
-        setMyItems(myItemResponse.data);
+        // setMyItems(myItemResponse.data);
         setMyAchievements(myAchievementResponse.data);
         setLocations(locationResponse.data);
 
@@ -252,6 +270,10 @@ function ProfilePage({ onChangeProfile }) {
     }
   }
 
+  async function onSearchMyItem(searchValue) {
+    setSearchParams({ title: searchValue });
+  }
+
   return (
     <section className="flex min-h-screen flex-col pb-20">
       <ToastContainer position="bottom-right" />
@@ -274,7 +296,7 @@ function ProfilePage({ onChangeProfile }) {
 
       <div className="px-4">
         <MyItem setOpenModal={setOpenModalAddItem} />
-        <SearchMyItem />
+        <SearchMyItem onSearchMyItem={onSearchMyItem} searchParams={searchParams.get('title')} />
       </div>
 
       <div className="m-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
