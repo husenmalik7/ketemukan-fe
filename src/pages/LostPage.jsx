@@ -1,29 +1,42 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
 import { getLostItems } from '../utils/api/lost';
 import ItemCard from '../components/ItemCard';
 
 function LostPage() {
   const [losts, setLosts] = useState([]);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchValue, setSearchValue] = useState(searchParams.get('title') || '');
+
   useEffect(() => {
-    async function fetchLostItems() {
-      const { error, data } = await getLostItems();
-      if (error) return alert('Terjadi kesalahan pada server');
+    async function fetchSearchedMyItem(queryParams) {
+      const { data } = await getLostItems(queryParams);
       setLosts(data);
     }
 
-    fetchLostItems();
-  }, []);
+    const queryParams = searchParams.get('title');
+    fetchSearchedMyItem(queryParams);
+  }, [searchParams]);
+
+  function handleSearch(event) {
+    event.preventDefault();
+    setSearchParams({ title: searchValue });
+  }
 
   return (
-    <section className="flex min-h-screen flex-col bg-orange-200 pb-20">
-      <form className="m-4 mt-24 grid grid-cols-1 gap-4 bg-orange-300 md:mt-12 md:grid-cols-6">
+    <section className="flex min-h-screen flex-col pb-20">
+      <form
+        onSubmit={handleSearch}
+        className="m-4 mt-24 grid grid-cols-1 gap-4 md:mt-12 md:grid-cols-6"
+      >
         <div className="col-span-1 md:col-span-2">
           <input
             id="id"
             type="text"
-            // value={value}
-            // onChange={onChange}
+            value={searchValue}
+            onChange={(event) => setSearchValue(event.target.value)}
             className="block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-gray-900 focus:outline-gray-300"
             placeholder="Judul Item"
           />
@@ -39,7 +52,7 @@ function LostPage() {
         </div>
       </form>
 
-      <div className="m-4 mt-12 grid grid-cols-1 gap-4 bg-orange-400 md:grid-cols-2 lg:grid-cols-3">
+      <div className="m-4 mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {losts.map((item, index) => (
           <div key={index}>
             <ItemCard
