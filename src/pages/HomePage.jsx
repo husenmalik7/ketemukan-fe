@@ -1,7 +1,33 @@
+import { useEffect, useState } from 'react';
+import ItemCard from '../components/ItemCard';
+import { getHome } from '../utils/api/user';
+
 function HomePage() {
+  const [topContributor, setTopContributor] = useState([]);
+  const [mostLostedLocations, setMostLostedLocations] = useState([]);
+  const [mostLostedCategories, setMostLostedCategories] = useState([]);
+  const [recentItems, setRecentItems] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { data } = await getHome();
+
+        setTopContributor(data.topContributor);
+        setMostLostedLocations(data.mostLostedLocations);
+        setMostLostedCategories(data.mostLostedCategories);
+        setRecentItems(data.myItems);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <section className="flex min-h-screen flex-col bg-orange-200 pb-20">
-      <div className="flex flex-col items-center justify-center bg-lime-200 p-4">
+      <div className="flex flex-col items-center justify-center bg-lime-200 p-4 pb-12">
         <img src="/images/ketemukan.png" className="w-64" alt="Logo Ketemukan" />
         <p className="max-w-xl bg-orange-100 text-center text-3xl font-bold text-[#FB7A7C]">
           Temukan Barangmu, Bantu Temukan Barang Orang Lain
@@ -78,6 +104,61 @@ function HomePage() {
             <img src="/images/ketemukan.png" className="w-12" alt="Logo Ketemukan" />
             <p className="text-xl font-medium text-gray-500">Eletronik</p>
           </div>
+        </div>
+      </div>
+
+      <div>
+        <p className="text-center text-2xl font-bold text-gray-500">Recent Item</p>
+        <div className="mx-2 grid grid-cols-1 gap-4 bg-lime-300 md:grid-cols-4">
+          <ItemCard
+            id={'item?.id'}
+            title={'item?.title'}
+            short_desc={'item?.short_desc'}
+            picture_url={'item?.picture_url'}
+            lost_date={'item?.lost_date'}
+            found_date={'item?.found_date'}
+            status={'item?.status'}
+            created_at={'item?.created_at'}
+            category_name={'item?.category_name'}
+            location_name={'item?.location_name'}
+          />
+
+          <ItemCard
+            id={'item?.id'}
+            title={'item?.title'}
+            short_desc={'item?.short_desc'}
+            picture_url={'item?.picture_url'}
+            lost_date={'item?.lost_date'}
+            found_date={'item?.found_date'}
+            status={'item?.status'}
+            created_at={'item?.created_at'}
+            category_name={'item?.category_name'}
+            location_name={'item?.location_name'}
+          />
+          <ItemCard
+            id={'item?.id'}
+            title={'item?.title'}
+            short_desc={'item?.short_desc'}
+            picture_url={'item?.picture_url'}
+            lost_date={'item?.lost_date'}
+            found_date={'item?.found_date'}
+            status={'item?.status'}
+            created_at={'item?.created_at'}
+            category_name={'item?.category_name'}
+            location_name={'item?.location_name'}
+          />
+          <ItemCard
+            id={'item?.id'}
+            title={'item?.title'}
+            short_desc={'item?.short_desc'}
+            picture_url={'item?.picture_url'}
+            lost_date={'item?.lost_date'}
+            found_date={'item?.found_date'}
+            status={'item?.status'}
+            created_at={'item?.created_at'}
+            category_name={'item?.category_name'}
+            location_name={'item?.location_name'}
+          />
         </div>
       </div>
     </section>

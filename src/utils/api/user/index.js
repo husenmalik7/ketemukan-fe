@@ -63,4 +63,15 @@ async function editProfilePicture(picture) {
   return { error: false, data: responseJson.data };
 }
 
-export { getMyItems, getMyAchievements, editProfile, editProfilePicture };
+async function getHome() {
+  const response = await fetch(`${BASE_URL}/home`);
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    return { error: true, data: null };
+  }
+
+  return { error: false, data: responseJson.data.home };
+}
+
+export { getMyItems, getMyAchievements, editProfile, editProfilePicture, getHome };
