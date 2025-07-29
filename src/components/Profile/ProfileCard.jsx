@@ -98,6 +98,7 @@ function ProfileCard({
           </div>
         </div>
       </div>
+
       <div className="ml-auto">
         <button
           onClick={() => setOpenModalEditProfile(true)}
