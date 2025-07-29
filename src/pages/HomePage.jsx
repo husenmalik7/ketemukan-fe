@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import ItemCard from '../components/ItemCard';
 import { getHome } from '../utils/api/user';
 
@@ -161,18 +163,20 @@ function HomePage() {
       </div>
 
       {/* create your account */}
-      <div className="m-6 flex flex-col items-center rounded-2xl bg-gradient-to-br from-orange-100 via-orange-200 to-orange-300 p-6 text-center">
+      <div className="m-6 mt-12 flex flex-col items-center rounded-2xl bg-gradient-to-br from-orange-100 via-orange-200 to-orange-300 p-6 text-center">
         <p className="text-3xl font-bold">Siap untuk Memulai?</p>
         <p className="text-lg font-medium">
           Bergabunglah dengan kami dan bantu mengembalikan barang hilang kepada pemiliknya
         </p>
         <div>
-          <button
-            type="button"
-            className="mt-6 cursor-pointer rounded-lg bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-1.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-red-300 focus:outline-none"
-          >
-            Buat akunmu
-          </button>
+          <Link to="/register">
+            <button
+              type="button"
+              className="mt-6 cursor-pointer rounded-lg bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-1.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-red-300 focus:outline-none"
+            >
+              Buat akunmu
+            </button>
+          </Link>
         </div>
       </div>
     </section>
