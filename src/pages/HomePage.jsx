@@ -9,6 +9,7 @@ import { FaCoins } from 'react-icons/fa';
 import { BsPeopleFill } from 'react-icons/bs';
 
 import Cat from '../assets/Cat';
+import NoData from '../components/NoData';
 
 function HomePage() {
   const [topContributor, setTopContributor] = useState([]);
@@ -43,6 +44,136 @@ function HomePage() {
     );
   };
 
+  const NoDataContainer = () => (
+    <div
+      data-aos="fade-up"
+      data-aos-duration="2000"
+      className="col-span-1 text-center md:col-span-3"
+    >
+      <div className="flex flex-col items-center justify-center">
+        <NoData className="text-3xl text-gray-300" />
+        <p className="text-xl font-medium text-gray-300">Oops tidak ada data</p>
+      </div>
+    </div>
+  );
+
+  const RenderMostLostedLocations = () => {
+    if (mostLostedLocations.length > 0) {
+      return (
+        <>
+          {mostLostedLocations.map((item, index) => (
+            <div
+              key={index}
+              data-aos="flip-left"
+              data-aos-duration="2000"
+              data-aos-delay={index * 150}
+            >
+              <div className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6">
+                <p className="text-3xl font-bold text-pink-400">{item.total}</p>
+                <p className="text-xl font-medium text-gray-500">{item.location_name}</p>
+              </div>
+            </div>
+          ))}
+        </>
+      );
+    }
+
+    return <NoDataContainer />;
+  };
+
+  const RenderMostLostedCategories = () => {
+    if (mostLostedCategories.length > 0) {
+      return (
+        <>
+          {mostLostedCategories.map((item, index) => (
+            <div
+              key={index}
+              data-aos="flip-right"
+              data-aos-duration="2000"
+              data-aos-delay={(3 - 1 - index) * 150}
+            >
+              <div className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6">
+                <p className="text-3xl font-bold text-pink-400">{item.total}</p>
+                <p className="text-xl font-medium text-gray-500">{item.category_name}</p>
+              </div>
+            </div>
+          ))}
+        </>
+      );
+    }
+
+    return <NoDataContainer />;
+  };
+
+  const RenderTopContributor = () => {
+    if (topContributor.length > 0) {
+      return (
+        <>
+          {topContributor.map((item, index) => (
+            <div
+              key={index}
+              data-aos="fade-up"
+              data-aos-duration="1300"
+              data-aos-delay={index * 150}
+            >
+              <div className="col-span-1 mx-12 p-4 md:mx-4 md:p-6">
+                <div className="flex flex-col items-center justify-center transition-transform duration-200 hover:-translate-y-1">
+                  <RenderProfilePicture img={item.picture_url} />
+                  <p className="text-xl font-medium text-white">{item.username}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </>
+      );
+    }
+
+    return <NoDataContainer />;
+  };
+
+  const RenderRecentItems = () => {
+    if (recentItems.length > 0) {
+      return (
+        <>
+          {recentItems.map((item, index) => (
+            <div
+              key={index}
+              data-aos="fade-up"
+              data-aos-duration="1300"
+              data-aos-delay={index * 150}
+            >
+              <ItemCard
+                id={item?.id}
+                title={item?.title}
+                short_desc={item?.short_desc}
+                picture_url={item?.picture_url}
+                lost_date={item?.lost_date}
+                found_date={item?.found_date}
+                status={item?.status}
+                created_at={item?.created_at}
+                category_name={item?.category_name}
+                location_name={item?.location_name}
+              />
+            </div>
+          ))}
+        </>
+      );
+    }
+
+    return (
+      <div
+        data-aos="fade-up"
+        data-aos-duration="2000"
+        className="col-span-1 text-center md:col-span-4"
+      >
+        <div className="flex flex-col items-center justify-center">
+          <NoData className="text-3xl text-[#FB7A7C]" />
+          <p className="text-xl font-medium text-[#FB7A7C]">Oops tidak ada data</p>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <section className="flex min-h-screen flex-col pb-6">
       {/* hero */}
@@ -65,20 +196,7 @@ function HomePage() {
               Lokasi Kehilangan Paling Sering
             </p>
           </div>
-
-          {mostLostedLocations.map((item, index) => (
-            <div
-              key={index}
-              data-aos="flip-left"
-              data-aos-duration="2000"
-              data-aos-delay={index * 150}
-            >
-              <div className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6">
-                <p className="text-3xl font-bold text-pink-400">{item.total}</p>
-                <p className="text-xl font-medium text-gray-500">{item.location_name}</p>
-              </div>
-            </div>
-          ))}
+          <RenderMostLostedLocations />
         </div>
 
         <div className="my-4 grid grid-cols-1 gap-4 md:my-12 md:grid-cols-3">
@@ -87,42 +205,14 @@ function HomePage() {
               Kategori Paling Sering Dilaporkan
             </p>
           </div>
-
-          {mostLostedCategories.map((item, index) => (
-            <div
-              key={index}
-              data-aos="flip-right"
-              data-aos-duration="2000"
-              data-aos-delay={(3 - 1 - index) * 150}
-            >
-              <div className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6">
-                <p className="text-3xl font-bold text-pink-400">{item.total}</p>
-                <p className="text-xl font-medium text-gray-500">{item.category_name}</p>
-              </div>
-            </div>
-          ))}
+          <RenderMostLostedCategories />
         </div>
 
         <div className="my-4 grid grid-cols-1 gap-4 md:my-12 md:grid-cols-3">
           <div data-aos="fade-down" data-aos-duration="1500" className="col-span-1 md:col-span-3">
             <p className="my-2 text-center text-2xl font-bold text-white">Top Contributor</p>
           </div>
-
-          {topContributor.map((item, index) => (
-            <div
-              key={index}
-              data-aos="fade-up"
-              data-aos-duration="1300"
-              data-aos-delay={index * 150}
-            >
-              <div className="col-span-1 mx-12 p-4 md:mx-4 md:p-6">
-                <div className="flex flex-col items-center justify-center transition-transform duration-200 hover:-translate-y-1">
-                  <RenderProfilePicture img={item.picture_url} />
-                  <p className="text-xl font-medium text-white">{item.username}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+          <RenderTopContributor />
         </div>
       </div>
 
@@ -136,32 +226,11 @@ function HomePage() {
           Recent Item
         </p>
         <div className="mx-2 grid grid-cols-1 gap-4 md:grid-cols-4">
-          {recentItems.map((item, index) => (
-            <div
-              key={index}
-              data-aos="fade-up"
-              data-aos-duration="1300"
-              data-aos-delay={index * 150}
-            >
-              <ItemCard
-                id={item?.id}
-                title={item?.title}
-                short_desc={item?.short_desc}
-                picture_url={item?.picture_url}
-                lost_date={item?.lost_date}
-                found_date={item?.found_date}
-                status={item?.status}
-                created_at={item?.created_at}
-                category_name={item?.category_name}
-                location_name={item?.location_name}
-              />
-            </div>
-          ))}
+          <RenderRecentItems />
         </div>
       </div>
 
       {/* cara kerja */}
-
       <div className="mt-12 grid grid-cols-1 gap-4 bg-red-500 p-4 pt-6 pb-8 md:grid-cols-3">
         <div data-aos="fade-down" data-aos-duration="1500" className="col-span-1 md:col-span-3">
           <p className="text-center text-2xl font-bold text-white">Gimana cara kerjanya?</p>
