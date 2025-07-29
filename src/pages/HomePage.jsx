@@ -48,7 +48,7 @@ function HomePage() {
       {/* statistic */}
       <div className="bg-red-500">
         <div className="my-4 grid grid-cols-1 gap-4 md:my-12 md:grid-cols-3">
-          <div className="col-span-1 md:col-span-3">
+          <div data-aos="fade-down" data-aos-duration="1500" className="col-span-1 md:col-span-3">
             <p className="my-2 text-center text-2xl font-bold text-white">
               Lokasi Kehilangan Paling Sering
             </p>
@@ -57,16 +57,20 @@ function HomePage() {
           {mostLostedLocations.map((item, index) => (
             <div
               key={index}
-              className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6"
+              data-aos="flip-left"
+              data-aos-duration="2000"
+              data-aos-delay={index * 150}
             >
-              <p className="text-3xl font-bold text-pink-400">{item.total}</p>
-              <p className="text-xl font-medium text-gray-500">{item.location_name}</p>
+              <div className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6">
+                <p className="text-3xl font-bold text-pink-400">{item.total}</p>
+                <p className="text-xl font-medium text-gray-500">{item.location_name}</p>
+              </div>
             </div>
           ))}
         </div>
 
         <div className="my-4 grid grid-cols-1 gap-4 md:my-12 md:grid-cols-3">
-          <div className="col-span-1 md:col-span-3">
+          <div data-aos="fade-down" data-aos-duration="1500" className="col-span-1 md:col-span-3">
             <p className="my-2 text-center text-2xl font-bold text-white">
               Kategori Paling Sering Dilaporkan
             </p>
@@ -75,29 +79,40 @@ function HomePage() {
           {mostLostedCategories.map((item, index) => (
             <div
               key={index}
-              className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6"
+              data-aos="flip-right"
+              data-aos-duration="2000"
+              data-aos-delay={(3 - 1 - index) * 150}
             >
-              <p className="text-3xl font-bold text-pink-400">{item.total}</p>
-              <p className="text-xl font-medium text-gray-500">{item.category_name}</p>
+              <div className="col-span-1 mx-12 flex flex-col items-center justify-center rounded-lg bg-orange-100 p-4 shadow-lg transition-transform duration-200 hover:-translate-y-1 md:mx-4 md:p-6">
+                <p className="text-3xl font-bold text-pink-400">{item.total}</p>
+                <p className="text-xl font-medium text-gray-500">{item.category_name}</p>
+              </div>
             </div>
           ))}
         </div>
 
         <div className="my-4 grid grid-cols-1 gap-4 md:my-12 md:grid-cols-3">
-          <div className="col-span-1 md:col-span-3">
+          <div data-aos="fade-down" data-aos-duration="1500" className="col-span-1 md:col-span-3">
             <p className="my-2 text-center text-2xl font-bold text-white">Top Contributor</p>
           </div>
 
           {/* // TODO conditional if no image */}
           {topContributor.map((item, index) => (
-            <div key={index} className="col-span-1 mx-12 p-4 md:mx-4 md:p-6">
-              <div className="flex flex-col items-center justify-center transition-transform duration-200 hover:-translate-y-1">
-                <img
-                  src={item.picture_url}
-                  className="h-24 w-24 rounded-full object-cover"
-                  alt="Logo Ketemukan"
-                />
-                <p className="text-xl font-medium text-white">{item.username}</p>
+            <div
+              key={index}
+              data-aos="fade-up"
+              data-aos-duration="1300"
+              data-aos-delay={index * 150}
+            >
+              <div className="col-span-1 mx-12 p-4 md:mx-4 md:p-6">
+                <div className="flex flex-col items-center justify-center transition-transform duration-200 hover:-translate-y-1">
+                  <img
+                    src={item.picture_url}
+                    className="h-24 w-24 rounded-full object-cover"
+                    alt="Logo Ketemukan"
+                  />
+                  <p className="text-xl font-medium text-white">{item.username}</p>
+                </div>
               </div>
             </div>
           ))}
@@ -106,33 +121,51 @@ function HomePage() {
 
       {/* recent item */}
       <div className="mt-12">
-        <p className="mb-6 text-center text-2xl font-bold text-gray-500">Recent Item</p>
+        <p
+          data-aos="fade-down"
+          data-aos-duration="1500"
+          className="mb-6 text-center text-2xl font-bold text-gray-500"
+        >
+          Recent Item
+        </p>
         <div className="mx-2 grid grid-cols-1 gap-4 md:grid-cols-4">
           {recentItems.map((item, index) => (
-            <ItemCard
+            <div
               key={index}
-              id={item?.id}
-              title={item?.title}
-              short_desc={item?.short_desc}
-              picture_url={item?.picture_url}
-              lost_date={item?.lost_date}
-              found_date={item?.found_date}
-              status={item?.status}
-              created_at={item?.created_at}
-              category_name={item?.category_name}
-              location_name={item?.location_name}
-            />
+              data-aos="fade-up"
+              data-aos-duration="1300"
+              data-aos-delay={index * 150}
+            >
+              <ItemCard
+                id={item?.id}
+                title={item?.title}
+                short_desc={item?.short_desc}
+                picture_url={item?.picture_url}
+                lost_date={item?.lost_date}
+                found_date={item?.found_date}
+                status={item?.status}
+                created_at={item?.created_at}
+                category_name={item?.category_name}
+                location_name={item?.location_name}
+              />
+            </div>
           ))}
         </div>
       </div>
 
       {/* cara kerja */}
+
       <div className="mt-12 grid grid-cols-1 gap-4 bg-red-500 p-4 pt-6 pb-8 md:grid-cols-3">
-        <div className="col-span-1 md:col-span-3">
+        <div data-aos="fade-down" data-aos-duration="1500" className="col-span-1 md:col-span-3">
           <p className="text-center text-2xl font-bold text-white">Gimana cara kerjanya?</p>
         </div>
 
-        <div className="flex flex-col items-center text-center">
+        <div
+          data-aos="fade-up"
+          data-aos-duration="1300"
+          data-aos-delay={1 * 150}
+          className="flex flex-col items-center text-center"
+        >
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
             <FaMagnifyingGlass className="text-2xl text-white" />
           </div>
@@ -143,7 +176,12 @@ function HomePage() {
           </p>
         </div>
 
-        <div className="flex flex-col items-center text-center">
+        <div
+          data-aos="fade-up"
+          data-aos-duration="1300"
+          data-aos-delay={2 * 150}
+          className="flex flex-col items-center text-center"
+        >
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-green-400 via-green-500 to-green-600">
             <BsPeopleFill className="text-2xl text-white" />
           </div>
@@ -153,7 +191,12 @@ function HomePage() {
           </p>
         </div>
 
-        <div className="flex flex-col items-center text-center">
+        <div
+          data-aos="fade-up"
+          data-aos-duration="1300"
+          data-aos-delay={3 * 150}
+          className="flex flex-col items-center text-center"
+        >
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600">
             <FaCoins className="text-2xl text-white" />
           </div>
@@ -163,7 +206,11 @@ function HomePage() {
       </div>
 
       {/* create your account */}
-      <div className="m-6 mt-12 flex flex-col items-center rounded-2xl bg-gradient-to-br from-orange-100 via-orange-200 to-orange-300 p-6 text-center">
+      <div
+        data-aos="fade-down"
+        data-aos-duration="1500"
+        className="m-6 mt-12 flex flex-col items-center rounded-2xl bg-gradient-to-br from-orange-100 via-orange-200 to-orange-300 p-6 text-center"
+      >
         <p className="text-3xl font-bold text-[#ff4548]">Siap untuk Memulai?</p>
         <p className="text-lg font-medium text-[#ff4548]">
           Bergabunglah dengan kami dan bantu mengembalikan barang hilang kepada pemiliknya

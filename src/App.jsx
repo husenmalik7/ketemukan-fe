@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
@@ -23,6 +25,12 @@ function App() {
   const [authedUser, setAuthedUser] = useState(null);
   const [initializing, setInitializing] = useState(true);
   const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    AOS.init({
+      once: true,
+    });
+  }, []);
 
   useEffect(() => {
     async function fetchUserLogged() {
