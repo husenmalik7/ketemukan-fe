@@ -8,6 +8,8 @@ import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { FaCoins } from 'react-icons/fa';
 import { BsPeopleFill } from 'react-icons/bs';
 
+import Cat from '../assets/Cat';
+
 function HomePage() {
   const [topContributor, setTopContributor] = useState([]);
   const [mostLostedLocations, setMostLostedLocations] = useState([]);
@@ -30,6 +32,16 @@ function HomePage() {
 
     fetchData();
   }, []);
+
+  const RenderProfilePicture = ({ img }) => {
+    return img ? (
+      <img src={img} className="h-24 w-24 rounded-full object-cover" alt="Top Contributor" />
+    ) : (
+      <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-gray-200 outline-1 outline-red-900">
+        <Cat />
+      </div>
+    );
+  };
 
   return (
     <section className="flex min-h-screen flex-col pb-6">
@@ -106,11 +118,13 @@ function HomePage() {
             >
               <div className="col-span-1 mx-12 p-4 md:mx-4 md:p-6">
                 <div className="flex flex-col items-center justify-center transition-transform duration-200 hover:-translate-y-1">
-                  <img
+                  {/* <img
                     src={item.picture_url}
                     className="h-24 w-24 rounded-full object-cover"
                     alt="Logo Ketemukan"
-                  />
+                  /> */}
+
+                  <RenderProfilePicture img={item.picture_url} />
                   <p className="text-xl font-medium text-white">{item.username}</p>
                 </div>
               </div>
