@@ -1,4 +1,5 @@
 import React from 'react';
+import NoData from '../NoData';
 
 function AchievementModal({ myAchievements, openModalAchievement, setOpenModalAchievement }) {
   const RenderMyAchievementPicture = ({ img }) => {
@@ -35,6 +36,45 @@ function AchievementModal({ myAchievements, openModalAchievement, setOpenModalAc
 
     return `karena kamu telah ${condition[type]} ${value} ${type === 'comments' ? 'komentar' : 'item'}`;
   }
+
+  const RenderMyAchievement = () => {
+    if (myAchievements.length > 0) {
+      return (
+        <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+          {myAchievements.map((item, index) => (
+            <React.Fragment key={index}>
+              {/* col-1 */}
+              <div className="col-span-1 mx-6">
+                <div className="aspect-video overflow-hidden rounded-xl">
+                  <div className="flex h-full w-full items-center justify-center rounded-xl bg-gray-400 object-cover transition-transform duration-500 hover:scale-105">
+                    <RenderMyAchievementPicture img={item.picture_url} />
+                  </div>
+                </div>
+              </div>
+
+              {/* col-2 */}
+              <div className="col-span-1 flex flex-col justify-center text-center md:col-span-2">
+                <p className="font-bold">{item?.name}</p>
+                <p className="text-xs">
+                  {renderAchievementCondition(item?.condition_type, item?.condition_value)}
+                </p>
+                <p className="text-sm">{item?.description}</p>
+
+                <hr className="mt-3 mb-2 h-px border-0 bg-gray-300 md:hidden" />
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div className="m-4 flex flex-col items-center justify-center">
+        <NoData className="text-6xl text-[#FB7A7C]" />
+        <p className="text-xl font-medium text-[#FB7A7C]">Oops tidak ada data</p>
+      </div>
+    );
+  };
 
   return (
     // {/* Main modal */}
@@ -76,31 +116,7 @@ function AchievementModal({ myAchievements, openModalAchievement, setOpenModalAc
 
           {/* Modal body */}
           <form className="max-h-100 overflow-y-auto p-4 md:p-5">
-            <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-              {myAchievements.map((item, index) => (
-                <React.Fragment key={index}>
-                  {/* col-1 */}
-                  <div className="col-span-1 mx-6">
-                    <div className="aspect-video overflow-hidden rounded-xl">
-                      <div className="flex h-full w-full items-center justify-center rounded-xl bg-gray-400 object-cover transition-transform duration-500 hover:scale-105">
-                        <RenderMyAchievementPicture img={item.picture_url} />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* col-2 */}
-                  <div className="col-span-1 flex flex-col justify-center text-center md:col-span-2">
-                    <p className="font-bold">{item?.name}</p>
-                    <p className="text-xs">
-                      {renderAchievementCondition(item?.condition_type, item?.condition_value)}
-                    </p>
-                    <p className="text-sm">{item?.description}</p>
-
-                    <hr className="mt-3 mb-2 h-px border-0 bg-gray-300 md:hidden" />
-                  </div>
-                </React.Fragment>
-              ))}
-            </div>
+            <RenderMyAchievement />
           </form>
         </div>
       </div>
