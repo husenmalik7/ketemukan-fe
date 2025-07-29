@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { getFoundItems } from '../utils/api/found';
 import ItemCard from '../components/ItemCard';
+import NoData from '../components/NoData';
 
 function FoundPage() {
   const [founds, setFounds] = useState([]);
@@ -24,6 +25,38 @@ function FoundPage() {
     event.preventDefault();
     setSearchParams({ title: searchValue });
   }
+
+  const RenderFoundItem = () => {
+    if (founds.length > 0) {
+      return (
+        <div className="m-4 mt-24 grid grid-cols-1 gap-4 md:mt-12 md:grid-cols-2 lg:grid-cols-3">
+          {founds.map((item, index) => (
+            <div key={index}>
+              <ItemCard
+                id={item?.id}
+                title={item?.title}
+                short_desc={item?.short_desc}
+                picture_url={item?.picture_url}
+                lost_date={item?.lost_date}
+                found_date={item?.found_date}
+                status={item?.status}
+                created_at={item?.created_at}
+                category_name={item?.category_name}
+                location_name={item?.location_name}
+              />
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div className="m-4 mt-16 flex flex-col items-center justify-center">
+        <NoData className="text-6xl text-[#FB7A7C]" />
+        <p className="text-xl font-medium text-[#FB7A7C]">Oops tidak ada data</p>
+      </div>
+    );
+  };
 
   return (
     <section className="flex min-h-screen flex-col pb-20">
@@ -52,24 +85,7 @@ function FoundPage() {
         </div>
       </form>
 
-      <div className="m-4 mt-24 grid grid-cols-1 gap-4 md:mt-12 md:grid-cols-2 lg:grid-cols-3">
-        {founds.map((item, index) => (
-          <div key={index}>
-            <ItemCard
-              id={item?.id}
-              title={item?.title}
-              short_desc={item?.short_desc}
-              picture_url={item?.picture_url}
-              lost_date={item?.lost_date}
-              found_date={item?.found_date}
-              status={item?.status}
-              created_at={item?.created_at}
-              category_name={item?.category_name}
-              location_name={item?.location_name}
-            />
-          </div>
-        ))}
-      </div>
+      <RenderFoundItem />
     </section>
   );
 }
