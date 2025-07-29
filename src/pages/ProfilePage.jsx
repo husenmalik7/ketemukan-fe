@@ -20,6 +20,7 @@ import EditProfileModal from '../components/Profile/EditProfileModal';
 import DeleteItemModal from '../components/Profile/DeleteItemModal';
 import AddItemImageModal from '../components/Profile/AddItemImageModal';
 import EditItemModal from '../components/Profile/EditItemModal';
+import PointModal from '../components/Profile/PointModal';
 
 import { useSearchParams } from 'react-router-dom';
 
@@ -37,6 +38,7 @@ function ProfilePage({ onChangeProfile }) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isAddItemImageModalOpen, setIsAddItemImageModalOpen] = useState(false);
   const [isEditItemModalOpen, setIsEditItemModalOpen] = useState(false);
+  const [openModalPoint, setOpenModalPoint] = useState(false);
 
   const [profile, setProfile] = useState({});
   const [myItems, setMyItems] = useState([]);
@@ -326,6 +328,7 @@ function ProfilePage({ onChangeProfile }) {
           setOpenModalAchievement={setOpenModalAchievement}
           setOpenModalEditProfile={setOpenModalEditProfile}
           onEditProfileImage={onEditProfileImage}
+          setOpenModalPoint={setOpenModalPoint}
         />
       </div>
 
@@ -362,6 +365,8 @@ function ProfilePage({ onChangeProfile }) {
         openModalAchievement={openModalAchievement}
         setOpenModalAchievement={setOpenModalAchievement}
       />
+
+      <PointModal openModalPoint={openModalPoint} setOpenModalPoint={setOpenModalPoint} />
 
       <EditProfileModal
         username={username}

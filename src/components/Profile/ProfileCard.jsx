@@ -30,6 +30,7 @@ function ProfileCard({
   setOpenModalAchievement,
   setOpenModalEditProfile,
   onEditProfileImage,
+  setOpenModalPoint,
 }) {
   const fileInputRef = useRef(null);
 
@@ -85,8 +86,14 @@ function ProfileCard({
             <p className="text-2xl font-bold text-green-500">{foundCount}</p>
             <p className="text-gray-500">Found Items</p>
           </div>
-          <div className="flex flex-col items-center justify-center">
-            <p className="text-2xl font-bold text-orange-500">{points}</p>
+          <div
+            onClick={() => setOpenModalPoint(true)}
+            title="Tukarkan points"
+            className="flex cursor-pointer flex-col items-center justify-center duration-500 hover:scale-105"
+          >
+            <p className="animate-colorChange bg-gradient-to-r from-orange-500 via-purple-500 to-red-500 bg-clip-text text-2xl font-bold text-transparent">
+              {points}
+            </p>
             <p className="text-gray-500">Points</p>
           </div>
           <div
