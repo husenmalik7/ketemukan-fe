@@ -108,7 +108,6 @@ function HomePage() {
             <p className="my-2 text-center text-2xl font-bold text-white">Top Contributor</p>
           </div>
 
-          {/* // TODO conditional if no image */}
           {topContributor.map((item, index) => (
             <div
               key={index}
@@ -118,12 +117,6 @@ function HomePage() {
             >
               <div className="col-span-1 mx-12 p-4 md:mx-4 md:p-6">
                 <div className="flex flex-col items-center justify-center transition-transform duration-200 hover:-translate-y-1">
-                  {/* <img
-                    src={item.picture_url}
-                    className="h-24 w-24 rounded-full object-cover"
-                    alt="Logo Ketemukan"
-                  /> */}
-
                   <RenderProfilePicture img={item.picture_url} />
                   <p className="text-xl font-medium text-white">{item.username}</p>
                 </div>

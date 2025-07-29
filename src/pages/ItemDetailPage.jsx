@@ -93,7 +93,7 @@ function ItemDetailPage({ username }) {
       <img
         src={img}
         className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-        alt="avatar"
+        alt={`item-${img}`}
       />
     ) : (
       <svg

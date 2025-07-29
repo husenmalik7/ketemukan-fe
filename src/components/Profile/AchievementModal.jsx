@@ -6,7 +6,7 @@ function AchievementModal({ myAchievements, openModalAchievement, setOpenModalAc
       <img
         src={img}
         className="h-full w-full rounded-xl object-cover transition-transform duration-500 hover:scale-105"
-        alt="avatar"
+        alt="achievement"
       />
     ) : (
       <svg
