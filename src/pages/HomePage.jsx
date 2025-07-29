@@ -164,8 +164,8 @@ function HomePage() {
 
       {/* create your account */}
       <div className="m-6 mt-12 flex flex-col items-center rounded-2xl bg-gradient-to-br from-orange-100 via-orange-200 to-orange-300 p-6 text-center">
-        <p className="text-3xl font-bold">Siap untuk Memulai?</p>
-        <p className="text-lg font-medium">
+        <p className="text-3xl font-bold text-[#ff4548]">Siap untuk Memulai?</p>
+        <p className="text-lg font-medium text-[#ff4548]">
           Bergabunglah dengan kami dan bantu mengembalikan barang hilang kepada pemiliknya
         </p>
         <div>
