@@ -64,7 +64,7 @@ function ProfileCard({
         <p className="text-3xl font-bold">{fullname}</p>
         <p className="text-lg text-gray-500">{username}</p>
 
-        <div className="my-3 grid grid-cols-2 md:grid-cols-4">
+        <div className="my-3 grid grid-cols-1 gap-2">
           <div className="flex items-center">
             <IoLocationOutline className="mr-0.5 text-gray-500" />
             <p className="text-gray-500">{location_name}, Indonesia</p>

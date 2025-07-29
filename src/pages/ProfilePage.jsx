@@ -12,6 +12,7 @@ import ProfileCard from '../components/Profile/ProfileCard';
 import MyItem from '../components/Profile/MyItem';
 import SearchMyItem from '../components/Profile/SearchMyItem';
 import ItemCard from '../components/ItemCard';
+import NoData from '../components/NoData';
 
 import AddItemModal from '../components/Profile/AddItemModal';
 import AchievementModal from '../components/Profile/AchievementModal';
@@ -274,6 +275,40 @@ function ProfilePage({ onChangeProfile }) {
     setSearchParams({ title: searchValue });
   }
 
+  const RenderMyItems = () => {
+    if (myItems.length > 0) {
+      return (
+        <div className="m-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {myItems.map((item, index) => (
+            <div key={index}>
+              <ItemCard
+                id={item?.id}
+                title={item?.title}
+                short_desc={item?.short_desc}
+                picture_url={item?.picture_url}
+                lost_date={item?.lost_date}
+                found_date={item?.found_date}
+                status={item?.status}
+                created_at={item?.created_at}
+                category_name={item?.category_name}
+                location_name={item?.location_name}
+                handleOpenDeleteItemModal={handleOpenDeleteItemModal}
+                handleOpenEditItemModal={handleOpenEditItemModal}
+              />
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div className="m-4 mt-16 flex flex-col items-center justify-center">
+        <NoData className="text-6xl text-[#FB7A7C]" />
+        <p className="text-xl font-medium text-[#FB7A7C]">Oops tidak ada data</p>
+      </div>
+    );
+  };
+
   return (
     <section className="flex min-h-screen flex-col pb-20">
       <ToastContainer position="bottom-right" />
@@ -299,26 +334,7 @@ function ProfilePage({ onChangeProfile }) {
         <SearchMyItem onSearchMyItem={onSearchMyItem} searchParams={searchParams.get('title')} />
       </div>
 
-      <div className="m-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {myItems.map((item, index) => (
-          <div key={index}>
-            <ItemCard
-              id={item?.id}
-              title={item?.title}
-              short_desc={item?.short_desc}
-              picture_url={item?.picture_url}
-              lost_date={item?.lost_date}
-              found_date={item?.found_date}
-              status={item?.status}
-              created_at={item?.created_at}
-              category_name={item?.category_name}
-              location_name={item?.location_name}
-              handleOpenDeleteItemModal={handleOpenDeleteItemModal}
-              handleOpenEditItemModal={handleOpenEditItemModal}
-            />
-          </div>
-        ))}
-      </div>
+      <RenderMyItems />
 
       <AddItemModal
         onPostItem={onPostItem}
