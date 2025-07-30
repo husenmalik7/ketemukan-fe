@@ -38,7 +38,7 @@ function AchievementModal({ myAchievements, openModalAchievement, setOpenModalAc
   }
 
   const RenderMyAchievement = () => {
-    if (myAchievements.length > 0) {
+    if (myAchievements?.length > 0) {
       return (
         <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3">
           {myAchievements.map((item, index) => (

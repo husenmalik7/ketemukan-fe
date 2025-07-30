@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import { useSearchParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { addFoundItem, deleteFoundItem, editFoundPicture, editFoundItem } from '../utils/api/found';
@@ -22,7 +22,7 @@ import AddItemImageModal from '../components/Profile/AddItemImageModal';
 import EditItemModal from '../components/Profile/EditItemModal';
 import PointModal from '../components/Profile/PointModal';
 
-import { useSearchParams } from 'react-router-dom';
+import LoadingModal from '../components/LoadingModal';
 
 function ProfilePage({ onChangeProfile }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -40,9 +40,9 @@ function ProfilePage({ onChangeProfile }) {
   const [isEditItemModalOpen, setIsEditItemModalOpen] = useState(false);
   const [openModalPoint, setOpenModalPoint] = useState(false);
 
-  const [profile, setProfile] = useState({});
-  const [myItems, setMyItems] = useState([]);
-  const [myAchievements, setMyAchievements] = useState([]);
+  const [profile, setProfile] = useState(null);
+  const [myItems, setMyItems] = useState(null);
+  const [myAchievements, setMyAchievements] = useState(null);
 
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -53,10 +53,22 @@ function ProfilePage({ onChangeProfile }) {
 
   const [isEdited, setIsEdited] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     async function fetchSearchedMyItem(queryParams) {
-      const { data } = await getMyItems(queryParams);
-      setMyItems(data);
+      setIsLoading(true);
+
+      try {
+        const { data } = await getMyItems(queryParams);
+
+        await new Promise((resolve) => setTimeout(resolve, 1300));
+        setMyItems(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     const queryParams = searchParams.get('title');
@@ -65,6 +77,8 @@ function ProfilePage({ onChangeProfile }) {
 
   useEffect(() => {
     async function fetchData() {
+      setIsLoading(true);
+
       try {
         const [
           userResponse,
@@ -78,6 +92,7 @@ function ProfilePage({ onChangeProfile }) {
           getAllLocations(),
         ]);
 
+        await new Promise((resolve) => setTimeout(resolve, 1300));
         setProfile(userResponse.data);
         // setMyItems(myItemResponse.data);
         setMyAchievements(myAchievementResponse.data);
@@ -87,6 +102,8 @@ function ProfilePage({ onChangeProfile }) {
         setUsername(userResponse.data.username);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -94,16 +111,17 @@ function ProfilePage({ onChangeProfile }) {
   }, []);
 
   useEffect(() => {
-    if (locations.length > 0 && !selectedLocation) {
-      const index = locations.findIndex((loc) => loc.id === profile.location_id);
+    if (locations?.length > 0 && !selectedLocation) {
+      const index = locations?.findIndex((loc) => loc?.id === profile?.location_id);
       setSelectedLocation(locations[index]);
     }
-  }, [locations, selectedLocation, profile.location_id]);
+  }, [locations, selectedLocation, profile?.location_id]);
 
   async function onPostItem(body) {
     const { title, shortDesc, description, type, date, categoryId, locationId } = body;
     let result;
 
+    setIsLoading(true);
     try {
       if (type === 'lost') {
         result = await addLostItem(title, shortDesc, description, date, categoryId, locationId);
@@ -111,6 +129,7 @@ function ProfilePage({ onChangeProfile }) {
         result = await addFoundItem(title, shortDesc, description, date, categoryId, locationId);
       }
 
+      await new Promise((resolve) => setTimeout(resolve, 1300));
       if (result?.error) throw new Error('Gagal menambahkan item');
 
       setAddedItemId(result.data.lostId ? result.data.lostId : result.data.foundId);
@@ -126,15 +145,18 @@ function ProfilePage({ onChangeProfile }) {
       const [userResponse, myItemResponse] = await Promise.all([getUserLogged(), getMyItems()]);
       setProfile(userResponse.data);
       setMyItems(myItemResponse.data);
+      setIsLoading(false);
     }
   }
 
   async function onEditProfile(event) {
     event.preventDefault();
+    setIsLoading(true);
 
     try {
       await editProfile(fullname, selectedLocation.id);
 
+      await new Promise((resolve) => setTimeout(resolve, 1300));
       toast.success('Edit Profile berhasil');
       setOpenModalEditProfile(false);
     } catch (error) {
@@ -144,12 +166,15 @@ function ProfilePage({ onChangeProfile }) {
       const { data } = await getUserLogged();
       setProfile(data);
       onChangeProfile(data);
+      setIsLoading(false);
     }
   }
 
   async function onEditProfileImage(event) {
+    setIsLoading(true);
     try {
       await editProfilePicture(event.target.files[0]);
+      await new Promise((resolve) => setTimeout(resolve, 1300));
       toast.success('Unggah gambar berhasil');
     } catch (error) {
       console.log(error);
@@ -158,12 +183,14 @@ function ProfilePage({ onChangeProfile }) {
       const { data } = await getUserLogged();
       setProfile(data);
       onChangeProfile(data);
+      setIsLoading(false);
     }
   }
 
   async function handleUploadItemImage(id, event) {
     let result;
 
+    setIsLoading(true);
     try {
       if (id.includes('lost')) {
         result = await editLostPicture(id, event.target.files[0]);
@@ -171,6 +198,7 @@ function ProfilePage({ onChangeProfile }) {
         result = await editFoundPicture(id, event.target.files[0]);
       }
 
+      await new Promise((resolve) => setTimeout(resolve, 1300));
       if (result?.error) throw new Error('Gagal mengupload gambar');
 
       toast.success('Unggah gambar berhasil');
@@ -183,6 +211,7 @@ function ProfilePage({ onChangeProfile }) {
       const [userResponse, myItemResponse] = await Promise.all([getUserLogged(), getMyItems()]);
       setProfile(userResponse.data);
       setMyItems(myItemResponse.data);
+      setIsLoading(false);
     }
   }
 
@@ -207,6 +236,7 @@ function ProfilePage({ onChangeProfile }) {
     const longitude = null;
     const latitude = null;
 
+    setIsLoading(true);
     try {
       if (type === 'lost') {
         result = await editLostItem(
@@ -236,6 +266,7 @@ function ProfilePage({ onChangeProfile }) {
         );
       }
 
+      await new Promise((resolve) => setTimeout(resolve, 1300));
       if (result?.error) throw new Error('Gagal mengedit item');
 
       setAddedItemId(id);
@@ -251,10 +282,13 @@ function ProfilePage({ onChangeProfile }) {
       const [userResponse, myItemResponse] = await Promise.all([getUserLogged(), getMyItems()]);
       setProfile(userResponse.data);
       setMyItems(myItemResponse.data);
+      setIsLoading(false);
     }
   }
 
   async function handleDeleteItem(id) {
+    setIsLoading(true);
+
     try {
       if (id.includes('lost')) {
         await deleteLostItem(id);
@@ -262,6 +296,7 @@ function ProfilePage({ onChangeProfile }) {
         await deleteFoundItem(id);
       }
 
+      await new Promise((resolve) => setTimeout(resolve, 1300));
       toast.success('Delete item berhasil');
       setIsDeleteModalOpen(false);
     } catch (error) {
@@ -270,6 +305,7 @@ function ProfilePage({ onChangeProfile }) {
     } finally {
       const { data } = await getMyItems();
       setMyItems(data);
+      setIsLoading(false);
     }
   }
 
@@ -278,7 +314,7 @@ function ProfilePage({ onChangeProfile }) {
   }
 
   const RenderMyItems = () => {
-    if (myItems.length > 0) {
+    if (myItems?.length > 0) {
       return (
         <div className="m-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {myItems.map((item, index) => (
@@ -311,6 +347,14 @@ function ProfilePage({ onChangeProfile }) {
     );
   };
 
+  if (isLoading || profile === null || myItems === null || myAchievements === null) {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <LoadingModal isLoading={isLoading} />
+      </div>
+    );
+  }
+
   return (
     <section className="flex min-h-screen flex-col pb-20">
       <ToastContainer position="bottom-right" />
@@ -324,7 +368,7 @@ function ProfilePage({ onChangeProfile }) {
           location_name={profile?.location_name}
           foundCount={profile?.foundCount}
           lostCount={profile?.lostCount}
-          myAchievementsCount={myAchievements.length}
+          myAchievementsCount={myAchievements?.length}
           setOpenModalAchievement={setOpenModalAchievement}
           setOpenModalEditProfile={setOpenModalEditProfile}
           onEditProfileImage={onEditProfileImage}
@@ -388,6 +432,8 @@ function ProfilePage({ onChangeProfile }) {
         deleteItemTitle={deleteItemTitle}
         handleDeleteItem={handleDeleteItem}
       />
+
+      <LoadingModal isLoading={isLoading} />
     </section>
   );
 }

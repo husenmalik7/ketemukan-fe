@@ -39,7 +39,7 @@ function ProfileCard({
   }
 
   return (
-    <div className="grid grid-cols-1 rounded-lg p-4 shadow-[0_4px_8px_rgba(0,0,0,0.1),0_-4px_8px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_12px_rgba(0,0,0,0.15),0_-6px_12px_rgba(0,0,0,0.15)] hover:transition-shadow hover:duration-300 md:grid-cols-8">
+    <div className="grid grid-cols-1 rounded-lg p-4 shadow-[0_4px_8px_rgba(0,0,0,0.1),0_-4px_8px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_12px_rgba(0,0,0,0.15),0_-6px_12px_rgba(0,0,0,0.15)] hover:transition-shadow hover:duration-300 lg:grid-cols-8">
       {/* avatar */}
       <div className="col-span-1">
         <RenderProfilePicture img={picture_url} />
@@ -61,7 +61,7 @@ function ProfileCard({
       </div>
 
       {/* information */}
-      <div className="col-span-1 mt-4 md:col-span-4 md:mt-0">
+      <div className="col-span-1 mt-4 lg:col-span-4 lg:mt-0">
         <p className="text-3xl font-bold">{fullname}</p>
         <p className="text-lg text-gray-500">{username}</p>
 
@@ -77,7 +77,7 @@ function ProfileCard({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-col items-center justify-center">
             <p className="text-2xl font-bold text-blue-500">{lostCount}</p>
             <p className="text-gray-500">Lost Items</p>
@@ -109,7 +109,7 @@ function ProfileCard({
         </div>
       </div>
 
-      <div className="mt-2 md:col-start-8 md:mt-0">
+      <div className="mt-2 lg:col-start-8 lg:mt-0">
         <button
           onClick={() => setOpenModalEditProfile(true)}
           type="button"
