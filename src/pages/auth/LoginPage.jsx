@@ -1,9 +1,13 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import useInput from '../../hooks/useInput';
 import { login } from '../../utils/api/auth';
-import { Link } from 'react-router-dom';
+
 import FormAuthInput from '../../components/Form/FormAuthInput';
 import FormSubmitButton from '../../components/Form/FormSubmitButton';
+
+import LoadingModal from '../../components/LoadingModal';
 
 function LoginPage({ loginSuccess }) {
   const [username, onUsernameChange] = useInput('');
@@ -11,6 +15,8 @@ function LoginPage({ loginSuccess }) {
 
   const [isUsernameFilled, setIsUsernameFilled] = useState(true);
   const [isPasswordFilled, setIsPasswordFilled] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   function validateForm() {
     setIsUsernameFilled(!!username);
@@ -22,9 +28,11 @@ function LoginPage({ loginSuccess }) {
     event.preventDefault();
     if (!validateForm()) return;
 
-    // setIsLoading(true);
+    setIsLoading(true);
     try {
       const { error, data } = await login({ username, password });
+
+      await new Promise((resolve) => setTimeout(resolve, 1300));
       if (!error) {
         loginSuccess(data);
       }
@@ -32,7 +40,7 @@ function LoginPage({ loginSuccess }) {
       console.log(error);
       alert('Terjadi kesalahan pada server');
     } finally {
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   }
 
@@ -72,6 +80,8 @@ function LoginPage({ loginSuccess }) {
           </Link>
         </p>
       </div>
+
+      <LoadingModal isLoading={isLoading} />
     </section>
   );
 }
