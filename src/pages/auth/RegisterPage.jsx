@@ -1,13 +1,16 @@
-import useInput from '../../hooks/useInput';
-import { register } from '../../utils/api/auth';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+
+import useInput from '../../hooks/useInput';
+
+import { register } from '../../utils/api/auth';
+import { getAllLocations } from '../../utils/api';
+
+import RegisterContinueModal from '../../components/Form/RegisterContinueModal';
 import FormSubmitButton from '../../components/Form/FormSubmitButton';
 import FormAuthInput from '../../components/Form/FormAuthInput';
 import FormAuthLocationDropdown from '../../components/Form/FormAuthLocationDropdown';
-import { getAllLocations } from '../../utils/api';
-import { ToastContainer, toast } from 'react-toastify';
-import RegisterContinueModal from '../../components/Form/RegisterContinueModal';
 
 function RegisterPage() {
   const [fullname, onFullnameChange] = useInput('');
