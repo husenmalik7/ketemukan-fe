@@ -14,19 +14,20 @@ import NoData from '../components/NoData';
 import LoadingModal from '../components/LoadingModal';
 
 function HomePage() {
-  const [topContributor, setTopContributor] = useState([]);
-  const [mostLostedLocations, setMostLostedLocations] = useState([]);
-  const [mostLostedCategories, setMostLostedCategories] = useState([]);
-  const [recentItems, setRecentItems] = useState([]);
+  const [topContributor, setTopContributor] = useState(null);
+  const [mostLostedLocations, setMostLostedLocations] = useState(null);
+  const [mostLostedCategories, setMostLostedCategories] = useState(null);
+  const [recentItems, setRecentItems] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
         const { data } = await getHome();
 
+        await new Promise((resolve) => setTimeout(resolve, 1300));
         setTopContributor(data.topContributor);
         setMostLostedLocations(data.mostLostedLocations);
         setMostLostedCategories(data.mostLostedCategories);
@@ -65,6 +66,10 @@ function HomePage() {
   );
 
   const RenderMostLostedLocations = () => {
+    if (isLoading || mostLostedLocations === null) {
+      return <></>;
+    }
+
     if (mostLostedLocations.length > 0) {
       return (
         <>
@@ -89,6 +94,10 @@ function HomePage() {
   };
 
   const RenderMostLostedCategories = () => {
+    if (isLoading || mostLostedCategories === null) {
+      return <></>;
+    }
+
     if (mostLostedCategories.length > 0) {
       return (
         <>
@@ -113,6 +122,10 @@ function HomePage() {
   };
 
   const RenderTopContributor = () => {
+    if (isLoading || topContributor === null) {
+      return <></>;
+    }
+
     if (topContributor.length > 0) {
       return (
         <>
@@ -139,6 +152,10 @@ function HomePage() {
   };
 
   const RenderRecentItems = () => {
+    if (isLoading || recentItems === null) {
+      return <></>;
+    }
+
     if (recentItems.length > 0) {
       return (
         <>
