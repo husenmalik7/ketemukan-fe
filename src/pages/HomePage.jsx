@@ -11,15 +11,20 @@ import { BsPeopleFill } from 'react-icons/bs';
 import Cat from '../assets/Cat';
 import NoData from '../components/NoData';
 
+import LoadingModal from '../components/LoadingModal';
+
 function HomePage() {
   const [topContributor, setTopContributor] = useState([]);
   const [mostLostedLocations, setMostLostedLocations] = useState([]);
   const [mostLostedCategories, setMostLostedCategories] = useState([]);
   const [recentItems, setRecentItems] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     async function fetchData() {
       try {
+        setIsLoading(true);
         const { data } = await getHome();
 
         setTopContributor(data.topContributor);
@@ -28,6 +33,8 @@ function HomePage() {
         setRecentItems(data.myItems);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -302,6 +309,8 @@ function HomePage() {
           </Link>
         </div>
       </div>
+
+      <LoadingModal isLoading={isLoading} />
     </section>
   );
 }
