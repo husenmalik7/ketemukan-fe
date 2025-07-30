@@ -43,7 +43,7 @@ function LostPage() {
       return <></>;
     }
 
-    if (losts.length > 0) {
+    if (losts?.length > 0) {
       return (
         <div className="m-4 mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {losts.map((item, index) => (

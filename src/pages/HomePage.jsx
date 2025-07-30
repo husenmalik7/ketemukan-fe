@@ -70,7 +70,7 @@ function HomePage() {
       return <></>;
     }
 
-    if (mostLostedLocations.length > 0) {
+    if (mostLostedLocations?.length > 0) {
       return (
         <>
           {mostLostedLocations.map((item, index) => (
@@ -98,7 +98,7 @@ function HomePage() {
       return <></>;
     }
 
-    if (mostLostedCategories.length > 0) {
+    if (mostLostedCategories?.length > 0) {
       return (
         <>
           {mostLostedCategories.map((item, index) => (
@@ -126,7 +126,7 @@ function HomePage() {
       return <></>;
     }
 
-    if (topContributor.length > 0) {
+    if (topContributor?.length > 0) {
       return (
         <>
           {topContributor.map((item, index) => (
@@ -156,7 +156,7 @@ function HomePage() {
       return <></>;
     }
 
-    if (recentItems.length > 0) {
+    if (recentItems?.length > 0) {
       return (
         <>
           {recentItems.map((item, index) => (
