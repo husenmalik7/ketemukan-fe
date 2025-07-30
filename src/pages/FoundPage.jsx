@@ -4,17 +4,29 @@ import { useSearchParams } from 'react-router-dom';
 import { getFoundItems } from '../utils/api/found';
 import ItemCard from '../components/ItemCard';
 import NoData from '../components/NoData';
+import LoadingModal from '../components/LoadingModal';
 
 function FoundPage() {
-  const [founds, setFounds] = useState([]);
+  const [founds, setFounds] = useState(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue, setSearchValue] = useState(searchParams.get('title') || '');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     async function fetchSearchedMyItem(queryParams) {
-      const { data } = await getFoundItems(queryParams);
-      setFounds(data);
+      setIsLoading(true);
+      try {
+        const { data } = await getFoundItems(queryParams);
+
+        await new Promise((resolve) => setTimeout(resolve, 1300));
+        setFounds(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     const queryParams = searchParams.get('title');
@@ -27,7 +39,11 @@ function FoundPage() {
   }
 
   const RenderFoundItem = () => {
-    if (founds.length > 0) {
+    if (isLoading || founds === null) {
+      return <></>;
+    }
+
+    if (founds?.length > 0) {
       return (
         <div className="m-4 mt-24 grid grid-cols-1 gap-4 md:mt-12 md:grid-cols-2 lg:grid-cols-3">
           {founds.map((item, index) => (
@@ -86,6 +102,8 @@ function FoundPage() {
       </form>
 
       <RenderFoundItem />
+
+      <LoadingModal isLoading={isLoading} />
     </section>
   );
 }
