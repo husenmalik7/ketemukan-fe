@@ -12,6 +12,8 @@ import FormSubmitButton from '../../components/Form/FormSubmitButton';
 import FormAuthInput from '../../components/Form/FormAuthInput';
 import FormAuthLocationDropdown from '../../components/Form/FormAuthLocationDropdown';
 
+import LoadingModal from '../../components/LoadingModal';
+
 function RegisterPage() {
   const [fullname, onFullnameChange] = useInput('');
   const [username, onUsernameChange] = useInput('');
@@ -26,6 +28,8 @@ function RegisterPage() {
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [isContinueModalOpen, setIsContinueModalOpen] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchLocation() {
@@ -63,10 +67,12 @@ function RegisterPage() {
       return toast.error('password and confirm password must same');
     }
 
-    // setIsLoading(true);
+    setIsLoading(true);
     try {
       const locationId = selectedLocation.id;
       const { error } = await register({ username, password, fullname, locationId });
+
+      await new Promise((resolve) => setTimeout(resolve, 1300));
       if (!error) {
         setIsContinueModalOpen(true);
       }
@@ -74,7 +80,7 @@ function RegisterPage() {
       console.log(error);
       return toast.error('Terjadi kesalahan pada server');
     } finally {
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   }
 
@@ -146,6 +152,8 @@ function RegisterPage() {
           </Link>
         </p>
       </div>
+
+      <LoadingModal isLoading={isLoading} />
     </section>
   );
 }
