@@ -4,17 +4,29 @@ import { useSearchParams } from 'react-router-dom';
 import { getLostItems } from '../utils/api/lost';
 import ItemCard from '../components/ItemCard';
 import NoData from '../components/NoData';
+import LoadingModal from '../components/LoadingModal';
 
 function LostPage() {
-  const [losts, setLosts] = useState([]);
+  const [losts, setLosts] = useState(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue, setSearchValue] = useState(searchParams.get('title') || '');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     async function fetchSearchedMyItem(queryParams) {
-      const { data } = await getLostItems(queryParams);
-      setLosts(data);
+      setIsLoading(true);
+      try {
+        const { data } = await getLostItems(queryParams);
+
+        await new Promise((resolve) => setTimeout(resolve, 1300));
+        setLosts(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     const queryParams = searchParams.get('title');
@@ -27,6 +39,10 @@ function LostPage() {
   }
 
   const RenderLostItem = () => {
+    if (isLoading || losts === null) {
+      return <></>;
+    }
+
     if (losts.length > 0) {
       return (
         <div className="m-4 mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -86,6 +102,8 @@ function LostPage() {
       </form>
 
       <RenderLostItem />
+
+      <LoadingModal isLoading={isLoading} />
     </section>
   );
 }
