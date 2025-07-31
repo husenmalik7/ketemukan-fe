@@ -15,8 +15,12 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { MdOutlineDateRange } from 'react-icons/md';
 import { LuClock6 } from 'react-icons/lu';
 import { BiSolidCategory } from 'react-icons/bi';
+import { FaMapLocation } from 'react-icons/fa6';
 
 import LoadingModal from '../components/LoadingModal';
+
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 
 function ItemDetailPage({ username }) {
   const navigate = useNavigate();
@@ -26,6 +30,8 @@ function ItemDetailPage({ username }) {
   const [comment, onCommentChange, setComment] = useInput('');
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const [openModalGeolocation, setOpenModalGeolocation] = useState(false);
 
   const statusColorMap = {
     lost: 'bg-orange-500',
@@ -134,7 +140,7 @@ function ItemDetailPage({ username }) {
     <section className="flex min-h-screen flex-col pb-20">
       <div className="grid grid-cols-1 md:grid-cols-2">
         {/* detail */}
-        <div className="col-span-1 p-4">
+        <div className="order-1 col-span-1 p-4">
           <div className="rounded-lg shadow-lg">
             <div className="relative aspect-video overflow-hidden rounded-t-lg">
               <div className="flex h-full w-full items-center justify-center bg-gray-400 object-cover transition-transform duration-500 hover:scale-105">
@@ -161,29 +167,51 @@ function ItemDetailPage({ username }) {
               <p className="text-lg text-gray-600">{item?.short_desc}</p>
 
               <Separator />
-              <div className="flex">
-                <div className="m-2 flex w-1/2 rounded-lg bg-blue-100 p-2">
-                  <div className="flex items-center justify-center">
-                    <MdOutlineDateRange className="text-red-500" />
-                  </div>
-                  <div className="ml-2 flex flex-col justify-center">
-                    <p className="font-medium">Tanggal {type === 'lost' ? 'Hilang' : 'Ketemu'}</p>
-                    <p className="text-gray-600">
-                      {type === 'lost'
-                        ? showFormattedDate(item?.lost_date)
-                        : showFormattedDate(item?.found_date)}
-                    </p>
-                  </div>
-                </div>
-                <div className="m-2 flex w-1/2 rounded-lg bg-blue-100 p-2">
-                  <div className="flex items-center justify-center">
-                    <IoLocationOutline className="text-red-500" />
-                  </div>
-                  <div className="ml-2 flex flex-col justify-center">
-                    <p className="font-medium">Lokasi terakhir</p>
-                    <p className="text-gray-600">{item?.location_name}</p>
+              <div className="grid grid-cols-2">
+                <div className="col-span-2 md:col-span-1">
+                  <div className="m-2 flex rounded-lg bg-blue-100 p-2">
+                    <div className="flex items-center justify-center">
+                      <MdOutlineDateRange className="text-red-500" />
+                    </div>
+                    <div className="ml-2 flex flex-col justify-center">
+                      <p className="font-medium">Tanggal {type === 'lost' ? 'Hilang' : 'Ketemu'}</p>
+                      <p className="text-gray-600">
+                        {type === 'lost'
+                          ? showFormattedDate(item?.lost_date)
+                          : showFormattedDate(item?.found_date)}
+                      </p>
+                    </div>
                   </div>
                 </div>
+                <div className="col-span-2 md:col-span-1">
+                  <div className="m-2 flex rounded-lg bg-blue-100 p-2">
+                    <div className="flex items-center justify-center">
+                      <IoLocationOutline className="text-red-500" />
+                    </div>
+                    <div className="ml-2 flex flex-col justify-center">
+                      <p className="font-medium">Lokasi terakhir</p>
+                      <p className="text-gray-600">{item?.location_name}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {item?.longitude ? (
+                  <div
+                    onClick={() => setOpenModalGeolocation(true)}
+                    className="col-span-2 cursor-pointer transition-transform duration-200 hover:-translate-y-1 md:col-span-1"
+                  >
+                    <div className="m-2 flex rounded-lg bg-blue-100 p-2">
+                      <div className="flex items-center justify-center">
+                        <FaMapLocation className="text-red-500" />
+                      </div>
+                      <div className="ml-2 flex flex-col justify-center">
+                        <p className="font-medium">Lihat Geolokasi</p>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
               <Separator />
 
@@ -194,7 +222,7 @@ function ItemDetailPage({ username }) {
         </div>
 
         {/* comment */}
-        <div className="col-span-1 p-4">
+        <div className="order-3 col-span-1 p-4 md:order-2">
           <div className="rounded-lg p-4 shadow-lg">
             <div className="relative">
               <div className="flex items-center">
@@ -257,6 +285,27 @@ function ItemDetailPage({ username }) {
             </div>
           </div>
         </div>
+
+        {item?.longitude && openModalGeolocation ? (
+          <div className="order-2 col-span-1 m-4 rounded-lg p-4 shadow md:order-3 md:col-span-2">
+            <MapContainer
+              center={[item?.latitude, item?.longitude]}
+              zoom={13}
+              scrollWheelZoom={false}
+              className="relative z-0 h-[400px] w-full"
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Marker position={[item?.latitude, item?.longitude]}>
+                <Popup>{item?.title}</Popup>
+              </Marker>
+            </MapContainer>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
 
       <LoadingModal isLoading={isLoading} />
