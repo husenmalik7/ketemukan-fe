@@ -197,7 +197,7 @@ function ItemDetailPage({ username }) {
 
                 {item?.longitude ? (
                   <div
-                    onClick={() => setOpenModalGeolocation(true)}
+                    onClick={() => setOpenModalGeolocation(!openModalGeolocation)}
                     className="col-span-2 cursor-pointer transition-transform duration-200 hover:-translate-y-1 md:col-span-1"
                   >
                     <div className="m-2 flex rounded-lg bg-blue-100 p-2">
