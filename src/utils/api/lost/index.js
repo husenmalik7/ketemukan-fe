@@ -2,8 +2,8 @@ import BASE_URL from '../../config';
 import { fetchWithToken } from '../index';
 import { toast } from 'react-toastify';
 
-async function getLostItems(title) {
-  const condition = title ? `?title=${encodeURIComponent(title)}` : '';
+async function getLostItems(title, location, category) {
+  const condition = `?title=${encodeURIComponent(title)}&location=${location}&category=${category}`;
 
   const response = await fetch(`${BASE_URL}/losts${condition}`);
   const responseJson = await response.json();
