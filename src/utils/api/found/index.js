@@ -44,13 +44,31 @@ async function addFoundComment({ id, comment }) {
   return { error: false, data: responseJson.data };
 }
 
-async function addFoundItem(title, shortDesc, description, foundDate, categoryId, locationId) {
+async function addFoundItem(
+  title,
+  shortDesc,
+  description,
+  foundDate,
+  categoryId,
+  locationId,
+  longitude,
+  latitude
+) {
   const response = await fetchWithToken(`${BASE_URL}/founds`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title, shortDesc, description, foundDate, categoryId, locationId }),
+    body: JSON.stringify({
+      title,
+      shortDesc,
+      description,
+      foundDate,
+      categoryId,
+      locationId,
+      longitude,
+      latitude,
+    }),
   });
 
   const responseJson = await response.json();

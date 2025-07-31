@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 import useInput from '../../hooks/useInput';
 
@@ -24,6 +25,8 @@ function AddItemModal({ onPostItem, openModalAddItem, setOpenModalAddItem }) {
 
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const [geolocation, setGeolocation] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -53,6 +56,24 @@ function AddItemModal({ onPostItem, openModalAddItem, setOpenModalAddItem }) {
     }
   }, [locations, selectedLocation, categories, selectedCategory]);
 
+  const handleGetLocation = () => {
+    if (!navigator.geolocation) {
+      toast.error('Geolocation tidak didukung di browser ini');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setGeolocation({ latitude, longitude });
+        toast.success('Geolocation berhasil didapatkan');
+      },
+      (err) => {
+        toast.error(`Gagal mendapatkan lokasi ${err.message}`);
+      }
+    );
+  };
+
   function handlePostItem(event) {
     event.preventDefault();
 
@@ -64,6 +85,9 @@ function AddItemModal({ onPostItem, openModalAddItem, setOpenModalAddItem }) {
       date,
       categoryId: selectedCategory.id,
       locationId: selectedLocation.id,
+
+      longitude: geolocation?.longitude != null ? String(geolocation.longitude) : null,
+      latitude: geolocation?.latitude != null ? String(geolocation.latitude) : null,
     };
 
     onPostItem(body);
@@ -76,6 +100,7 @@ function AddItemModal({ onPostItem, openModalAddItem, setOpenModalAddItem }) {
       tabIndex="-1"
       className={`${openModalAddItem ? '' : 'hidden'} fixed top-0 right-0 left-0 z-50 flex h-screen max-h-full w-full items-center justify-center bg-gray-100/70 md:inset-0`}
     >
+      <ToastContainer position="bottom-right" />
       <div className="relative max-h-full w-full max-w-md p-4">
         {/* Modal content */}
         <div className="relative rounded-lg bg-white shadow-sm">
@@ -181,6 +206,19 @@ function AddItemModal({ onPostItem, openModalAddItem, setOpenModalAddItem }) {
                   onChange={(date) => setDate(date)}
                   dateFormat="dd/MM/yyyy"
                 />
+              </div>
+
+              <div className="col-span-1">
+                <label htmlFor="longlat" className="mb-2 block text-sm font-medium text-gray-900">
+                  Dapatkan Geolokasi
+                </label>
+                <button
+                  onClick={handleGetLocation}
+                  type="button"
+                  className="w-full cursor-pointer rounded-md border border-amber-300 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-orange-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Geolokasi
+                </button>
               </div>
 
               <div className="col-span-2">
