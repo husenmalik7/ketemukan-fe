@@ -2,8 +2,8 @@ import BASE_URL from '../../config';
 import { fetchWithToken } from '../index';
 import { toast } from 'react-toastify';
 
-async function getLostItems(title) {
-  const condition = title ? `?title=${encodeURIComponent(title)}` : '';
+async function getLostItems(title, location, category) {
+  const condition = `?title=${encodeURIComponent(title)}&location=${location}&category=${category}`;
 
   const response = await fetch(`${BASE_URL}/losts${condition}`);
   const responseJson = await response.json();
@@ -44,13 +44,31 @@ async function addLostComment({ id, comment }) {
   return { error: false, data: responseJson.data };
 }
 
-async function addLostItem(title, shortDesc, description, lostDate, categoryId, locationId) {
+async function addLostItem(
+  title,
+  shortDesc,
+  description,
+  lostDate,
+  categoryId,
+  locationId,
+  longitude,
+  latitude
+) {
   const response = await fetchWithToken(`${BASE_URL}/losts`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title, shortDesc, description, lostDate, categoryId, locationId }),
+    body: JSON.stringify({
+      title,
+      shortDesc,
+      description,
+      lostDate,
+      categoryId,
+      locationId,
+      longitude,
+      latitude,
+    }),
   });
 
   const responseJson = await response.json();

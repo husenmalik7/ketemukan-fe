@@ -2,8 +2,8 @@ import BASE_URL from '../../config';
 import { fetchWithToken } from '../index';
 import { toast } from 'react-toastify';
 
-async function getFoundItems(title) {
-  const condition = title ? `?title=${encodeURIComponent(title)}` : '';
+async function getFoundItems(title, location, category) {
+  const condition = `?title=${encodeURIComponent(title)}&location=${location}&category=${category}`;
 
   const response = await fetch(`${BASE_URL}/founds${condition}`);
   const responseJson = await response.json();
@@ -44,13 +44,31 @@ async function addFoundComment({ id, comment }) {
   return { error: false, data: responseJson.data };
 }
 
-async function addFoundItem(title, shortDesc, description, foundDate, categoryId, locationId) {
+async function addFoundItem(
+  title,
+  shortDesc,
+  description,
+  foundDate,
+  categoryId,
+  locationId,
+  longitude,
+  latitude
+) {
   const response = await fetchWithToken(`${BASE_URL}/founds`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title, shortDesc, description, foundDate, categoryId, locationId }),
+    body: JSON.stringify({
+      title,
+      shortDesc,
+      description,
+      foundDate,
+      categoryId,
+      locationId,
+      longitude,
+      latitude,
+    }),
   });
 
   const responseJson = await response.json();

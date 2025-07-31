@@ -2,9 +2,14 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { getLostItems } from '../utils/api/lost';
+import { getAllCategories, getAllLocations } from '../utils/api';
+
 import ItemCard from '../components/ItemCard';
 import NoData from '../components/NoData';
 import LoadingModal from '../components/LoadingModal';
+
+import FormAuthLocationDropdown from '../components/Form/FormAuthLocationDropdown';
+import FormCategoryDropdown from '../components/Form/FormCategoryDropdown';
 
 function LostPage() {
   const [losts, setLosts] = useState(null);
@@ -14,11 +19,63 @@ function LostPage() {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   useEffect(() => {
-    async function fetchSearchedMyItem(queryParams) {
+    async function fetchData() {
+      try {
+        const [locationResponse, categoryResponse] = await Promise.all([
+          getAllLocations(),
+          getAllCategories(),
+        ]);
+
+        const locationsArray = locationResponse.data;
+        locationsArray.unshift({
+          id: '',
+          name: 'Pilih lokasi',
+        });
+
+        const categoriesArray = categoryResponse.data;
+        categoriesArray.unshift({
+          id: '',
+          name: 'Pilih kategori',
+        });
+
+        setLocations(locationsArray);
+        setCategories(categoriesArray);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (locations.length > 0 && !selectedLocation) {
+      const locationIndex = locations.findIndex((loc) => loc.id === searchParams.get('location'));
+      setSelectedLocation(locations[locationIndex] || null);
+    }
+
+    if (categories.length > 0 && !selectedCategory) {
+      const categoryIndex = categories.findIndex((cat) => cat.id === searchParams.get('category'));
+      setSelectedCategory(categories[categoryIndex] || null);
+    }
+  }, [locations, selectedLocation, categories, selectedCategory, searchParams]);
+
+  useEffect(() => {
+    async function fetchSearchedMyItem(queryParamsTitle, queryParamsLocation, queryParamsCategory) {
       setIsLoading(true);
       try {
-        const { data } = await getLostItems(queryParams);
+        const { data } = await getLostItems(
+          queryParamsTitle,
+          queryParamsLocation,
+          queryParamsCategory
+        );
 
         await new Promise((resolve) => setTimeout(resolve, 1300));
         setLosts(data);
@@ -29,13 +86,20 @@ function LostPage() {
       }
     }
 
-    const queryParams = searchParams.get('title');
-    fetchSearchedMyItem(queryParams);
+    const queryParamsTitle = searchParams.get('title');
+    const queryParamsLocation = searchParams.get('location');
+    const queryParamsCategory = searchParams.get('category');
+    fetchSearchedMyItem(queryParamsTitle, queryParamsLocation, queryParamsCategory);
   }, [searchParams]);
 
   function handleSearch(event) {
     event.preventDefault();
-    setSearchParams({ title: searchValue });
+
+    setSearchParams({
+      title: searchValue || '',
+      location: selectedLocation?.id || '',
+      category: selectedCategory?.id || '',
+    });
   }
 
   const RenderLostItem = () => {
@@ -86,15 +150,31 @@ function LostPage() {
             type="text"
             value={searchValue}
             onChange={(event) => setSearchValue(event.target.value)}
-            className="block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-gray-900 focus:outline-gray-300"
+            className="mt-2 block w-full rounded-sm border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-gray-900 focus:outline-gray-300"
             placeholder="Judul Item"
+          />
+        </div>
+
+        <div className="col-span-1">
+          <FormAuthLocationDropdown
+            selectedLocation={selectedLocation}
+            setSelectedLocation={setSelectedLocation}
+            locations={locations}
+          />
+        </div>
+
+        <div className="col-span-1">
+          <FormCategoryDropdown
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            categories={categories}
           />
         </div>
 
         <div className="col-span-1">
           <button
             type="submit"
-            className="w-full cursor-pointer rounded-lg bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-red-300 focus:outline-none"
+            className="mt-2 w-full cursor-pointer rounded-lg bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-red-300 focus:outline-none"
           >
             Cari Item
           </button>

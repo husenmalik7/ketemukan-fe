@@ -118,15 +118,43 @@ function ProfilePage({ onChangeProfile }) {
   }, [locations, selectedLocation, profile?.location_id]);
 
   async function onPostItem(body) {
-    const { title, shortDesc, description, type, date, categoryId, locationId } = body;
+    const {
+      title,
+      shortDesc,
+      description,
+      type,
+      date,
+      categoryId,
+      locationId,
+      longitude,
+      latitude,
+    } = body;
     let result;
 
     setIsLoading(true);
     try {
       if (type === 'lost') {
-        result = await addLostItem(title, shortDesc, description, date, categoryId, locationId);
+        result = await addLostItem(
+          title,
+          shortDesc,
+          description,
+          date,
+          categoryId,
+          locationId,
+          longitude,
+          latitude
+        );
       } else {
-        result = await addFoundItem(title, shortDesc, description, date, categoryId, locationId);
+        result = await addFoundItem(
+          title,
+          shortDesc,
+          description,
+          date,
+          categoryId,
+          locationId,
+          longitude,
+          latitude
+        );
       }
 
       await new Promise((resolve) => setTimeout(resolve, 1300));
@@ -134,13 +162,13 @@ function ProfilePage({ onChangeProfile }) {
 
       setAddedItemId(result.data.lostId ? result.data.lostId : result.data.foundId);
       toast.success('Berhasil menambahkan item');
+      setIsAddItemImageModalOpen(true);
     } catch (error) {
       console.log(error);
       toast.error('Terjadi kesalahan pada server');
     } finally {
       setIsEdited(false);
       setOpenModalAddItem(false);
-      setIsAddItemImageModalOpen(true);
 
       const [userResponse, myItemResponse] = await Promise.all([getUserLogged(), getMyItems()]);
       setProfile(userResponse.data);
@@ -230,11 +258,20 @@ function ProfilePage({ onChangeProfile }) {
   }
 
   async function onEditItem(body) {
-    const { id, title, shortDesc, description, type, date, status, categoryId, locationId } = body;
+    const {
+      id,
+      title,
+      shortDesc,
+      description,
+      type,
+      date,
+      status,
+      categoryId,
+      locationId,
+      longitude,
+      latitude,
+    } = body;
     let result;
-
-    const longitude = null;
-    const latitude = null;
 
     setIsLoading(true);
     try {
