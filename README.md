@@ -8,7 +8,7 @@ Ketemukan adalah aplikasi web yang dikembangkan untuk memudahkan siapa saja dala
 
 ## 📑 Daftar Isi
 
-- [🔎 Ketemukan-BE](#-ketemukan-be)
+- [🔎 Ketemukan-FE](#-ketemukan-fe)
   - [📑 Daftar Isi](#-daftar-isi)
   - [🚀 Fitur](#-fitur)
   - [🎬 Demo](#-demo)
