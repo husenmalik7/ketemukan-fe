@@ -1,4 +1,4 @@
-# 🔎 Ketemukan-BE
+# 🔎 Ketemukan-FE
 
 ![Logo](./public/images/banner.png)
 
