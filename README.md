@@ -8,15 +8,13 @@ Ketemukan adalah aplikasi web yang dikembangkan untuk memudahkan siapa saja dala
 
 ## 📑 Daftar Isi
 
-- [🔎 Ketemukan-FE](#-ketemukan-fe)
-  - [📑 Daftar Isi](#-daftar-isi)
-  - [🚀 Fitur](#-fitur)
-  - [🎬 Demo](#-demo)
-  - [📁 Struktur Folder](#-struktur-folder)
-  - [🛠️ Instalasi \& Konfigurasi](#️-instalasi--konfigurasi)
-  - [🧰 Tech Stack / Dependencies](#-tech-stack--dependencies)
-  - [🛎️ Tools](#️-tools)
-  - [👨‍💻 Pengembang](#-pengembang)
+- [🚀 Fitur](#-fitur)
+- [🎬 Demo](#-demo)
+- [📁 Struktur Folder](#-struktur-folder)
+- [🛠️ Instalasi \& Konfigurasi](#️-instalasi--konfigurasi)
+- [🧰 Tech Stack / Dependencies](#-tech-stack--dependencies)
+- [🛎️ Tools](#️-tools)
+- [👨‍💻 Pengembang](#-pengembang)
 
 ---
 
