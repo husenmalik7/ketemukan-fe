@@ -3,7 +3,15 @@ import { fetchWithToken } from '../index';
 import { toast } from 'react-toastify';
 
 async function getLostItems(title, location, category) {
-  const condition = `?title=${encodeURIComponent(title)}&location=${location}&category=${category}`;
+  let titleParams = title;
+  let locationParams = location;
+  let categoryParams = category;
+
+  if (titleParams === null) titleParams = '';
+  if (locationParams === null) locationParams = '';
+  if (categoryParams === null) categoryParams = '';
+
+  const condition = `?title=${encodeURIComponent(titleParams)}&location=${locationParams}&category=${categoryParams}`;
 
   const response = await fetch(`${BASE_URL}/losts${condition}`);
   const responseJson = await response.json();
